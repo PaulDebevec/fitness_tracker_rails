@@ -1,28 +1,3 @@
 <h1>Create Profile</h1>
 
-<%= form_with model: @profile do |form| %>
-  <% if @profile.errors.any? %>
-    <div>
-      <h2><%= pluralize(@profile.errors.count, "error") %> prevented this profile from being saved:</h2>
-      <ul>
-        <% @profile.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div>
-    <%= form.label :display_name %>
-    <%= form.text_field :display_name %>
-  </div>
-
-  <div>
-    <%= form.label :default_unit %>
-    <%= form.select :default_unit, [["Inches", "in"], ["Centimeters", "cm"]] %>
-  </div>
-
-  <div>
-    <%= form.submit "Create Profile" %>
-  </div>
-<% end %>
+<%= render "form" %>

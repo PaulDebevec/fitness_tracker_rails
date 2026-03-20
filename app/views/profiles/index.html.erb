@@ -1,0 +1,21 @@
+<h1>Profiles</h1>
+
+<div>
+  <%= link_to "Create New Profile", new_profile_path %>
+</div>
+
+<% if @profiles.any? %>
+  <ul>
+    <% @profiles.each do |profile| %>
+      <li>
+        <h2><%= link_to profile.display_name, profile_path(profile) %></h2>
+        <p>
+          <strong>Default unit:</strong>
+          <%= profile.formatted_default_unit %>
+        </p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No profiles yet.</p>
+<% end %>

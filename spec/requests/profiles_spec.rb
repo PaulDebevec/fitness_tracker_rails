@@ -21,7 +21,7 @@ RSpec.describe "Profiles", type: :request do
         }.to change(Profile, :count).by(1)
 
         profile = Profile.last
-        expect(response).to redirect_to(profile_check_ins_path(profile))
+        expect(response).to redirect_to(profile_path(profile))
       end
     end
 
@@ -38,6 +38,17 @@ RSpec.describe "Profiles", type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
+    end
+  end
+
+  describe "DELETE /profiles" do
+    it "redirects when deleting a non-existent profile" do
+      delete "/profiles/999999"
+
+      expect(response).to redirect_to(profiles_path)
+      follow_redirect!
+
+      expect(response.body).to include("Profile not found.")
     end
   end
 end
