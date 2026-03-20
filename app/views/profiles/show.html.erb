@@ -1,0 +1,28 @@
+<h1><%= @profile.display_name %></h1>
+
+<p>
+  <strong>Default unit:</strong>
+  <%= @profile.formatted_default_unit %>
+</p>
+
+<div>
+  <%= link_to "Edit Profile", edit_profile_path(@profile) %>
+  <%= button_to "Delete Profile", profile_path(@profile), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+</div>
+
+<h2>Check-ins</h2>
+
+<% if @check_ins.any? %>
+  <ul>
+    <% @check_ins.each do |check_in| %>
+      <li>
+        <strong>Date:</strong> <%= check_in.checked_in_on %>
+        <% if check_in.notes.present? %>
+          - <%= check_in.notes %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No check-in history yet.</p>
+<% end %>
