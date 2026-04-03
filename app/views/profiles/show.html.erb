@@ -17,7 +17,7 @@
   <ul>
     <% @check_ins.each do |check_in| %>
       <li>
-        <strong>Date:</strong> <%= check_in.checked_in_on %>
+        <%= link_to check_in.formatted_date, profile_check_in_path(@profile, check_in) %>
         <% if check_in.notes.present? %>
           - <%= check_in.notes %>
         <% end %>
