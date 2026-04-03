@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_20_195022) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_03_164624) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_195022) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["profile_id", "checked_in_on"], name: "index_check_ins_on_profile_id_and_checked_in_on", unique: true
     t.index ["profile_id"], name: "index_check_ins_on_profile_id"
   end
 

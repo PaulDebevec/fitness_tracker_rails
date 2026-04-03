@@ -1,2 +1,21 @@
 <h1><%= @profile.display_name %>'s Check-ins</h1>
-<p>No check-ins yet.</p>
+
+<p>
+  <%= link_to "Back to Profile", profile_path(@profile) %> |
+  <%= link_to "New Check-in", new_profile_check_in_path(@profile) %>
+</p>
+
+<% if @check_ins.any? %>
+  <ul>
+    <% @check_ins.each do |check_in| %>
+      <li>
+        <%= link_to check_in.checked_in_on, profile_check_in_path(@profile, check_in) %>
+        <% if check_in.notes.present? %>
+          - <%= truncate(check_in.notes, length: 80) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No check-ins yet.</p>
+<% end %>

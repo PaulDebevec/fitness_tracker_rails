@@ -11,7 +11,7 @@ class ProfilesController < ApplicationController
       redirect_to profile_path(@profile), notice: "Profile created successfully"
     else
       flash.now[:alert] = 'Profile could not be created.'
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -31,7 +31,7 @@ class ProfilesController < ApplicationController
     if @profile.update(profile_params)
       redirect_to profile_path(@profile), notice: "Profile updated successfully."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
