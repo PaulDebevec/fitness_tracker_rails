@@ -4,7 +4,12 @@ class CheckIn < ApplicationRecord
     validates :checked_in_on, presence: true, uniqueness: { scope: :profile_id }
     validate :checked_in_on_cannot_be_in_the_future
 
+    def formatted_date
+        checked_in_on&.strftime("%B %d, %Y")
+    end
+
     private
+    
     def checked_in_on_cannot_be_in_the_future
         return if checked_in_on.blank?
         return unless checked_in_on > Date.current

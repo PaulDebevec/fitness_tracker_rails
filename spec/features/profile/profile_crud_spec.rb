@@ -145,4 +145,24 @@ RSpec.describe "Profile", type: :feature do
             expect(page).to have_content("No check-in history yet.")
         end
     end
+
+    describe "profile functionality" do
+        it "links a profile's check-ins to their show pages" do
+            profile = Profile.create!(display_name: "John-Patrick", default_unit: "in")
+            check_in = profile.check_ins.create!(
+              checked_in_on: Date.current,
+              notes: "Weekly progress update"
+            )
+          
+            visit profile_path(profile)
+          
+            expect(page).to have_link(check_in.formatted_date)
+          
+            click_link check_in.formatted_date
+          
+            expect(current_path).to eq(profile_check_in_path(profile, check_in))
+            expect(page).to have_content(check_in.formatted_date)
+            expect(page).to have_content("Weekly progress update")
+          end
+    end
 end

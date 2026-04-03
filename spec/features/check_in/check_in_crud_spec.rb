@@ -11,9 +11,10 @@ RSpec.describe "CheckIn", type: :feature do
             fill_in "Notes", with: "Felt strong this week"
             click_button "Create Check-in"
 
-            expect(current_path).to eq(profile_check_in_path(profile, CheckIn.last))
+            check_in = CheckIn.last
+            expect(current_path).to eq(profile_check_in_path(profile, check_in))
             expect(page).to have_content("Check-in created successfully.")
-            expect(page).to have_content(Date.current.to_s)
+            expect(page).to have_content(check_in.formatted_date)
             expect(page).to have_content("Felt strong this week")
         end
 
@@ -25,7 +26,7 @@ RSpec.describe "CheckIn", type: :feature do
 
             visit profile_check_in_path(profile, check_in)
 
-            expect(page).to have_content(Date.current.to_s)
+            expect(page).to have_content(check_in.formatted_date)
             expect(page).to have_content("Good workout")
         end
 
