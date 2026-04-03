@@ -36,7 +36,7 @@ RSpec.describe "Profiles", type: :request do
           }
         }.not_to change(Profile, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
