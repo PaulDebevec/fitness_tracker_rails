@@ -1,0 +1,17 @@
+<h1>Check-in for <%= @profile.display_name %></h1>
+
+<p>
+  <strong>Date:</strong>
+  <%= @check_in.checked_in_on %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @check_in.notes.present? ? @check_in.notes : "No notes added." %>
+</p>
+
+<p>
+  <%= link_to "Back to Check-ins", profile_check_ins_path(@profile) %> |
+  <%= link_to "Back to Profile", profile_path(@profile) %> |
+  <%= link_to "Edit Check-in", edit_profile_check_in_path(@profile, @check_in) %>
+</p>

@@ -1,0 +1,26 @@
+<%= form_with model: [@profile, @check_in] do |form| %>
+  <% if @check_in.errors.any? %>
+    <div>
+      <h2><%= pluralize(@check_in.errors.count, "error") %> prevented this check-in from being saved:</h2>
+      <ul>
+        <% @check_in.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :checked_in_on %>
+    <%= form.date_field :checked_in_on %>
+  </div>
+
+  <div>
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div>
+    <%= form.submit @check_in.persisted? ? "Update Check-in" : "Create Check-in" %>
+  </div>
+<% end %>

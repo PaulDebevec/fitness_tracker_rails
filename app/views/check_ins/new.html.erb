@@ -1,0 +1,7 @@
+<h1>New Check-in for <%= @profile.display_name %></h1>
+
+<p>
+  <%= link_to "Back to Check-ins", profile_check_ins_path(@profile) %>
+</p>
+
+<%= render "form" %>

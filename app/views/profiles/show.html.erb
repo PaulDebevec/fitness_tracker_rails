@@ -8,9 +8,10 @@
 <div>
   <%= link_to "Edit Profile", edit_profile_path(@profile) %>
   <%= button_to "Delete Profile", profile_path(@profile), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+  <%= link_to "New Check-in", new_profile_check_in_path(@profile) %>
 </div>
 
-<h2>Check-ins</h2>
+<h2><%= link_to "View Check-ins", profile_check_ins_path(@profile) %></h2>
 
 <% if @check_ins.any? %>
   <ul>
