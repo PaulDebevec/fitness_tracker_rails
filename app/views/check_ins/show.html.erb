@@ -15,3 +15,7 @@
   <%= link_to "Back to Profile", profile_path(@profile) %> |
   <%= link_to "Edit Check-in", edit_profile_check_in_path(@profile, @check_in) %>
 </p>
+
+<p>
+  <%= button_to "Delete Check-in", profile_check_in_path(@profile, @check_in), method: :delete %>
+</p>
