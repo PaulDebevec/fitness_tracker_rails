@@ -1,0 +1,28 @@
+<%= form_with model: [@profile, @check_in, @measurement] do |form| %>
+  <% if @measurement.errors.any? %>
+    <div>
+      <h2><%= pluralize(@measurement.errors.count, "error") %> prevented this measurement from being saved:</h2>
+      <ul>
+        <% @measurement.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :body_part %>
+    <%= form.select :body_part,
+        Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] },
+        prompt: "Select a body part" %>
+  </div>
+
+  <div>
+    <%= form.label :value %>
+    <%= form.number_field :value, step: :any %>
+  </div>
+
+  <div>
+    <%= form.submit @measurement.persisted? ? "Update Measurement" : "Create Measurement" %>
+  </div>
+<% end %>
