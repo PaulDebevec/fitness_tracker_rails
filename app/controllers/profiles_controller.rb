@@ -16,7 +16,6 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    # @profile = Profile.find(params[:id])
     @check_ins = @profile.check_ins.order(checked_in_on: :desc)
   end
 

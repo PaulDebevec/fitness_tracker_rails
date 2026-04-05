@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_03_164624) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_05_192643) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_03_164624) do
     t.index ["profile_id"], name: "index_check_ins_on_profile_id"
   end
 
+  create_table "measurements", force: :cascade do |t|
+    t.bigint "check_in_id", null: false
+    t.string "body_part"
+    t.decimal "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["check_in_id"], name: "index_measurements_on_check_in_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.string "display_name"
     t.string "default_unit", default: "in"
@@ -32,4 +41,5 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_03_164624) do
   end
 
   add_foreign_key "check_ins", "profiles"
+  add_foreign_key "measurements", "check_ins"
 end
