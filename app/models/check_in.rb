@@ -1,5 +1,6 @@
 class CheckIn < ApplicationRecord
     belongs_to :profile
+    has_many :measurements, dependent: :destroy
 
     validates :checked_in_on, presence: true, uniqueness: { scope: :profile_id }
     validate :checked_in_on_cannot_be_in_the_future
