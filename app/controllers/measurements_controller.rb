@@ -8,59 +8,60 @@ class MeasurementsController < ApplicationController
     end
   
     def show
+        @measurements = @check_in.measurements
     end
   
     def new
-      @measurement = @check_in.measurements.new
+        @measurement = @check_in.measurements.new
     end
   
     def create
-      @measurement = @check_in.measurements.new(measurement_params)
-  
-      if @measurement.save
-        redirect_to profile_check_in_measurement_path(@profile, @check_in, @measurement), notice: "Measurement created successfully."
-      else
-        render :new, status: :unprocessable_content
-      end
+        @measurement = @check_in.measurements.new(measurement_params)
+    
+        if @measurement.save
+            redirect_to profile_check_in_measurement_path(@profile, @check_in, @measurement), notice: "Measurement created successfully."
+        else
+            render :new, status: :unprocessable_content
+        end
     end
   
     def edit
     end
   
     def update
-      if @measurement.update(measurement_params)
-        redirect_to profile_check_in_measurement_path(@profile, @check_in, @measurement), notice: "Measurement updated successfully."
-      else
-        render :edit, status: :unprocessable_content
-      end
+        if @measurement.update(measurement_params)
+            redirect_to profile_check_in_measurement_path(@profile, @check_in, @measurement), notice: "Measurement updated successfully."
+        else
+            render :edit, status: :unprocessable_content
+        end
     end
   
     def destroy
-      @measurement.destroy
-      redirect_to profile_check_in_measurements_path(@profile, @check_in), notice: "Measurement deleted successfully."
+        @measurement.destroy
+        redirect_to profile_check_in_measurements_path(@profile, @check_in), notice: "Measurement deleted successfully."
     end
   
     private
   
     def set_profile
-      @profile = Profile.find(params[:profile_id])
+        @profile = Profile.find(params[:profile_id])
     rescue ActiveRecord::RecordNotFound
-      redirect_to profiles_path, alert: "Profile not found."
+        redirect_to profiles_path, alert: "Profile not found."
     end
   
     def set_check_in
-      @check_in = @profile.check_ins.find(params[:check_in_id])
+        @check_in = @profile.check_ins.find(params[:check_in_id])
     rescue ActiveRecord::RecordNotFound
-      redirect_to profile_check_ins_path(@profile), alert: "Check-in not found."
+        redirect_to profile_check_ins_path(@profile), alert: "Check-in not found."
     end
   
     def set_measurement
-      @measurement = @check_in.measurements.find(params[:id])
+        @measurement = @check_in.measurements.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      redirect_to profile_check_in_measurements_path(@profile, @check_in), alert: "Measurement not found."
+        redirect_to profile_check_in_measurements_path(@profile, @check_in), alert: "Measurement not found."
     end
   
     def measurement_params
-      params.require(:measurement).permit(:body_part, :value)
+        params.require(:measurement).permit(:body_part, :value)
     end
   end
