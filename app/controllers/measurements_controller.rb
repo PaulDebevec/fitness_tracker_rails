@@ -8,7 +8,7 @@ class MeasurementsController < ApplicationController
     end
   
     def show
-        @measurements = @check_in.measurements
+        @measurements = @check_in.measurements.order(:body_part)
     end
   
     def new

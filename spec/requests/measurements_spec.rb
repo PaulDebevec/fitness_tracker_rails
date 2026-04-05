@@ -65,4 +65,89 @@ RSpec.describe "Measurements", type: :request do
       end
     end
   end
+
+  describe "GET /profiles/:profile_id/check_ins/:check_in_id/measurements/:id" do
+    it "returns http success" do
+      measurement = check_in.measurements.create!(body_part: "waist", value: 34.5)
+
+      get profile_check_in_measurement_path(profile, check_in, measurement)
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "redirects when the measurement does not exist" do
+      get "/profiles/#{profile.id}/check_ins/#{check_in.id}/measurements/999999"
+
+      expect(response).to redirect_to(profile_check_in_measurements_path(profile, check_in))
+    end
+  end
+
+  describe "GET /profiles/:profile_id/check_ins/:check_in_id/measurements/:id/edit" do
+    it "returns http success" do
+      measurement = check_in.measurements.create!(body_part: "waist", value: 34.5)
+
+      get edit_profile_check_in_measurement_path(profile, check_in, measurement)
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "redirects when the measurement does not exist" do
+      get "/profiles/#{profile.id}/check_ins/#{check_in.id}/measurements/999999/edit"
+
+      expect(response).to redirect_to(profile_check_in_measurements_path(profile, check_in))
+    end
+  end
+
+  describe "PATCH /profiles/:profile_id/check_ins/:check_in_id/measurements/:id" do
+    let!(:measurement) do
+      check_in.measurements.create!(body_part: "waist", value: 34.5)
+    end
+
+    context "with valid params" do
+      it "updates the measurement and redirects to the show page" do
+        patch profile_check_in_measurement_path(profile, check_in, measurement), params: {
+          measurement: {
+            body_part: "chest",
+            value: 42.0
+          }
+        }
+
+        expect(response).to redirect_to(profile_check_in_measurement_path(profile, check_in, measurement))
+        expect(measurement.reload.body_part).to eq("chest")
+        expect(measurement.reload.value.to_f).to eq(42.0)
+      end
+    end
+
+    context "with invalid params" do
+      it "does not update the measurement with a blank value" do
+        patch profile_check_in_measurement_path(profile, check_in, measurement), params: {
+          measurement: {
+            body_part: "waist",
+            value: nil
+          }
+        }
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(measurement.reload.value.to_f).to eq(34.5)
+      end
+    end
+  end
+
+  describe "DELETE /profiles/:profile_id/check_ins/:check_in_id/measurements/:id" do
+    it "deletes the measurement and redirects to the index page" do
+      measurement = check_in.measurements.create!(body_part: "waist", value: 34.5)
+
+      expect {
+        delete profile_check_in_measurement_path(profile, check_in, measurement)
+      }.to change(Measurement, :count).by(-1)
+
+      expect(response).to redirect_to(profile_check_in_measurements_path(profile, check_in))
+    end
+
+    it "redirects when deleting a non-existent measurement" do
+      delete "/profiles/#{profile.id}/check_ins/#{check_in.id}/measurements/999999"
+
+      expect(response).to redirect_to(profile_check_in_measurements_path(profile, check_in))
+    end
+  end
 end
