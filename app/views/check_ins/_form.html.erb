@@ -20,6 +20,30 @@
     <%= form.text_area :notes %>
   </div>
 
+  <h3>Upper Body Photos</h3>
+
+  <div>
+    <%= form.label :upper_front_photo, "Upper Front" %>
+    <%= form.file_field :upper_front_photo %>
+  </div>
+
+  <div>
+    <%= form.label :upper_back_photo, "Upper Back" %>
+    <%= form.file_field :upper_back_photo %>
+  </div>
+
+  <h3>Lower Body Photos</h3>
+
+  <div>
+    <%= form.label :lower_front_photo, "Lower Front" %>
+    <%= form.file_field :lower_front_photo %>
+  </div>
+
+  <div>
+    <%= form.label :lower_back_photo, "Lower Back" %>
+    <%= form.file_field :lower_back_photo %>
+  </div>
+
   <div>
     <%= form.submit @check_in.persisted? ? "Update Check-in" : "Create Check-in" %>
   </div>

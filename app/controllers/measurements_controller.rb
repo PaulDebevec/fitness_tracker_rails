@@ -62,6 +62,6 @@ class MeasurementsController < ApplicationController
     end
   
     def measurement_params
-        params.require(:measurement).permit(:body_part, :value)
+        params.require(:measurement).permit(:body_part, :value, :body_part_photo)
     end
   end

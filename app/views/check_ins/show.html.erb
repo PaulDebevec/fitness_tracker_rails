@@ -18,6 +18,43 @@
 
 <hr>
 
+<h2>Progress Photos</h2>
+
+<% if @check_in.upper_front_photo.attached? %>
+  <div>
+    <p><strong>Upper Front</strong></p>
+    <%= image_tag @check_in.upper_front_photo, width: 250 %>
+  </div>
+<% end %>
+
+<% if @check_in.upper_back_photo.attached? %>
+  <div>
+    <p><strong>Upper Back</strong></p>
+    <%= image_tag @check_in.upper_back_photo, width: 250 %>
+  </div>
+<% end %>
+
+<% if @check_in.lower_front_photo.attached? %>
+  <div>
+    <p><strong>Lower Front</strong></p>
+    <%= image_tag @check_in.lower_front_photo, width: 250 %>
+  </div>
+<% end %>
+
+<% if @check_in.lower_back_photo.attached? %>
+  <div>
+    <p><strong>Lower Back</strong></p>
+    <%= image_tag @check_in.lower_back_photo, width: 250 %>
+  </div>
+<% end %>
+
+<% unless @check_in.upper_front_photo.attached? ||
+          @check_in.upper_back_photo.attached? ||
+          @check_in.lower_front_photo.attached? ||
+          @check_in.lower_back_photo.attached? %>
+  <p>No progress photos yet.</p>
+<% end %>
+
 <h2>Measurements</h2>
 
 <p>

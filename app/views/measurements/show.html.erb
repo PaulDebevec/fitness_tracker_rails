@@ -10,6 +10,14 @@
   <%= @measurement.value %>
 </p>
 
+<h2>Body Part Photo</h2>
+
+<% if @measurement.body_part_photo.attached? %>
+  <%= image_tag @measurement.body_part_photo, width: 250 %>
+<% else %>
+  <p>No photo yet.</p>
+<% end %>
+
 <p>
   <%= link_to "Back to Measurements", profile_check_in_measurements_path(@profile, @check_in) %> |
   <%= link_to "Back to Check-in", profile_check_in_path(@profile, @check_in) %> |

@@ -52,6 +52,13 @@ class CheckInsController < ApplicationController
   end
 
   def check_in_params
-    params.require(:check_in).permit(:checked_in_on, :notes)
+    params.require(:check_in).permit(
+      :checked_in_on,
+      :notes,
+      :upper_front_photo,
+      :upper_back_photo,
+      :lower_front_photo,
+      :lower_back_photo
+    )
   end
 end
