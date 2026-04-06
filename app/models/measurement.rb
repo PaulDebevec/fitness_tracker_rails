@@ -13,6 +13,8 @@ class Measurement < ApplicationRecord
 
   belongs_to :check_in
 
+  has_one_attached :body_part_photo
+
   validates :body_part, presence: true, inclusion: { in: BODY_PARTS }
   validates :value, presence: true, numericality: { greater_than: 0 }
 end

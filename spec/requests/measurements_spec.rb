@@ -150,4 +150,25 @@ RSpec.describe "Measurements", type: :request do
       expect(response).to redirect_to(profile_check_in_measurements_path(profile, check_in))
     end
   end
+
+  describe "measurement" do
+    it "creates a measurement with a body part photo" do
+      profile = Profile.create!(display_name: "Paul", default_unit: "in")
+      check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
+      image = fixture_file_upload("upper_front.png", "image/png")
+
+    
+      post profile_check_in_measurements_path(profile, check_in), params: {
+        measurement: {
+          body_part: "waist",
+          value: 34.5,
+          body_part_photo: image
+        }
+      }
+    
+      measurement = Measurement.last
+      expect(response).to redirect_to(profile_check_in_measurement_path(profile, check_in, measurement))
+      expect(measurement.body_part_photo).to be_attached
+    end
+  end
 end

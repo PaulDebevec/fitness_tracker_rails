@@ -23,6 +23,11 @@
   </div>
 
   <div>
+    <%= form.label :body_part_photo, "Photo" %>
+    <%= form.file_field :body_part_photo %>
+  </div>
+
+  <div>
     <%= form.submit @measurement.persisted? ? "Update Measurement" : "Create Measurement" %>
   </div>
 <% end %>
