@@ -80,5 +80,43 @@ RSpec.describe Measurement, type: :model do
 
       expect(measurement).to be_valid
     end
+
+    it "does not allow duplicate body parts for the same check_in" do
+      described_class.create!(
+        check_in: check_in,
+        body_part: "waist",
+        value: 34.5
+      )
+    
+      duplicate = described_class.new(
+        check_in: check_in,
+        body_part: "waist",
+        value: 35.0
+      )
+    
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:body_part]).to include("has already been taken")
+    end
+    
+    it "allows the same body part on different check_ins" do
+      other_check_in = profile.check_ins.create!(
+        checked_in_on: Date.current - 1.day,
+        notes: "Another check-in"
+      )
+    
+      described_class.create!(
+        check_in: check_in,
+        body_part: "waist",
+        value: 34.5
+      )
+    
+      measurement = described_class.new(
+        check_in: other_check_in,
+        body_part: "waist",
+        value: 35.0
+      )
+    
+      expect(measurement).to be_valid
+    end
   end
 end

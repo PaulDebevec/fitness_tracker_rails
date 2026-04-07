@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_06_172724) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_07_211041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,6 +58,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_06_172724) do
     t.decimal "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["check_in_id", "body_part"], name: "index_measurements_on_check_in_id_and_body_part", unique: true
     t.index ["check_in_id"], name: "index_measurements_on_check_in_id"
   end
 
