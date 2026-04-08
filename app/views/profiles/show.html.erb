@@ -5,6 +5,10 @@
   <%= @profile.formatted_default_unit %>
 </p>
 
+<p>
+  <%= link_to "View Progress Report", profile_report_path(@profile) %>
+</p>
+
 <div>
   <%= link_to "Edit Profile", edit_profile_path(@profile) %>
   <%= button_to "Delete Profile", profile_path(@profile), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
