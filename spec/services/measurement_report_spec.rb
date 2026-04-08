@@ -58,12 +58,13 @@ RSpec.describe MeasurementReport do
 
   describe "#chart_data" do
     it "returns date and value pairs" do
-      report = described_class.new(profile: profile, body_part: "waist")
+      body_part = "waist"
+      report = described_class.new(profile: profile, body_part: body_part)
 
       expect(report.chart_data).to eq([
-        { date: older_check_in.checked_in_on, value: 36.0 },
-        { date: middle_check_in.checked_in_on, value: 35.0 },
-        { date: recent_check_in.checked_in_on, value: 34.0 }
+        { body_part: body_part, date: older_check_in.checked_in_on, value: 36.0 },
+        { body_part: body_part, date: middle_check_in.checked_in_on, value: 35.0 },
+        { body_part: body_part, date: recent_check_in.checked_in_on, value: 34.0 }
       ])
     end
   end
@@ -117,6 +118,22 @@ RSpec.describe MeasurementReport do
       report = described_class.new(profile: profile, body_part: "waist", timeframe: "all_time")
 
       expect(report.measurements).to eq([older_waist, middle_waist, recent_waist])
+    end
+  end
+  
+  describe "all body_parts summary" do
+    it "returns measurements for all body parts when no body_part is provided" do
+      report = described_class.new(profile: profile, body_part: nil)
+    
+      expect(report.measurements).to include(older_waist, middle_waist, recent_waist, recent_chest)
+    end
+    
+    it "returns grouped summary data when no body_part is provided" do
+      report = described_class.new(profile: profile, body_part: nil)
+    
+      expect(report.summary.keys).to include("waist", "chest")
+      expect(report.summary["waist"][:count]).to eq(3)
+      expect(report.summary["chest"][:count]).to eq(1)
     end
   end
 end
