@@ -75,5 +75,10 @@ RSpec.describe "Report", type: :feature do
       expect(page).to have_content("34.0")
       expect(page).not_to have_content("36.0")
     end
+
+    it "shows an export csv link" do
+      visit profile_report_path(profile)
+      expect(page).to have_link("Export CSV")
+    end
   end
 end
