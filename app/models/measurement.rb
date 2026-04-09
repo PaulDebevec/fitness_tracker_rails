@@ -21,4 +21,8 @@ class Measurement < ApplicationRecord
   validates :body_part, presence: true, inclusion: { in: BODY_PARTS }
   validates :body_part, uniqueness: { scope: :check_in_id }
   validates :value, presence: true, numericality: { greater_than: 0 }
+
+  def formatted_body_part
+    body_part&.humanize
+  end
 end

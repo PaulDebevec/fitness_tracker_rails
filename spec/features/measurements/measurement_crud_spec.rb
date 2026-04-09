@@ -12,9 +12,9 @@ RSpec.describe "Measurement", type: :feature do
         visit profile_check_in_measurements_path(profile, check_in)
 
         expect(page).to have_content("Measurements for #{check_in.formatted_date}")
-        expect(page).to have_content(measurement_1.body_part.humanize)
+        expect(page).to have_content(measurement_1.formatted_body_part)
         expect(page).to have_content(measurement_1.value)
-        expect(page).to have_content(measurement_2.body_part.humanize)
+        expect(page).to have_content(measurement_2.formatted_body_part)
         expect(page).to have_content(measurement_2.value)
     end
 

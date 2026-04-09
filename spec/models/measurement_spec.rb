@@ -138,4 +138,12 @@ RSpec.describe Measurement, type: :model do
       expect(check_in.measurements.ordered_by_body_part).to eq([chest_measurement, waist_measurement])
     end
   end
+
+  describe "#formatted_body_part" do
+    it "returns a humanized body part name" do
+      measurement.body_part = "bicep_left"
+  
+      expect(measurement.formatted_body_part).to eq("Bicep left")
+    end
+  end
 end

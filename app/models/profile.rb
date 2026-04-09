@@ -14,4 +14,8 @@ class Profile < ApplicationRecord
       default_unit
     end
   end
+
+  def abbreviated_default_unit
+    default_unit
+  end
 end

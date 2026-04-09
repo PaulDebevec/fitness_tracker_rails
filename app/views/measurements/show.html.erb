@@ -2,12 +2,12 @@
 
 <p>
   <strong>Body part:</strong>
-  <%= @measurement.body_part.humanize %>
+  <%= @measurement.formatted_body_part %>
 </p>
 
 <p>
   <strong>Value:</strong>
-  <%= @measurement.value %>
+  <%= @measurement.value %> <%= @profile.abbreviated_default_unit %>
 </p>
 
 <h2>Body Part Photo</h2>
