@@ -95,5 +95,23 @@ RSpec.describe CheckIn, type: :model do
   
       expect(profile.check_ins.reverse_chronological).to eq([newer_check_in, older_check_in])
     end
+
+    it "allows the same check-in date for different profiles" do
+      other_profile = Profile.create!(display_name: "Jamie", default_unit: "in")
+    
+      described_class.create!(
+        profile: profile,
+        checked_in_on: Date.current,
+        notes: "First"
+      )
+    
+      check_in = described_class.new(
+        profile: other_profile,
+        checked_in_on: Date.current,
+        notes: "Second"
+      )
+    
+      expect(check_in).to be_valid
+    end
   end
 end
