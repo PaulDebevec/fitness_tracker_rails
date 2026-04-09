@@ -2,14 +2,14 @@ class ReportsController < ApplicationController
   before_action :set_profile
 
   def show
-    @body_part = params[:body_part].presence
-    @timeframe = params[:timeframe].presence || "all_time"
-
     @report = MeasurementReport.new(
       profile: @profile,
-      body_part: @body_part,
-      timeframe: @timeframe
+      body_part: params[:body_part],
+      timeframe: params[:timeframe]
     )
+
+    @body_part = @report.body_part
+    @timeframe = @report.timeframe
 
     respond_to do |format|
       format.html
