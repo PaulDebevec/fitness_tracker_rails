@@ -1,8 +1,8 @@
 <h1><%= @profile.display_name %>'s Check-ins</h1>
 
 <p>
-  <%= link_to "Back to Profile", profile_path(@profile) %> |
-  <%= link_to "New Check-in", new_profile_check_in_path(@profile) %>
+  <%= link_to "Back to Profile", profile_path(@profile), class: "button-link secondary" %> |
+  <%= link_to "New Check-in", new_profile_check_in_path(@profile), class: "button-link secondary" %>
 </p>
 
 <% if @check_ins.any? %>

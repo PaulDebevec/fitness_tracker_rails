@@ -1,14 +1,15 @@
 <h1><%= @profile.display_name %> Progress Report</h1>
 
 <p>
-  <%= link_to "Back to Profile", profile_path(@profile) %> |
+  <%= link_to "Back to Profile", profile_path(@profile), class: "button-link secondary" %> |
   <%= link_to "Export CSV",
       profile_report_path(
         @profile,
         format: :csv,
         body_part: @body_part,
         timeframe: @timeframe
-      ) %>
+      ), 
+      class: "button-link secondary" %>
 </p>
 
 <%= form_with url: profile_report_path(@profile), method: :get, local: true do |form| %>

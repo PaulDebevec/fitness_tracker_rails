@@ -1,14 +1,14 @@
 <h1>Profiles</h1>
 
 <div>
-  <%= link_to "Create New Profile", new_profile_path %>
+  <%= link_to "Create New Profile", new_profile_path, class: "button-link secondary" %>
 </div>
 
 <% if @profiles.any? %>
   <ul>
     <% @profiles.each do |profile| %>
       <li>
-        <h2><%= link_to profile.display_name, profile_path(profile) %></h2>
+        <h2><%= link_to profile.display_name, profile_path(profile), class: "button-link secondary" %></h2>
         <p>
           <strong>Default unit:</strong>
           <%= profile.formatted_default_unit %>
