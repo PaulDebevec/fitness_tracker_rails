@@ -160,7 +160,7 @@ RSpec.describe "CheckIns", type: :request do
   describe "checkin photo upload" do
     it "creates a check-in with an upper front photo" do
       profile = Profile.create!(display_name: "Paul", default_unit: "in")
-      image = fixture_file_upload("upper_front.png", "image/png")
+      image = test_image_upload("upper_front.png")
     
       post profile_check_ins_path(profile), params: {
         check_in: {
