@@ -49,21 +49,69 @@ RSpec.describe CheckIn, type: :model do
       expect(check_in).to be_valid
     end
     
-    it "does not allow duplicate check-in dates for the same profile" do
-        described_class.create!(
-          profile: profile,
-          checked_in_on: Date.current,
-          notes: "First"
-        )
-      
-        duplicate = described_class.new(
-          profile: profile,
-          checked_in_on: Date.current,
-          notes: "Second"
-        )
-      
-        expect(duplicate).not_to be_valid
-        expect(duplicate.errors[:checked_in_on]).to include("has already been taken")
-      end
+  it "does not allow duplicate check-in dates for the same profile" do
+      described_class.create!(
+        profile: profile,
+        checked_in_on: Date.current,
+        notes: "First"
+      )
+    
+      duplicate = described_class.new(
+        profile: profile,
+        checked_in_on: Date.current,
+        notes: "Second"
+      )
+    
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:checked_in_on]).to include("has already been taken")
+    end
+  end
+  
+  describe "scopes" do
+    it "orders check-ins chronologically" do
+      older_check_in = profile.check_ins.create!(
+        checked_in_on: Date.current - 7.days,
+        notes: "Older"
+      )
+  
+      newer_check_in = profile.check_ins.create!(
+        checked_in_on: Date.current,
+        notes: "Newer"
+      )
+  
+      expect(profile.check_ins.chronological).to eq([older_check_in, newer_check_in])
+    end
+  
+    it "orders check-ins in reverse chronological order" do
+      older_check_in = profile.check_ins.create!(
+        checked_in_on: Date.current - 7.days,
+        notes: "Older"
+      )
+  
+      newer_check_in = profile.check_ins.create!(
+        checked_in_on: Date.current,
+        notes: "Newer"
+      )
+  
+      expect(profile.check_ins.reverse_chronological).to eq([newer_check_in, older_check_in])
+    end
+
+    it "allows the same check-in date for different profiles" do
+      other_profile = Profile.create!(display_name: "Jamie", default_unit: "in")
+    
+      described_class.create!(
+        profile: profile,
+        checked_in_on: Date.current,
+        notes: "First"
+      )
+    
+      check_in = described_class.new(
+        profile: other_profile,
+        checked_in_on: Date.current,
+        notes: "Second"
+      )
+    
+      expect(check_in).to be_valid
+    end
   end
 end

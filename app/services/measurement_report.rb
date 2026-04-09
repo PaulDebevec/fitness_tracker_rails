@@ -11,12 +11,16 @@ class MeasurementReport
 
   def initialize(profile:, body_part: nil, timeframe: "all_time")
     @profile = profile
-    @body_part = body_part.presence
-    @timeframe = timeframe
+    @body_part = normalize_body_part(body_part)
+    @timeframe = normalize_timeframe(timeframe)
   end
 
   def measurements
     @measurements ||= filtered_measurements.order("check_ins.checked_in_on ASC, measurements.body_part ASC")
+  end
+
+  def measurements_grouped_by_body_part
+    measurements.group_by(&:body_part)
   end
 
   def chart_data
@@ -34,10 +38,6 @@ class MeasurementReport
     single_body_part_summary
   end
 
-  def measurements_grouped_by_body_part
-    measurements.group_by(&:body_part)
-  end
-
   private
 
   def filtered_measurements
@@ -46,7 +46,7 @@ class MeasurementReport
       .joins(:check_in)
       .where(check_ins: { profile_id: profile.id })
 
-    scope = scope.where(body_part: body_part) if body_part.present?
+    scope = scope.for_body_part(body_part) if body_part.present?
 
     days = TIMEFRAME_OPTIONS[timeframe]
 
@@ -113,5 +113,18 @@ class MeasurementReport
       max: nil,
       average: nil
     }
+  end
+
+  def normalize_body_part(value)
+    return nil if value.blank?
+    return value if Measurement::BODY_PARTS.include?(value)
+
+    nil
+  end
+
+  def normalize_timeframe(value)
+    return value if TIMEFRAME_OPTIONS.key?(value)
+
+    "all_time"
   end
 end

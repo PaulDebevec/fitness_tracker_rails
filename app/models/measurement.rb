@@ -15,6 +15,15 @@ class Measurement < ApplicationRecord
 
   has_one_attached :body_part_photo
 
-  validates :body_part, presence: true, inclusion: { in: BODY_PARTS }, uniqueness: { scope: :check_in_id }
+  scope :for_body_part, ->(body_part) { where(body_part: body_part) }
+  scope :ordered_by_body_part, -> { order(body_part: :asc) }
+
+  validates :body_part, presence: true, inclusion: { in: BODY_PARTS }
+  validates :body_part, uniqueness: { scope: :check_in_id }
   validates :value, presence: true, numericality: { greater_than: 0 }
+
+  def formatted_body_part
+    body_part&.humanize
+  end
 end
+

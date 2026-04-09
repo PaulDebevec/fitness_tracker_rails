@@ -29,8 +29,8 @@
   <ul>
     <% @check_in.measurements.order(:body_part).each do |measurement| %>
       <li>
-        <%= link_to measurement.body_part.humanize, profile_check_in_measurement_path(@profile, @check_in, measurement) %>
-        : <%= measurement.value %>
+        <%= link_to measurement.formatted_body_part, profile_check_in_measurement_path(@profile, @check_in, measurement) %> :
+        <%= measurement.value %> <%= @profile.abbreviated_default_unit %>
       </li>
     <% end %>
   </ul>

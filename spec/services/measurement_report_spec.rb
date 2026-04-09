@@ -136,4 +136,46 @@ RSpec.describe MeasurementReport do
       expect(report.summary["chest"][:count]).to eq(1)
     end
   end
+
+  describe "parameter normalization" do
+    it "treats an invalid body part as nil" do
+      report = described_class.new(
+        profile: profile,
+        body_part: "forearm",
+        timeframe: "all_time"
+      )
+  
+      expect(report.body_part).to be_nil
+    end
+  
+    it "falls back to all_time for an invalid timeframe" do
+      report = described_class.new(
+        profile: profile,
+        body_part: "waist",
+        timeframe: "last_500_years"
+      )
+  
+      expect(report.timeframe).to eq("all_time")
+    end
+  
+    it "accepts a valid body part" do
+      report = described_class.new(
+        profile: profile,
+        body_part: "waist",
+        timeframe: "all_time"
+      )
+  
+      expect(report.body_part).to eq("waist")
+    end
+  
+    it "accepts a valid timeframe" do
+      report = described_class.new(
+        profile: profile,
+        body_part: "waist",
+        timeframe: "30_days"
+      )
+  
+      expect(report.timeframe).to eq("30_days")
+    end
+  end
 end

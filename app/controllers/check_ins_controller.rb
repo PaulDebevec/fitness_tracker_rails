@@ -3,10 +3,11 @@ class CheckInsController < ApplicationController
   before_action :set_check_in, only: [:show, :edit, :update, :destroy]
 
   def index
-    @check_ins = @profile.check_ins.order(checked_in_on: :desc)
+    @check_ins = @profile.check_ins.reverse_chronological
   end
 
   def show
+    @measurements = @check_in.measurements.ordered_by_body_part
   end
 
   def new
@@ -15,6 +16,7 @@ class CheckInsController < ApplicationController
 
   def create
     @check_in = @profile.check_ins.new(check_in_params)
+
     if @check_in.save
       redirect_to profile_check_in_path(@profile, @check_in), notice: "Check-in created successfully."
     else
@@ -39,6 +41,7 @@ class CheckInsController < ApplicationController
   end
 
   private
+
   def set_profile
     @profile = Profile.find(params[:profile_id])
   rescue ActiveRecord::RecordNotFound

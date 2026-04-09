@@ -1,26 +1,26 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
+  def index
+    @profiles = Profile.recent_first
+  end
+
+  def show
+    @check_ins = @profile.check_ins.reverse_chronological
+  end
+
   def new
     @profile = Profile.new
   end
 
   def create
     @profile = Profile.new(profile_params)
+
     if @profile.save
-      redirect_to profile_path(@profile), notice: "Profile created successfully"
+      redirect_to profile_path(@profile), notice: "Profile created successfully."
     else
-      flash.now[:alert] = 'Profile could not be created.'
       render :new, status: :unprocessable_content
     end
-  end
-
-  def show
-    @check_ins = @profile.check_ins.order(checked_in_on: :desc)
-  end
-
-  def index
-    @profiles = Profile.all
   end
 
   def edit
@@ -44,8 +44,7 @@ class ProfilesController < ApplicationController
   def set_profile
     @profile = Profile.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    flash[:alert] = "Profile not found."
-    redirect_to profiles_path
+    redirect_to profiles_path, alert: "Profile not found."
   end
 
   def profile_params

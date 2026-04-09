@@ -1,6 +1,7 @@
 class Profile < ApplicationRecord
   has_many :check_ins, dependent: :destroy
 
+  scope :recent_first, -> { order(created_at: :desc) }
   validates :display_name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :default_unit, presence: true, inclusion: { in: %w[in cm] }
 
@@ -13,5 +14,9 @@ class Profile < ApplicationRecord
     else
       default_unit
     end
+  end
+
+  def abbreviated_default_unit
+    default_unit
   end
 end
