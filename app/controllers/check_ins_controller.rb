@@ -3,7 +3,7 @@ class CheckInsController < ApplicationController
   before_action :set_check_in, only: [:show, :edit, :update, :destroy]
 
   def index
-    @check_ins = @profile.check_ins.order(checked_in_on: :desc)
+    @check_ins = @profile.check_ins.reverse_chronological
   end
 
   def show

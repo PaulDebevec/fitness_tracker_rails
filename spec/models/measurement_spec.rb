@@ -119,4 +119,23 @@ RSpec.describe Measurement, type: :model do
       expect(measurement).to be_valid
     end
   end
+  
+  describe "scopes" do
+    let!(:waist_measurement) do
+      check_in.measurements.create!(body_part: "waist", value: 34.5)
+    end
+  
+    let!(:chest_measurement) do
+      check_in.measurements.create!(body_part: "chest", value: 42.0)
+    end
+  
+    it "filters measurements by body part" do
+      expect(Measurement.for_body_part("waist")).to include(waist_measurement)
+      expect(Measurement.for_body_part("waist")).not_to include(chest_measurement)
+    end
+  
+    it "orders measurements by body part" do
+      expect(check_in.measurements.ordered_by_body_part).to eq([chest_measurement, waist_measurement])
+    end
+  end
 end

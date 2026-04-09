@@ -16,7 +16,7 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    @check_ins = @profile.check_ins.order(checked_in_on: :desc)
+    @check_ins = @profile.check_ins.reverse_chronological
   end
 
   def index

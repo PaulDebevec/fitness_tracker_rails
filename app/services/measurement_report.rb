@@ -46,7 +46,7 @@ class MeasurementReport
       .joins(:check_in)
       .where(check_ins: { profile_id: profile.id })
 
-    scope = scope.where(body_part: body_part) if body_part.present?
+    scope = scope.for_body_part(body_part) if body_part.present?
 
     days = TIMEFRAME_OPTIONS[timeframe]
 
