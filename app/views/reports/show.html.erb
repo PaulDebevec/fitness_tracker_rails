@@ -1,42 +1,50 @@
-<h1><%= @profile.display_name %> Progress Report</h1>
-
-
-  
-
-
-<%= form_with url: profile_report_path(@profile), method: :get, local: true, class: "report-filter-form" do |form| %>
-  <div class="report-filter-group">
-    <div class="report-filter-field">
-      <%= form.label :body_part, "Body Part" %>
-      <%= form.select :body_part,
-          options_for_select(
-            [["All Body Parts", ""]] + Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] },
-            @body_part
-          ),
-          {},
-          { onchange: "this.form.requestSubmit()" } %>
+<div class="report-header-card">
+  <div class="report-header-top">
+    <div>
+      <h1><%= @profile.display_name %> Progress Report</h1>
+      <p class="report-subtitle">
+        Review measurement progress over time by body part and timeframe.
+      </p>
     </div>
 
-    <div class="report-filter-field">
-      <%= form.label :timeframe, "Timeframe" %>
-      <%= form.select :timeframe,
-          options_for_select(
-            MeasurementReport::TIMEFRAME_OPTIONS.keys.map { |option| [option.humanize, option] },
-            @timeframe
+    <div class="report-header-actions">
+      <%= link_to "Export CSV",
+          profile_report_path(
+            @profile,
+            format: :csv,
+            body_part: @body_part,
+            timeframe: @timeframe
           ),
-          {},
-          { onchange: "this.form.requestSubmit()" } %>
+          class: "button-link secondary" %>
     </div>
-    <%= link_to "Export CSV",
-            profile_report_path(
-                @profile,
-                format: :csv,
-                body_part: @body_part,
-                timeframe: @timeframe
-            ), 
-            class: "button-link secondary" %>
   </div>
-<% end %>
+  <p class="report-filter-label">Filters</p>
+  <%= form_with url: profile_report_path(@profile), method: :get, local: true, class: "report-filter-form" do |form| %>
+    <div class="report-filter-group">
+      <div class="report-filter-field">
+        <%= form.label :body_part, "Body Part" %>
+        <%= form.select :body_part,
+            options_for_select(
+              [["All Body Parts", ""]] + Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] },
+              @body_part
+            ),
+            {},
+            { onchange: "this.form.requestSubmit()" } %>
+      </div>
+
+      <div class="report-filter-field">
+        <%= form.label :timeframe, "Timeframe" %>
+        <%= form.select :timeframe,
+            options_for_select(
+              MeasurementReport::TIMEFRAME_OPTIONS.keys.map { |option| [option.humanize, option] },
+              @timeframe
+            ),
+            {},
+            { onchange: "this.form.requestSubmit()" } %>
+      </div>
+    </div>
+  <% end %>
+</div>
 
 <hr>
 
