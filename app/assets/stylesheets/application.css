@@ -429,5 +429,14 @@ button:hover {
     margin-top: 1.5rem;
   }
 
+  .measurement-summary-list {
+    margin: 0;
+    padding-left: 1rem;
+  }
+  
+  .measurement-summary-list li {
+    margin-bottom: 0.5rem;
+  }
+
 
   
