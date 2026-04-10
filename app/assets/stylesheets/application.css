@@ -624,3 +624,13 @@ button:hover {
     max-width: 520px;
   }
   
+  .check-in-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  
+  .check-in-card-link:hover .check-in-card {
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    border-color: #c7d2fe;
+  }
