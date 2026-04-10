@@ -634,3 +634,65 @@ button:hover {
     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
     border-color: #c7d2fe;
   }
+
+  .existing-photo-preview {
+    margin: 0.5rem 0;
+  }
+  
+  .existing-photo-preview img {
+    width: 90px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .photo-preview-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 0.4rem 0;
+  }
+  
+  .photo-preview-thumbnail {
+    height: 38px;
+    width: auto;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* hover enlargement */
+  .photo-preview-wrapper:hover .photo-preview-thumbnail {
+    transform: scale(3.5);
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+  
+  /* helper text hidden by default */
+  .photo-preview-hint {
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    font-size: 0.75rem;
+    background: #111827;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: opacity 0.15s ease;
+  }
+  
+  /* show helper text on hover */
+  .photo-preview-wrapper:hover .photo-preview-hint {
+    opacity: 1;
+  }
+
+  .photo-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
