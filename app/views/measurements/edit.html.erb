@@ -1,8 +1,17 @@
 <h1>Edit Measurement for <%= @check_in.formatted_date %></h1>
 
-<p>
-  <%= link_to "Back to Measurements", profile_check_in_measurements_path(@profile, @check_in), class: "button-link secondary" %> |
-  <%= link_to "Back to Check-in", profile_check_in_path(@profile, @check_in), class: "button-link secondary" %>
-</p>
+<div class="page-actions">
+  <div class="page-actions-left">
+    <%= link_to "Back to Measurement",
+        profile_check_in_measurement_path(@profile, @check_in, @measurement),
+        class: "button-link secondary" %>
 
-<%= render "form" %>
+    <%= link_to "Back to Check-in",
+        profile_check_in_path(@profile, @check_in),
+        class: "button-link secondary" %>
+  </div>
+</div>
+
+<div class="form-card">
+  <%= render "form" %>
+</div>
