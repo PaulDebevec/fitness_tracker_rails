@@ -132,7 +132,7 @@ RSpec.describe "Profile", type: :feature do
           
             visit "/profiles"
           
-            expect(page).to have_content("No profiles yet.")
+            expect(page).to have_content("No profiles yet")
         end
     end
 
