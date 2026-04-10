@@ -218,3 +218,82 @@ button:hover {
   .report-history li {
     margin-bottom: 0.35rem;
   }
+
+  .report-filter-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  
+  .report-filter-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: end;
+  }
+  
+  .report-filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 220px;
+  }
+  
+  .report-filter-field label {
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .report-filter-field select {
+    padding: 0.7rem 0.85rem;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: #ffffff;
+    font-size: 0.95rem;
+  }
+  
+  .report-filter-actions {
+    display: flex;
+    align-items: end;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .photo-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 0.75rem;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  }
+  
+  .photo-card img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+  }
+  
+  .photo-card p {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .progress-photo {
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+  }
+
+
+  

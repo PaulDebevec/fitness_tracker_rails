@@ -1,32 +1,40 @@
 <h1><%= @profile.display_name %> Progress Report</h1>
 
-<p>
-  <%= link_to "Back to Profile", profile_path(@profile), class: "button-link secondary" %> |
-  <%= link_to "Export CSV",
-      profile_report_path(
-        @profile,
-        format: :csv,
-        body_part: @body_part,
-        timeframe: @timeframe
-      ), 
-      class: "button-link secondary" %>
-</p>
 
-<%= form_with url: profile_report_path(@profile), method: :get, local: true do |form| %>
-  <div>
-    <%= form.label :body_part, "Body Part" %>
-    <%= form.select :body_part,
-        options_for_select([["All Body Parts", ""]] + Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] }, @body_part) %>
-  </div>
+  
 
-  <div>
-    <%= form.label :timeframe, "Timeframe" %>
-    <%= form.select :timeframe,
-        options_for_select(MeasurementReport::TIMEFRAME_OPTIONS.keys.map { |option| [option.humanize, option] }, @timeframe) %>
-  </div>
 
-  <div>
-    <%= form.submit "Run Report" %>
+<%= form_with url: profile_report_path(@profile), method: :get, local: true, class: "report-filter-form" do |form| %>
+  <div class="report-filter-group">
+    <div class="report-filter-field">
+      <%= form.label :body_part, "Body Part" %>
+      <%= form.select :body_part,
+          options_for_select(
+            [["All Body Parts", ""]] + Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] },
+            @body_part
+          ),
+          {},
+          { onchange: "this.form.requestSubmit()" } %>
+    </div>
+
+    <div class="report-filter-field">
+      <%= form.label :timeframe, "Timeframe" %>
+      <%= form.select :timeframe,
+          options_for_select(
+            MeasurementReport::TIMEFRAME_OPTIONS.keys.map { |option| [option.humanize, option] },
+            @timeframe
+          ),
+          {},
+          { onchange: "this.form.requestSubmit()" } %>
+    </div>
+    <%= link_to "Export CSV",
+            profile_report_path(
+                @profile,
+                format: :csv,
+                body_part: @body_part,
+                timeframe: @timeframe
+            ), 
+            class: "button-link secondary" %>
   </div>
 <% end %>
 
@@ -79,7 +87,7 @@
         <div class="report-grid">
 
         <% Measurement::BODY_PARTS.each do |body_part| %>
-            <% summary = @report.summary[body_part] %>
+            <% summary = grouped_summary[body_part] %>
             <% next unless summary %>
 
             <div class="report-card">
