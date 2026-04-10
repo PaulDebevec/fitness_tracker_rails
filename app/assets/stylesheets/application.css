@@ -438,5 +438,63 @@ button:hover {
     margin-bottom: 0.5rem;
   }
 
+  .home-hero {
+    background: linear-gradient(135deg, #eff6ff, #f8fafc);
+    border: 1px solid #dbeafe;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .home-hero-content {
+    max-width: 720px;
+  }
+  
+  .home-hero h1 {
+    font-size: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .home-subtitle {
+    font-size: 1.05rem;
+    color: #374151;
+    margin-bottom: 1.5rem;
+    max-width: 640px;
+  }
+  
+  .home-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  
+  .info-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+  }
+  
+  .info-card h2 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+  }
+  
+  .info-list {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  
+  .info-list li {
+    margin-bottom: 0.6rem;
+  }
+
 
   

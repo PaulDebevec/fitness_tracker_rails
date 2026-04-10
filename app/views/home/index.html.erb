@@ -1,2 +1,47 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="home-hero">
+  <div class="home-hero-content">
+    <h1>Fitness Progression App</h1>
+    <p class="home-subtitle">
+      Track body measurements, progress photos, and check-ins over time so you can better understand your fitness journey.
+    </p>
+
+    <div class="home-actions">
+      <%= link_to "View Profiles", profiles_path, class: "button-link" %>
+      <%= link_to "Create Profile", new_profile_path, class: "button-link secondary" %>
+    </div>
+  </div>
+</div>
+
+<div class="home-grid">
+  <section class="info-card">
+    <h2>What this app does</h2>
+    <p>
+      The Fitness Progression App helps users record physical progress over time through profiles, check-ins, body measurements, and optional progress photos.
+    </p>
+    <p>
+      It is designed to make it easier to review changes across different body parts and monitor trends through reports and exports.
+    </p>
+  </section>
+
+  <section class="info-card">
+    <h2>How to use the site</h2>
+    <ol class="info-list">
+      <li>Create a profile to begin tracking progress.</li>
+      <li>Add check-ins over time with notes and optional progress photos.</li>
+      <li>Record measurements for body parts such as waist, chest, shoulders, and weight.</li>
+      <li>Use the progress report page to review trends by body part and timeframe.</li>
+      <li>Export report data as CSV when needed.</li>
+    </ol>
+  </section>
+
+  <section class="info-card">
+    <h2>What you can track</h2>
+    <ul class="info-list">
+      <li>Check-in dates and notes</li>
+      <li>Body part measurements</li>
+      <li>Upper and lower body progress photos</li>
+      <li>Measurement-specific body part photos</li>
+      <li>Measurement history and summary reports</li>
+    </ul>
+  </section>
+</div>
