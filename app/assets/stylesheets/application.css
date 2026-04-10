@@ -570,4 +570,57 @@ button:hover {
   .form-card {
     max-width: 640px;
   }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+    align-items: stretch;
+  }
+  
+  .profile-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  
+  .profile-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  
+  .profile-card-link:hover .profile-card {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    border-color: #c7d2fe;
+  }
+  
+  .profile-card-header h2 {
+    margin: 0;
+    color: #111827;
+  }
+  
+  .profile-card-body {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .empty-state-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    margin-top: 1rem;
+    max-width: 520px;
+  }
   

@@ -19,4 +19,8 @@ class Profile < ApplicationRecord
   def abbreviated_default_unit
     default_unit
   end
+
+  def latest_check_in
+    check_ins.reverse_chronological.first
+  end
 end
