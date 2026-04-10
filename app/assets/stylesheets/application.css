@@ -566,4 +566,8 @@ button:hover {
     font-weight: 600;
     color: #6b7280;
   }
+
+  .form-card {
+    max-width: 640px;
+  }
   
