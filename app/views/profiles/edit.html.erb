@@ -1,13 +1,5 @@
 <h1>Edit Profile</h1>
 
-<div class="page-actions">
-  <div class="page-actions-left">
-    <%= link_to "Back to Profile",
-        profile_path(@profile),
-        class: "button-link secondary" %>
-  </div>
-</div>
-
 <div class="form-card">
   <%= render "form", profile: @profile %>
 </div>
