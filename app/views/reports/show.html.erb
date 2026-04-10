@@ -1,95 +1,139 @@
-<h1><%= @profile.display_name %> Progress Report</h1>
+<div class="report-header-card">
+  <div class="report-header-top">
+    <div>
+      <h1><%= @profile.display_name %> Progress Report</h1>
+      <p class="report-subtitle">
+        Review measurement progress over time by body part and timeframe.
+      </p>
+    </div>
 
-<p>
-  <%= link_to "Back to Profile", profile_path(@profile) %> |
-  <%= link_to "Export CSV",
-      profile_report_path(
-        @profile,
-        format: :csv,
-        body_part: @body_part,
-        timeframe: @timeframe
-      ) %>
-</p>
-
-<%= form_with url: profile_report_path(@profile), method: :get, local: true do |form| %>
-  <div>
-    <%= form.label :body_part, "Body Part" %>
-    <%= form.select :body_part,
-        options_for_select([["All Body Parts", ""]] + Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] }, @body_part) %>
+    <div class="report-header-actions">
+      <%= link_to "Export CSV",
+          profile_report_path(
+            @profile,
+            format: :csv,
+            body_part: @body_part,
+            timeframe: @timeframe
+          ),
+          class: "button-link secondary" %>
+    </div>
   </div>
+  <p class="report-filter-label">Filters</p>
+  <%= form_with url: profile_report_path(@profile), method: :get, local: true, class: "report-filter-form" do |form| %>
+    <div class="report-filter-group">
+      <div class="report-filter-field">
+        <%= form.label :body_part, "Body Part" %>
+        <%= form.select :body_part,
+            options_for_select(
+              [["All Body Parts", ""]] + Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] },
+              @body_part
+            ),
+            {},
+            { onchange: "this.form.requestSubmit()" } %>
+      </div>
 
-  <div>
-    <%= form.label :timeframe, "Timeframe" %>
-    <%= form.select :timeframe,
-        options_for_select(MeasurementReport::TIMEFRAME_OPTIONS.keys.map { |option| [option.humanize, option] }, @timeframe) %>
-  </div>
-
-  <div>
-    <%= form.submit "Run Report" %>
-  </div>
-<% end %>
+      <div class="report-filter-field">
+        <%= form.label :timeframe, "Timeframe" %>
+        <%= form.select :timeframe,
+            options_for_select(
+              MeasurementReport::TIMEFRAME_OPTIONS.keys.map { |option| [option.humanize, option] },
+              @timeframe
+            ),
+            {},
+            { onchange: "this.form.requestSubmit()" } %>
+      </div>
+    </div>
+  <% end %>
+</div>
 
 <hr>
 
 <% if @body_part.present? %>
-    <% summary = @report.summary %>
+  <% summary = @report.summary %>
 
-    <% if summary[:count] > 0 %>
+  <% if summary[:count] > 0 %>
+    <div class="report-grid">
+      <div class="report-card">
         <h2><%= summary[:body_part].humanize %></h2>
 
-        <p><strong>Timeframe:</strong> <%= summary[:timeframe].humanize %></p>
-        <p><strong>Entries:</strong> <%= summary[:count] %></p>
-        <p><strong>Start Date:</strong> <%= summary[:start_date] %></p>
-        <p><strong>End Date:</strong> <%= summary[:end_date] %></p>
-        <p><strong>Starting Value:</strong> <%= summary[:starting_value] %></p>
-        <p><strong>Ending Value:</strong> <%= summary[:ending_value] %></p>
-        <p><strong>Change:</strong> <%= summary[:change] %></p>
-        <p><strong>Minimum:</strong> <%= summary[:min] %></p>
-        <p><strong>Maximum:</strong> <%= summary[:max] %></p>
-        <p><strong>Average:</strong> <%= summary[:average] %></p>
-
-        <h3>History</h3>
-        <ul>
-        <% @report.measurements.each do |measurement| %>
-            <li>
-            <%= link_to measurement.check_in.formatted_date, profile_check_in_path(@profile, measurement.check_in) %>: <%= measurement.value %>
-            </li>
-        <% end %>
-        </ul>
-    <% else %>
-        <p>No measurements found for this body part.</p>
-    <% end %>
-<% else %>
-    <% grouped_summary = @report.summary %>
-
-    <% if grouped_summary.any? %>
-        <% Measurement::BODY_PARTS.each do |body_part| %>
-            <% next unless grouped_summary[body_part] %>
-            <% summary = grouped_summary[body_part] %>
-
-            <h2><%= body_part.humanize %></h2>
-
+        <div class="report-card-body">
+          <div class="report-summary">
+            <p><strong>Timeframe:</strong> <%= summary[:timeframe].humanize %></p>
             <p><strong>Entries:</strong> <%= summary[:count] %></p>
-            <p><strong>Start Date:</strong> <%= summary[:start_date]&.strftime("%B %d, %Y") %></p>
-            <p><strong>End Date:</strong> <%= summary[:end_date]&.strftime("%B %d, %Y") %></p>
+            <p><strong>Start Date:</strong> <%= summary[:start_date] %></p>
+            <p><strong>End Date:</strong> <%= summary[:end_date] %></p>
             <p><strong>Starting Value:</strong> <%= summary[:starting_value] %></p>
             <p><strong>Ending Value:</strong> <%= summary[:ending_value] %></p>
             <p><strong>Change:</strong> <%= summary[:change] %></p>
             <p><strong>Minimum:</strong> <%= summary[:min] %></p>
             <p><strong>Maximum:</strong> <%= summary[:max] %></p>
             <p><strong>Average:</strong> <%= summary[:average] %></p>
+          </div>
 
-            <h3>History</h3>
+          <div class="report-history">
+            <strong>History</strong>
             <ul>
-                <% @report.measurements_grouped_by_body_part[body_part].each do |measurement| %>
+              <% @report.measurements.each do |measurement| %>
                 <li>
-                    <%= link_to measurement.check_in.formatted_date, profile_check_in_path(@profile, measurement.check_in) %>: <%= measurement.value %>
+                  <%= link_to measurement.check_in.formatted_date,
+                      profile_check_in_path(@profile, measurement.check_in) %>
+                  : <%= measurement.value %>
                 </li>
-                <% end %>
+              <% end %>
             </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <p>No measurements found for this body part.</p>
+  <% end %>
+<% else %>
+    <% grouped_summary = @report.summary %>
 
-            <hr>
+    <% if grouped_summary.any? %>
+        <div class="report-grid">
+
+        <% Measurement::BODY_PARTS.each do |body_part| %>
+            <% summary = grouped_summary[body_part] %>
+            <% next unless summary %>
+
+            <div class="report-card">
+                <h2><%= body_part.humanize %></h2>
+
+                <div class="report-card-body">
+
+                    <div class="report-summary">
+                        <p><strong>Entries:</strong> <%= summary[:count] %></p>
+                        <p><strong>Start Date:</strong> <%= summary[:start_date] %></p>
+                        <p><strong>End Date:</strong> <%= summary[:end_date] %></p>
+                        <p><strong>Start:</strong> <%= summary[:starting_value] %></p>
+                        <p><strong>End:</strong> <%= summary[:ending_value] %></p>
+                        <p><strong>Change:</strong> <%= summary[:change] %></p>
+                        <p><strong>Min:</strong> <%= summary[:min] %></p>
+                        <p><strong>Max:</strong> <%= summary[:max] %></p>
+                        <p><strong>Average:</strong> <%= summary[:average] %></p>
+                    </div>
+
+                    <div class="report-history">
+                        <strong>History</strong>
+                        <ul>
+                            <% @report.measurements_grouped_by_body_part[body_part].each do |measurement| %>
+                            <li>
+                                <%= link_to measurement.check_in.formatted_date,
+                                profile_check_in_path(@profile, measurement.check_in) %>
+                                : <%= measurement.value %>
+                            </li>
+                            <% end %>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
         <% end %>
+
+        </div>
     <% else %>
         <p>No measurements found for this timeframe.</p>
     <% end %>

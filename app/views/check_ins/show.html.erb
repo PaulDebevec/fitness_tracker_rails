@@ -1,80 +1,112 @@
 <h1>Check-in for <%= @profile.display_name %></h1>
 
-<p>
-  <strong>Date:</strong>
-  <%= @check_in.formatted_date %>
-</p>
+<div class="page-actions">
+  <div class="page-actions-left">
+  </div>
 
-<p>
-  <strong>Notes:</strong>
-  <%= @check_in.notes.present? ? @check_in.notes : "No notes added." %>
-</p>
+  <div class="page-actions-right">
+    <%= link_to "Add Measurement",
+        new_profile_check_in_measurement_path(@profile, @check_in),
+        class: "button-link" %>
 
-<p>
-  <%= link_to "Back to Check-ins", profile_check_ins_path(@profile) %> |
-  <%= link_to "Back to Profile", profile_path(@profile) %> |
-  <%= link_to "Edit Check-in", edit_profile_check_in_path(@profile, @check_in) %>
-</p>
+    <%= link_to "View All Measurements",
+        profile_check_in_measurements_path(@profile, @check_in),
+        class: "button-link secondary" %>
+  </div>
+</div>
 
-<hr>
+<div class="detail-card">
+  <div class="detail-grid">
+    <div class="detail-section">
+      <h2>Check-in Details</h2>
 
-<h2>Measurements</h2>
+      <p>
+        <strong>Date:</strong>
+        <%= @check_in.formatted_date %>
+      </p>
 
-<p>
-  <%= link_to "Add Measurement", new_profile_check_in_measurement_path(@profile, @check_in) %> |
-  <%= link_to "View All Measurements", profile_check_in_measurements_path(@profile, @check_in) %>
-</p>
+      <p>
+        <strong>Notes:</strong>
+        <%= @check_in.notes.present? ? @check_in.notes : "No notes added." %>
+      </p>
 
-<% if @check_in.measurements.any? %>
-  <ul>
-    <% @check_in.measurements.order(:body_part).each do |measurement| %>
-      <li>
-        <%= link_to measurement.formatted_body_part, profile_check_in_measurement_path(@profile, @check_in, measurement) %> :
-        <%= measurement.value %> <%= @profile.abbreviated_default_unit %>
-      </li>
+      <p>
+        <strong>Measurements:</strong>
+        <%= @measurements.count %>
+      </p>
+
+      <p>
+        <strong>Progress Photos:</strong>
+        <%= [
+          @check_in.upper_front_photo.attached?,
+          @check_in.upper_back_photo.attached?,
+          @check_in.lower_front_photo.attached?,
+          @check_in.lower_back_photo.attached?
+        ].count(true) %>
+      </p>
+    </div>
+
+    <div class="detail-section">
+      <h2>Measurements</h2>
+
+      <% if @measurements.any? %>
+        <ul class="measurement-summary-list">
+          <% @measurements.each do |measurement| %>
+            <li>
+              <%= link_to measurement.formatted_body_part,
+                  profile_check_in_measurement_path(@profile, @check_in, measurement) %>
+              : <%= measurement.value %> <%= @profile.abbreviated_default_unit %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No measurements yet.</p>
+      <% end %>
+    </div>
+  </div>
+
+<% if @check_in.upper_front_photo.attached? ||
+      @check_in.upper_back_photo.attached? ||
+      @check_in.lower_front_photo.attached? ||
+      @check_in.lower_back_photo.attached? %>
+
+  <div class="photo-grid">
+    <% if @check_in.upper_front_photo.attached? %>
+      <div class="photo-card">
+        <p><strong>Upper Front</strong></p>
+        <%= image_tag @check_in.upper_front_photo, class: "progress-photo" %>
+      </div>
     <% end %>
-  </ul>
+
+    <% if @check_in.upper_back_photo.attached? %>
+      <div class="photo-card">
+        <p><strong>Upper Back</strong></p>
+        <%= image_tag @check_in.upper_back_photo, class: "progress-photo" %>
+      </div>
+    <% end %>
+
+    <% if @check_in.lower_front_photo.attached? %>
+      <div class="photo-card">
+        <p><strong>Lower Front</strong></p>
+        <%= image_tag @check_in.lower_front_photo, class: "progress-photo" %>
+      </div>
+    <% end %>
+
+    <% if @check_in.lower_back_photo.attached? %>
+      <div class="photo-card">
+        <p><strong>Lower Back</strong></p>
+        <%= image_tag @check_in.lower_back_photo, class: "progress-photo" %>
+      </div>
+    <% end %>
+  </div>
+
 <% else %>
-  <p>No measurements yet.</p>
-<% end %>
-
-<h2>Progress Photos</h2>
-
-<% if @check_in.upper_front_photo.attached? %>
-  <div>
-    <p><strong>Upper Front</strong></p>
-    <%= image_tag @check_in.upper_front_photo, width: 250 %>
-  </div>
-<% end %>
-
-<% if @check_in.upper_back_photo.attached? %>
-  <div>
-    <p><strong>Upper Back</strong></p>
-    <%= image_tag @check_in.upper_back_photo, width: 250 %>
-  </div>
-<% end %>
-
-<% if @check_in.lower_front_photo.attached? %>
-  <div>
-    <p><strong>Lower Front</strong></p>
-    <%= image_tag @check_in.lower_front_photo, width: 250 %>
-  </div>
-<% end %>
-
-<% if @check_in.lower_back_photo.attached? %>
-  <div>
-    <p><strong>Lower Back</strong></p>
-    <%= image_tag @check_in.lower_back_photo, width: 250 %>
-  </div>
-<% end %>
-
-<% unless @check_in.upper_front_photo.attached? ||
-          @check_in.upper_back_photo.attached? ||
-          @check_in.lower_front_photo.attached? ||
-          @check_in.lower_back_photo.attached? %>
   <p>No progress photos yet.</p>
 <% end %>
 
-<p>
-  <%= button_to "Delete Check-in", profile_check_in_path(@profile, @check_in), method: :delete %>
-</p>
+<div class="danger-zone">
+  <%= button_to "Delete Check-in",
+      profile_check_in_path(@profile, @check_in),
+      method: :delete %>
+</div>
+</div>

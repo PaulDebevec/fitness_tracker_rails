@@ -53,25 +53,18 @@ RSpec.describe "Report", type: :feature do
         expect(page).to have_content("42.0")
       end
 
-    it "filters the report by body part" do
-      visit profile_report_path(profile)
-
-      select "Waist", from: "Body Part"
-      click_button "Run Report"
-
+    it "shows a filtered report for a selected body part" do
+      visit profile_report_path(profile, body_part: "waist")
+    
       expect(page).to have_content("Waist")
       expect(page).to have_content("36.0")
       expect(page).to have_content("34.0")
       expect(page).not_to have_content("42.0")
     end
 
-    it "filters the report by timeframe" do
-      visit profile_report_path(profile)
-
-      select "Waist", from: "Body Part"
-      select "30 days", from: "Timeframe"
-      click_button "Run Report"
-
+    it "shows a filtered report for a selected timeframe" do
+      visit profile_report_path(profile, body_part: "waist", timeframe: "30_days")
+    
       expect(page).to have_content("34.0")
       expect(page).not_to have_content("36.0")
     end

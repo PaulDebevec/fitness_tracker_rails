@@ -1,19 +1,50 @@
 <h1>Measurements for <%= @check_in.formatted_date %></h1>
 
-<p>
-  <%= link_to "Back to Check-in", profile_check_in_path(@profile, @check_in) %> |
-  <%= link_to "New Measurement", new_profile_check_in_measurement_path(@profile, @check_in) %>
-</p>
+<div class="page-actions">
+  <div class="page-actions-left">
+    <%= link_to "Back to Check-in", profile_check_in_path(@profile, @check_in), class: "button-link secondary" %>
+  </div>
+
+  <div class="page-actions-right">
+    <%= link_to "New Measurement", new_profile_check_in_measurement_path(@profile, @check_in), class: "button-link" %>
+  </div>
+</div>
 
 <% if @measurements.any? %>
-  <ul>
+  <div class="measurement-grid">
     <% @measurements.each do |measurement| %>
-      <li>
-        <%= link_to measurement.formatted_body_part, profile_check_in_measurement_path(@profile, @check_in, measurement) %> -
-        <%= measurement.value %> <%= @profile.abbreviated_default_unit %>
-      </li>
+      <div class="measurement-card">
+        <div class="measurement-card-header">
+          <h3>
+            <%= link_to measurement.formatted_body_part,
+                profile_check_in_measurement_path(@profile, @check_in, measurement) %>
+          </h3>
+        </div>
+
+        <div class="measurement-card-body">
+          <p>
+            <strong>Value:</strong>
+            <%= measurement.value %> <%= @profile.abbreviated_default_unit %>
+          </p>
+
+          <p>
+            <strong>Photo:</strong>
+            <%= measurement.body_part_photo.attached? ? "Attached" : "None" %>
+          </p>
+        </div>
+
+        <div class="card-actions">
+          <%= link_to "View",
+              profile_check_in_measurement_path(@profile, @check_in, measurement),
+              class: "button-link secondary" %>
+
+          <%= link_to "Edit",
+              edit_profile_check_in_measurement_path(@profile, @check_in, measurement),
+              class: "button-link" %>
+        </div>
+      </div>
     <% end %>
-  </ul>
+  </div>
 <% else %>
   <p>No measurements yet.</p>
 <% end %>

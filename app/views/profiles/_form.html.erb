@@ -1,26 +1,28 @@
-<%= form_with model: @profile do |form| %>
-  <% if @profile.errors.any? %>
-    <div>
-      <h2><%= pluralize(@profile.errors.count, "error") %> prevented this profile from being saved:</h2>
+<%= form_with model: profile, class: "stacked-form" do |form| %>
+
+  <% if profile.errors.any? %>
+    <div class="form-errors">
+      <h2><%= pluralize(profile.errors.count, "error") %> prevented this profile from being saved:</h2>
       <ul>
-        <% @profile.errors.full_messages.each do |message| %>
+        <% profile.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
+  <div class="form-field">
     <%= form.label :display_name %>
     <%= form.text_field :display_name %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :default_unit %>
-    <%= form.select :default_unit, [["Inches", "in"], ["Centimeters", "cm"]], prompt: "Select a unit" %>
+    <%= form.select :default_unit, [["Inches", "in"], ["Centimeters", "cm"]] %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit profile.persisted? ? "Update Profile" : "Create Profile" %>
   </div>
+
 <% end %>

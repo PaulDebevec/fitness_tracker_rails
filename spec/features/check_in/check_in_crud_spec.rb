@@ -7,7 +7,7 @@ RSpec.describe "CheckIn", type: :feature do
         it "can create a new check-in" do
             visit new_profile_check_in_path(profile)
 
-            fill_in "Checked in on", with: Date.current
+            fill_in "Check-in Date", with: Date.current
             fill_in "Notes", with: "Felt strong this week"
             click_button "Create Check-in"
 
@@ -121,7 +121,7 @@ RSpec.describe "CheckIn", type: :feature do
         it "cannot create a check-in with a future date" do
             visit new_profile_check_in_path(profile)
 
-            fill_in "Checked in on", with: Date.current + 1.day
+            fill_in "Check-in Date", with: Date.current + 1.day
             fill_in "Notes", with: "Future entry"
             click_button "Create Check-in"
 
@@ -136,7 +136,7 @@ RSpec.describe "CheckIn", type: :feature do
 
             visit edit_profile_check_in_path(profile, check_in)
 
-            fill_in "Checked in on", with: ""
+            fill_in "Check-in Date", with: ""
             click_button "Update Check-in"
 
             expect(page).to have_content("Checked in on can't be blank")

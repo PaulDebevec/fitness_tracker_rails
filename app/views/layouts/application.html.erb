@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>FitnessTrackerRails</title>
+    <title>Fitness Progression App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,12 +10,55 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-  <% flash.each do |type, message| %>
-    <div class="flash <%= type %>">
-      <%= message %>
-    </div>
-  <% end %>
-    <%= yield %>
+  <body class="app-body">
+    <header class="navbar">
+      <div class="navbar-inner">
+        <div class="navbar-left">
+          <%= link_to "Fitness Progression", root_path, class: "brand-link" %>
+          <%= link_to "Profiles", profiles_path, class: "nav-link" %>
+          <% if controller_name == "check_ins" || controller_name == "reports" || controller_name == "measurements" %>
+            <%= link_to "Back to Profile", profile_path(@profile), class: "nav-link" %>
+          <% end %>
+        </div>
+        <div class="navbar-right">
+          <% if controller_name == "profiles" && action_name == "show" %>
+            <%= link_to "Edit Profile",
+                edit_profile_path(@profile),
+                class: "nav-link" %>
+
+            <%= link_to "New Check-in",
+                new_profile_check_in_path(@profile),
+                class: "nav-link" %>
+
+            <%= button_to "Delete Profile",
+                profile_path(@profile),
+                method: :delete,
+                data: { turbo_confirm: "Are you sure?" } %>
+
+          <% elsif controller_name == "check_ins" && action_name == "show" %>
+            
+            <%= link_to "Back to Check-ins",
+                profile_check_ins_path(@profile),
+                class: "nav-link" %>
+
+            <%= link_to "Edit Check-in",
+                edit_profile_check_in_path(@profile, @check_in),
+                class: "nav-link" %>
+          <% end %>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <% flash.each do |type, message| %>
+        <div class="flash <%= type %>">
+          <%= message %>
+        </div>
+      <% end %>
+
+      <div class="page-card">
+        <%= yield %>
+      </div>
+    </main>
   </body>
 </html>

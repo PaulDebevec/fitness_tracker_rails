@@ -1,6 +1,6 @@
-<%= form_with model: [@profile, @check_in, @measurement] do |form| %>
+<%= form_with model: [@profile, @check_in, @measurement], class: "stacked-form" do |form| %>
   <% if @measurement.errors.any? %>
-    <div>
+    <div class="form-errors">
       <h2><%= pluralize(@measurement.errors.count, "error") %> prevented this measurement from being saved:</h2>
       <ul>
         <% @measurement.errors.full_messages.each do |message| %>
@@ -10,24 +10,24 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="form-field">
     <%= form.label :body_part %>
     <%= form.select :body_part,
         Measurement::BODY_PARTS.map { |body_part| [body_part.humanize, body_part] },
-        prompt: "Select a body part" %>
+        { prompt: "Select a body part" } %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :value %>
     <%= form.number_field :value, step: :any %>
   </div>
 
-  <div>
-    <%= form.label :body_part_photo, "Photo" %>
+  <div class="form-field">
+    <%= form.label :body_part_photo, "Body Part Photo" %>
     <%= form.file_field :body_part_photo %>
   </div>
 
-  <div>
+  <div class="form-actions">
     <%= form.submit @measurement.persisted? ? "Update Measurement" : "Create Measurement" %>
   </div>
 <% end %>

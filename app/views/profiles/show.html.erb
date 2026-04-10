@@ -6,28 +6,45 @@
 </p>
 
 <p>
-  <%= link_to "View Progress Report", profile_report_path(@profile) %>
+  <%= link_to "View Progress Report", profile_report_path(@profile), class: "button-link secondary" %>
 </p>
 
-<div>
-  <%= link_to "Edit Profile", edit_profile_path(@profile) %>
-  <%= button_to "Delete Profile", profile_path(@profile), method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-  <%= link_to "New Check-in", new_profile_check_in_path(@profile) %>
-</div>
-
-<h2><%= link_to "View Check-ins", profile_check_ins_path(@profile) %></h2>
+<h2>Check-ins</h2>
 
 <% if @check_ins.any? %>
-  <ul>
+  <div class="check-in-grid">
     <% @check_ins.each do |check_in| %>
-      <li>
-        <%= link_to check_in.formatted_date, profile_check_in_path(@profile, check_in) %>
-        <% if check_in.notes.present? %>
-          - <%= check_in.notes %>
-        <% end %>
-      </li>
+      <div class="check-in-card">
+        <div class="check-in-card-header">
+          <h3>
+            <%= link_to check_in.formatted_date, profile_check_in_path(@profile, check_in) %>
+          </h3>
+        </div>
+
+        <div class="check-in-card-body">
+          <p>
+            <strong>Notes:</strong>
+            <%= check_in.notes.present? ? truncate(check_in.notes, length: 100) : "No notes added." %>
+          </p>
+
+          <div class="check-in-meta">
+            <span><strong>Measurements:</strong> <%= check_in.measurements.count %></span>
+            <span><strong>Photos:</strong> <%= [
+              check_in.upper_front_photo.attached?,
+              check_in.upper_back_photo.attached?,
+              check_in.lower_front_photo.attached?,
+              check_in.lower_back_photo.attached?
+            ].count(true) %></span>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <%= link_to "View", profile_check_in_path(@profile, check_in), class: "button-link secondary" %>
+          <%= link_to "Edit", edit_profile_check_in_path(@profile, check_in), class: "button-link" %>
+        </div>
+      </div>
     <% end %>
-  </ul>
+  </div>
 <% else %>
-  <p>No check-in history yet.</p>
+  <p>No check-ins yet.</p>
 <% end %>

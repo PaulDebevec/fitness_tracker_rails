@@ -1,6 +1,7 @@
-<%= form_with model: [@profile, @check_in] do |form| %>
+<%= form_with model: [@profile, @check_in], class: "stacked-form" do |form| %>
+
   <% if @check_in.errors.any? %>
-    <div>
+    <div class="form-errors">
       <h2><%= pluralize(@check_in.errors.count, "error") %> prevented this check-in from being saved:</h2>
       <ul>
         <% @check_in.errors.full_messages.each do |message| %>
@@ -10,41 +11,38 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :checked_in_on %>
+  <div class="form-field">
+    <%= form.label :checked_in_on, "Check-in Date" %>
     <%= form.date_field :checked_in_on %>
   </div>
 
-  <div>
+  <div class="form-field">
     <%= form.label :notes %>
-    <%= form.text_area :notes %>
+    <%= form.text_area :notes, rows: 4 %>
   </div>
 
-  <h3>Upper Body Photos</h3>
-
-  <div>
-    <%= form.label :upper_front_photo, "Upper Front" %>
+  <div class="form-field">
+    <%= form.label :upper_front_photo %>
     <%= form.file_field :upper_front_photo %>
   </div>
 
-  <div>
-    <%= form.label :upper_back_photo, "Upper Back" %>
+  <div class="form-field">
+    <%= form.label :upper_back_photo %>
     <%= form.file_field :upper_back_photo %>
   </div>
 
-  <h3>Lower Body Photos</h3>
-
-  <div>
-    <%= form.label :lower_front_photo, "Lower Front" %>
+  <div class="form-field">
+    <%= form.label :lower_front_photo %>
     <%= form.file_field :lower_front_photo %>
   </div>
 
-  <div>
-    <%= form.label :lower_back_photo, "Lower Back" %>
+  <div class="form-field">
+    <%= form.label :lower_back_photo %>
     <%= form.file_field :lower_back_photo %>
   </div>
 
-  <div>
+  <div class="form-actions">
     <%= form.submit @check_in.persisted? ? "Update Check-in" : "Create Check-in" %>
   </div>
+
 <% end %>
