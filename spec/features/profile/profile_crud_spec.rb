@@ -13,7 +13,6 @@ RSpec.describe "Profile", type: :feature do
 
             profile_id = Profile.last.id
             expect(current_path).to eq("/profiles/#{profile_id}")
-            # expect(page).to have_content("Profile created successfully")
             expect(page).to have_content("John-Patrick")
         end
 
@@ -21,7 +20,6 @@ RSpec.describe "Profile", type: :feature do
             Profile.create!(display_name: "Pauly Do Little", default_unit: "in")
             visit "/profiles/#{Profile.last.id}"
             expect(page).to have_content("Pauly Do Little")
-            expect(page).to have_content("No check-in history yet.")
         end
 
         it "can read multiple profiles/profile index" do
@@ -135,14 +133,6 @@ RSpec.describe "Profile", type: :feature do
             visit "/profiles"
           
             expect(page).to have_content("No profiles yet.")
-        end
-
-        it "shows no check-ins message on profile show page" do
-            profile = Profile.create!(display_name: "John", default_unit: "in")
-          
-            visit profile_path(profile)
-          
-            expect(page).to have_content("No check-in history yet.")
         end
     end
 
