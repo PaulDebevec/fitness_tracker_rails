@@ -327,6 +327,39 @@ button:hover {
     display: block;
   }
 
+  .photo-card-image-wrapper {
+    position: relative;
+  }
+  
+  .photo-delete-button {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: rgba(17, 24, 39, 0.85);
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  }
+  
+  .photo-delete-button:hover {
+    background: rgba(185, 28, 28, 0.95);
+  }
+  
+  .photo-delete-button form {
+    margin: 0;
+  }
+
   .measurement-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
