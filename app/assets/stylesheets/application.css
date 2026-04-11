@@ -736,3 +736,160 @@ button:hover {
     align-items: center;
     gap: 0.6rem;
   }
+
+  img {
+    max-width: 100%;
+  }
+  
+  /* .button-link,
+  input[type="submit"],
+  button {
+    box-sizing: border-box;
+  } */
+
+  /* mobile compatability */
+  @media (max-width: 768px) {
+    .navbar-inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+  
+    .navbar-left,
+    .navbar-right {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  
+    .page-shell {
+      margin: 1rem auto;
+      padding: 0 1rem 1.5rem;
+    }
+  
+    .page-card,
+    .detail-card,
+    .form-card,
+    .report-header-card,
+    .empty-state-card,
+    .info-card {
+      padding: 1.25rem;
+    }
+  
+    .page-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .page-actions-left,
+    .page-actions-right {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  
+    .page-actions-left .button-link,
+    .page-actions-right .button-link,
+    .page-actions-left form,
+    .page-actions-right form {
+      width: 100%;
+    }
+  
+    .page-actions-left .button-link,
+    .page-actions-right .button-link,
+    .page-actions-left button,
+    .page-actions-right button,
+    .page-actions-left input[type="submit"],
+    .page-actions-right input[type="submit"] {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .report-header-top {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .report-header-actions {
+      width: 100%;
+      flex-direction: column;
+    }
+  
+    .report-header-actions .button-link {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .report-filter-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .report-filter-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .report-filter-field {
+      min-width: 0;
+      width: 100%;
+    }
+  
+    .report-filter-field select,
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  
+    .detail-grid,
+    .report-card-body,
+    .profile-grid,
+    .check-in-grid,
+    .measurement-grid,
+    .report-grid,
+    .photo-grid,
+    .home-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .photo-card img,
+    .progress-photo {
+      width: 100%;
+      height: auto;
+      max-height: none;
+    }
+  
+    .photo-preview-wrapper:hover .photo-preview-thumbnail {
+      transform: scale(2.2);
+    }
+  
+    .home-hero {
+      padding: 2rem 1.25rem;
+    }
+  
+    .home-hero h1 {
+      font-size: 1.8rem;
+    }
+  
+    .home-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .home-actions .button-link {
+      width: 100%;
+      text-align: center;
+    }
+  
+    h1 {
+      font-size: 1.75rem;
+    }
+  
+    h2 {
+      font-size: 1.3rem;
+    }
+  
+    h3 {
+      font-size: 1.05rem;
+    }
+  }
