@@ -781,7 +781,7 @@ button:hover {
   }
 
 
-  /* mobile compatability */
+  /* mobile compatibility */
   @media (max-width: 768px) {
     .navbar-inner {
       flex-direction: column;
