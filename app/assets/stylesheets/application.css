@@ -741,6 +741,46 @@ button:hover {
     max-width: 100%;
   }
 
+  .card-hint-row {
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid #e5e7eb;
+  
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.35rem;
+  
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2563eb;
+  }
+  
+  .card-hint-arrow {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  
+  .card-hint-arrow {
+    font-size: 1rem;
+    color: #2563eb;
+  }
+
+  .card-hint-mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .card-hint-desktop {
+      display: none;
+    }
+  
+    .card-hint-mobile {
+      display: inline;
+    }
+  }
+
+
   /* mobile compatability */
   @media (max-width: 768px) {
     .navbar-inner {
