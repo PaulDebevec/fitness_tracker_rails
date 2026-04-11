@@ -287,9 +287,15 @@ button:hover {
 
   .photo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     margin-top: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .photo-grid {
+      grid-template-columns: 1fr;
+    }
   }
   
   .photo-card {
@@ -302,6 +308,7 @@ button:hover {
   
   .photo-card img {
     width: 100%;
+    min-width: 0;
     aspect-ratio: 3 / 4;
     object-fit: cover;
     border-radius: 10px;
@@ -318,6 +325,39 @@ button:hover {
     object-fit: cover;
     border-radius: 12px;
     display: block;
+  }
+
+  .photo-card-image-wrapper {
+    position: relative;
+  }
+  
+  .photo-delete-button {
+    position: absolute;
+    bottom: 0.6rem;
+    right: 0.6rem;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: rgba(17, 24, 39, 0.85);
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  }
+  
+  .photo-delete-button:hover {
+    background: rgba(185, 28, 28, 0.95);
+  }
+  
+  .photo-delete-button form {
+    margin: 0;
   }
 
   .measurement-grid {
@@ -624,3 +664,280 @@ button:hover {
     max-width: 520px;
   }
   
+  .check-in-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  
+  .check-in-card-link:hover .check-in-card {
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    border-color: #c7d2fe;
+  }
+
+  .existing-photo-preview {
+    margin: 0.5rem 0;
+  }
+  
+  .existing-photo-preview img {
+    width: 90px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .photo-preview-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 0.4rem 0;
+  }
+  
+  .photo-preview-thumbnail {
+    height: 38px;
+    width: auto;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* hover enlargement */
+  .photo-preview-wrapper:hover .photo-preview-thumbnail {
+    transform: scale(3.5);
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+  
+  /* helper text hidden by default */
+  .photo-preview-hint {
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    font-size: 0.75rem;
+    background: #111827;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: opacity 0.15s ease;
+  }
+  
+  /* show helper text on hover */
+  .photo-preview-wrapper:hover .photo-preview-hint {
+    opacity: 1;
+  }
+
+  .photo-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .card-hint-row {
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid #e5e7eb;
+  
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.35rem;
+  
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2563eb;
+  }
+  
+  .card-hint-arrow {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  
+  .card-hint-arrow {
+    font-size: 1rem;
+    color: #2563eb;
+  }
+
+  .card-hint-mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .card-hint-desktop {
+      display: none;
+    }
+  
+    .card-hint-mobile {
+      display: inline;
+    }
+  }
+
+
+  /* mobile compatibility */
+  @media (max-width: 768px) {
+    .navbar-inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+  
+    .navbar-left,
+    .navbar-right {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  
+    .page-shell {
+      margin: 1rem auto;
+      padding: 0 1rem 1.5rem;
+    }
+  
+    .page-card,
+    .detail-card,
+    .form-card,
+    .report-header-card,
+    .empty-state-card,
+    .info-card {
+      padding: 1.25rem;
+    }
+  
+    .page-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .page-actions-left,
+    .page-actions-right {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  
+    .page-actions-left .button-link,
+    .page-actions-right .button-link,
+    .page-actions-left form,
+    .page-actions-right form {
+      width: 100%;
+    }
+  
+    .page-actions-left .button-link,
+    .page-actions-right .button-link,
+    .page-actions-left button,
+    .page-actions-right button,
+    .page-actions-left input[type="submit"],
+    .page-actions-right input[type="submit"] {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .report-header-top {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .report-header-actions {
+      width: 100%;
+      flex-direction: column;
+    }
+  
+    .report-header-actions .button-link {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .report-filter-form {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .report-filter-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .report-filter-field {
+      min-width: 0;
+      width: 100%;
+    }
+  
+    .report-filter-field select,
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  
+    .detail-grid,
+    .report-card-body,
+    .profile-grid,
+    .check-in-grid,
+    .measurement-grid,
+    .report-grid,
+    .photo-grid,
+    .home-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .photo-card img,
+    .progress-photo {
+      width: 100%;
+      height: auto;
+      max-height: none;
+    }
+  
+    .photo-preview-wrapper:hover .photo-preview-thumbnail {
+      transform: scale(2.2);
+    }
+  
+    .home-hero {
+      padding: 2rem 1.25rem;
+    }
+  
+    .home-hero h1 {
+      font-size: 1.8rem;
+    }
+  
+    .home-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .home-actions .button-link {
+      width: 100%;
+      text-align: center;
+    }
+  
+    h1 {
+      font-size: 1.75rem;
+    }
+  
+    h2 {
+      font-size: 1.3rem;
+    }
+  
+    h3 {
+      font-size: 1.05rem;
+    }
+
+    .report-header-actions {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  
+    .report-header-actions .button-link {
+      display: block;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+  }

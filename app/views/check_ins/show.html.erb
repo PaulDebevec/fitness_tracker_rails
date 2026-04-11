@@ -9,9 +9,9 @@
         new_profile_check_in_measurement_path(@profile, @check_in),
         class: "button-link" %>
 
-    <%= link_to "View All Measurements",
-        profile_check_in_measurements_path(@profile, @check_in),
-        class: "button-link secondary" %>
+    <%= link_to "Edit Check-in",
+                edit_profile_check_in_path(@profile, @check_in),
+                class: "button-link" %>
   </div>
 </div>
 
@@ -65,48 +65,50 @@
     </div>
   </div>
 
-<% if @check_in.upper_front_photo.attached? ||
-      @check_in.upper_back_photo.attached? ||
-      @check_in.lower_front_photo.attached? ||
-      @check_in.lower_back_photo.attached? %>
+    <% if @check_in.upper_front_photo.attached? ||
+          @check_in.upper_back_photo.attached? ||
+          @check_in.lower_front_photo.attached? ||
+          @check_in.lower_back_photo.attached? %>
 
-  <div class="photo-grid">
-    <% if @check_in.upper_front_photo.attached? %>
-      <div class="photo-card">
-        <p><strong>Upper Front</strong></p>
-        <%= image_tag @check_in.upper_front_photo, class: "progress-photo" %>
+    <% photo_sections = [
+      ["Upper Front", "upper_front_photo"],
+      ["Upper Back", "upper_back_photo"],
+      ["Lower Front", "lower_front_photo"],
+      ["Lower Back", "lower_back_photo"]
+    ] %>
+
+    <% attached_photos = photo_sections.select { |_, photo_name| @check_in.public_send(photo_name).attached? } %>
+
+    <% if attached_photos.any? %>
+      <div class="photo-grid">
+        <% attached_photos.each do |label, photo_name| %>
+          <div class="photo-card">
+            <p><strong><%= label %></strong></p>
+            <div class="photo-card-image-wrapper">
+              <%= image_tag @check_in.public_send(photo_name), class: "progress-photo" %>
+
+              <%= button_to "×",
+                  remove_photo_profile_check_in_path(@profile, @check_in, photo_name: photo_name),
+                  method: :delete,
+                  data: { turbo_confirm: "Are you sure you want to delete this photo?" },
+                  class: "photo-delete-button" %>
+            </div>
+          </div>
+        <% end %>
       </div>
+    <% else %>
+      <p>No progress photos yet.</p>
     <% end %>
 
-    <% if @check_in.upper_back_photo.attached? %>
-      <div class="photo-card">
-        <p><strong>Upper Back</strong></p>
-        <%= image_tag @check_in.upper_back_photo, class: "progress-photo" %>
-      </div>
-    <% end %>
-
-    <% if @check_in.lower_front_photo.attached? %>
-      <div class="photo-card">
-        <p><strong>Lower Front</strong></p>
-        <%= image_tag @check_in.lower_front_photo, class: "progress-photo" %>
-      </div>
-    <% end %>
-
-    <% if @check_in.lower_back_photo.attached? %>
-      <div class="photo-card">
-        <p><strong>Lower Back</strong></p>
-        <%= image_tag @check_in.lower_back_photo, class: "progress-photo" %>
-      </div>
-    <% end %>
   </div>
 
 <% else %>
   <p>No progress photos yet.</p>
 <% end %>
 
-<div class="danger-zone">
-  <%= button_to "Delete Check-in",
-      profile_check_in_path(@profile, @check_in),
-      method: :delete %>
-</div>
+  <div class="danger-zone">
+    <%= button_to "Delete Check-in",
+        profile_check_in_path(@profile, @check_in),
+        method: :delete %>
+  </div>
 </div>

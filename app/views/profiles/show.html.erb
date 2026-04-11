@@ -4,47 +4,67 @@
   <strong>Default unit:</strong>
   <%= @profile.formatted_default_unit %>
 </p>
+<div class="page-actions">
+  <div class="page-actions-left">
+      <%= link_to "View Progress Report", profile_report_path(@profile), class: "button-link secondary" %>
+ </div>
 
-<p>
-  <%= link_to "View Progress Report", profile_report_path(@profile), class: "button-link secondary" %>
-</p>
+  <div class="page-actions-right">
+  <%= link_to "Edit Profile",
+      edit_profile_path(@profile),
+      class: "button-link" %>
+
+  <%= link_to "New Check-in",
+      new_profile_check_in_path(@profile),
+      class: "button-link" %>
+  </div>
+</div>
+
 
 <h2>Check-ins</h2>
 
 <% if @check_ins.any? %>
   <div class="check-in-grid">
     <% @check_ins.each do |check_in| %>
-      <div class="check-in-card">
-        <div class="check-in-card-header">
-          <h3>
-            <%= link_to check_in.formatted_date, profile_check_in_path(@profile, check_in) %>
-          </h3>
-        </div>
+      <%= link_to profile_check_in_path(@profile, check_in), class: "check-in-card-link" do %>
+  <div class="check-in-card">
+    <div class="check-in-card-header">
+      <h3><%= check_in.formatted_date %></h3>
+    </div>
 
-        <div class="check-in-card-body">
-          <p>
-            <strong>Notes:</strong>
-            <%= check_in.notes.present? ? truncate(check_in.notes, length: 100) : "No notes added." %>
-          </p>
+    <div class="check-in-card-body">
+      <p>
+        <strong>Notes:</strong>
+        <%= check_in.notes.present? ? truncate(check_in.notes, length: 100) : "No notes added." %>
+      </p>
 
-          <div class="check-in-meta">
-            <span><strong>Measurements:</strong> <%= check_in.measurements.count %></span>
-            <span><strong>Photos:</strong> <%= [
-              check_in.upper_front_photo.attached?,
-              check_in.upper_back_photo.attached?,
-              check_in.lower_front_photo.attached?,
-              check_in.lower_back_photo.attached?
-            ].count(true) %></span>
-          </div>
-        </div>
-
-        <div class="card-actions">
-          <%= link_to "View", profile_check_in_path(@profile, check_in), class: "button-link secondary" %>
-          <%= link_to "Edit", edit_profile_check_in_path(@profile, check_in), class: "button-link" %>
-        </div>
+      <div class="check-in-meta">
+        <span><strong>Measurements:</strong> <%= check_in.measurements.count %></span>
+        <span><strong>Photos:</strong> <%= [
+          check_in.upper_front_photo.attached?,
+          check_in.upper_back_photo.attached?,
+          check_in.lower_front_photo.attached?,
+          check_in.lower_back_photo.attached?
+        ].count(true) %></span>
       </div>
+
+      <div class="card-hint-row">
+        <span class="card-hint-text card-hint-desktop">Details</span>
+        <span class="card-hint-text card-hint-mobile">Tap to view details</span>
+        <span class="card-hint-arrow">›</span>
+      </div>
+    </div>
+  </div>
+<% end %>
     <% end %>
   </div>
 <% else %>
   <p>No check-ins yet.</p>
 <% end %>
+
+<div class="danger-zone">
+  <%= button_to "Delete Profile",
+      profile_path(@profile),
+      method: :delete,
+      data: { turbo_confirm: "Are you sure?" } %>
+</div>
