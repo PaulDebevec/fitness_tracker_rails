@@ -7,6 +7,18 @@ class MeasurementReport
     "all_time" => nil
   }.freeze
 
+  BODY_PART_COLORS = {
+    "weight" => "#2563eb",
+    "chest" => "#dc2626",
+    "waist" => "#059669",
+    "hips" => "#7c3aed",
+    "shoulders" => "#ea580c",
+    "bicep_left" => "#0891b2",
+    "bicep_right" => "#0d9488",
+    "thigh_left" => "#9333ea",
+    "thigh_right" => "#ca8a04"
+  }.freeze
+
   attr_reader :profile, :body_part, :timeframe
 
   def initialize(profile:, body_part: nil, timeframe: "all_time")
@@ -29,20 +41,30 @@ class MeasurementReport
   end
 
   def chart_data
-    measurements.each_with_object({}) do |measurement, data|
-      data[measurement.check_in.checked_in_on.strftime("%b %d, %Y")] = measurement.value.to_f
+    measurements.map do |measurement|
+      [measurement.check_in.checked_in_on, measurement.value.to_f]
     end
   end
-
+  
   def multi_series_chart_data
     measurements_grouped_by_body_part.map do |body_part, body_part_measurements|
       {
         name: body_part.humanize,
-        data: body_part_measurements.each_with_object({}) do |measurement, data|
-          data[measurement.check_in.checked_in_on.strftime("%b %d, %Y")] = measurement.value.to_f
-        end
+        color: BODY_PART_COLORS[body_part],
+        data: body_part_measurements
+          .sort_by { |measurement| measurement.check_in.checked_in_on }
+          .map do |measurement|
+            [measurement.check_in.checked_in_on, measurement.value.to_f]
+          end
       }
     end
+  end
+  
+  def max_chart_value
+    return nil if measurements.empty?
+  
+    highest = measurements.map { |measurement| measurement.value.to_f }.max
+    (highest + chart_padding).ceil(1)
   end
 
   private
@@ -133,5 +155,9 @@ class MeasurementReport
     return value if TIMEFRAME_OPTIONS.key?(value)
 
     "all_time"
+  end
+
+  def chart_padding
+    5.0
   end
 end

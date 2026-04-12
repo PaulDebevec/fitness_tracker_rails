@@ -192,12 +192,18 @@ RSpec.describe MeasurementReport do
   end
 
   describe "#multi_series_chart_data" do
-    it "returns multiple named series grouped by body part" do
+    it "returns multiple named time series grouped by body part" do
       report = described_class.new(profile: profile, body_part: nil)
   
       expect(report.multi_series_chart_data).to include(
-        hash_including(name: "Waist"),
-        hash_including(name: "Chest")
+        hash_including(
+          name: "Waist",
+          data: include([older_check_in.checked_in_on, 36.0])
+        ),
+        hash_including(
+          name: "Chest",
+          data: include([recent_check_in.checked_in_on, 42.0])
+        )
       )
     end
   end
