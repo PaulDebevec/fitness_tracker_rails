@@ -30,7 +30,7 @@
 
       <p>
         <strong>Value:</strong>
-        <%= @measurement.value %> <%= @measurement.body_part %>
+        <%= @measurement.value %> <%= @profile.unit_for(@measurement.body_part) %>
       </p>
     </div>
 
