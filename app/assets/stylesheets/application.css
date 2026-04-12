@@ -1,9 +1,9 @@
 body.app-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f7fb;
-    color: #1f2937;
-  }
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
   
   .navbar {
     background: #ffffff;
@@ -773,6 +773,20 @@ button:hover {
       display: inline;
     }
   }
+
+  .chart-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    margin-bottom: 1.5rem;
+  }
+
+.chart-card h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
 
 
   /* mobile compatibility */
