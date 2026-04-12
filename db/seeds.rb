@@ -32,7 +32,7 @@ def sample_notes_for(profile_name)
       "Seeing some improvement in upper body measurements.",
       "Lower body work has been more consistent this month."
     ]
-  when "Taylor"
+  when "Shaina"
     [
       "Progress is steady and motivation has been high.",
       "Nutrition has been more structured this check-in period.",
@@ -51,7 +51,7 @@ end
 
 def measurement_templates_for(unit, profile_name)
   case [profile_name, unit]
-  when ["Paul", "in"]
+  when ["Paul", "imperial"]
     {
       "weight" => 188.0,
       "chest" => 42.5,
@@ -63,7 +63,7 @@ def measurement_templates_for(unit, profile_name)
       "thigh_left" => 23.4,
       "thigh_right" => 23.6
     }
-  when ["Jamie", "in"]
+  when ["Jamie", "imperial"]
     {
       "weight" => 172.0,
       "chest" => 39.5,
@@ -75,7 +75,7 @@ def measurement_templates_for(unit, profile_name)
       "thigh_left" => 22.0,
       "thigh_right" => 22.2
     }
-  when ["Taylor", "cm"]
+  when ["Shaina", "metric"]
     {
       "weight" => 81.0,
       "chest" => 104.0,
@@ -88,7 +88,7 @@ def measurement_templates_for(unit, profile_name)
       "thigh_right" => 57.5
     }
   else
-    if unit == "cm"
+    if unit == "metric"
       {
         "weight" => 84.0,
         "chest" => 107.0,
@@ -135,7 +135,7 @@ def adjusted_value(body_part, base_value, index, profile_name)
     case profile_name
     when "Paul" then 0.0
     when "Jamie" then 0.1
-    when "Taylor" then 0.2
+    when "Shaina" then 0.2
     else 0.0
     end
 
@@ -208,14 +208,14 @@ def attach_photo_set(check_in, photo_set)
   end
 end
 
-def create_profile_with_history(display_name:, default_unit:, day_offsets:, photo_sets:)
+def create_profile_with_history(display_name:, unit_system:, day_offsets:, photo_sets:)
   profile = Profile.create!(
     display_name: display_name,
-    default_unit: default_unit
+    unit_system: unit_system
   )
 
   notes = sample_notes_for(display_name)
-  templates = measurement_templates_for(default_unit, display_name)
+  templates = measurement_templates_for(unit_system, display_name)
 
   day_offsets.each_with_index do |day_offset, index|
     check_in = profile.check_ins.create!(
@@ -243,21 +243,21 @@ photo_sets = available_photo_sets.values
 
 create_profile_with_history(
   display_name: "Paul",
-  default_unit: "in",
+  unit_system: "imperial",
   day_offsets: [84, 63, 49, 35, 14, 3],
   photo_sets: photo_sets
 )
 
 create_profile_with_history(
   display_name: "Jamie",
-  default_unit: "in",
+  unit_system: "imperial",
   day_offsets: [90, 70, 52, 28, 12, 1],
   photo_sets: photo_sets.rotate(1)
 )
 
 create_profile_with_history(
-  display_name: "Taylor",
-  default_unit: "cm",
+  display_name: "Shaina",
+  unit_system: "metric",
   day_offsets: [95, 74, 58, 41, 19, 6],
   photo_sets: photo_sets.rotate(2)
 )

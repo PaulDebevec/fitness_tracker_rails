@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Measurement, type: :model do
   let(:profile) do
-    Profile.create!(display_name: "JP", default_unit: "in")
+    Profile.create!(display_name: "JP", unit_system: "imperial")
   end
 
   let(:check_in) do

@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Measurement photo upload", type: :feature do
     it "can create a new measurement with a body part photo" do
-        profile = Profile.create!(display_name: "Paul", default_unit: "in")
+        profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
         check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
     
         visit new_profile_check_in_measurement_path(profile, check_in)
@@ -22,7 +22,7 @@ RSpec.describe "Measurement photo upload", type: :feature do
     end
 
     it "can update a measurement with a body part photo" do
-        profile = Profile.create!(display_name: "Paul", default_unit: "in")
+        profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
         check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
         measurement = check_in.measurements.create!(body_part: "waist", value: 34.5)
       

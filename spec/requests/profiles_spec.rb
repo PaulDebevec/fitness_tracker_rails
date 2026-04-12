@@ -15,7 +15,7 @@ RSpec.describe "Profiles", type: :request do
           post profiles_path, params: {
             profile: {
               display_name: "Paul",
-              default_unit: "in"
+              unit_system: "imperial"
             }
           }
         }.to change(Profile, :count).by(1)
@@ -31,7 +31,7 @@ RSpec.describe "Profiles", type: :request do
           post profiles_path, params: {
             profile: {
               display_name: "",
-              default_unit: ""
+              unit_system: ""
             }
           }
         }.not_to change(Profile, :count)

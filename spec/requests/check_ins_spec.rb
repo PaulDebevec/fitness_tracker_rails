@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "CheckIns", type: :request do
-  let!(:profile) { Profile.create!(display_name: "Paul", default_unit: "in") }
+  let!(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
 
   describe "GET /profiles/:profile_id/check_ins" do
     it "returns http success" do
@@ -159,7 +159,7 @@ RSpec.describe "CheckIns", type: :request do
   
   describe "checkin photo upload" do
     it "creates a check-in with an upper front photo" do
-      profile = Profile.create!(display_name: "Paul", default_unit: "in")
+      profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
       image = test_image_upload("upper_front.png")
     
       post profile_check_ins_path(profile), params: {
