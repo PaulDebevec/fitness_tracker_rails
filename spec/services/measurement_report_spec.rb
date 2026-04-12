@@ -60,12 +60,12 @@ RSpec.describe MeasurementReport do
     it "returns date and value pairs" do
       body_part = "waist"
       report = described_class.new(profile: profile, body_part: body_part)
-      require 'pry'; binding.pry
-      expect(report.chart_data).to eq([
-        { body_part: body_part, date: older_check_in.checked_in_on, value: 36.0 },
-        { body_part: body_part, date: middle_check_in.checked_in_on, value: 35.0 },
-        { body_part: body_part, date: recent_check_in.checked_in_on, value: 34.0 }
-      ])
+
+      expect(report.chart_data).to eq({ 
+        "Feb 11, 2026"=>36.0, 
+        "Mar 13, 2026"=>35.0, 
+        "Apr 05, 2026"=>34.0 
+      })
     end
   end
 

@@ -23,16 +23,6 @@ class MeasurementReport
     measurements.group_by(&:body_part)
   end
 
-  # def chart_data
-  #   measurements.map do |measurement|
-  #     {
-  #       body_part: measurement.body_part,
-  #       date: measurement.check_in.checked_in_on,
-  #       value: measurement.value.to_f
-  #     }
-  #   end
-  # end
-
   def summary
     return grouped_summary if body_part.blank?
     single_body_part_summary
