@@ -38,6 +38,12 @@ class MeasurementReport
     single_body_part_summary
   end
 
+  def chart_data
+    measurements.each_with_object({}) do |measurement, data|
+      data[measurement.check_in.checked_in_on.strftime("%b %d, %Y")] = measurement.value.to_f
+    end
+  end
+
   private
 
   def filtered_measurements

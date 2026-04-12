@@ -44,6 +44,25 @@
       </div>
     </div>
   <% end %>
+  
+  <% if @body_part.present? && @report.measurements.any? %>
+  <div class="chart-card">
+    <h2><%= @body_part.humanize %> Progress Chart</h2>
+
+    <%= line_chart @report.chart_data,
+        height: "300px",
+        xtitle: "Check-in Date",
+        ytitle: "#{@body_part.humanize} (#{@profile.abbreviated_default_unit})",
+        points: true,
+        curve: false,
+        thousands: ",",
+        library: {
+          plugins: {
+            legend: { display: false }
+          }
+        } %>
+  </div>
+<% end %>
 </div>
 
 <hr>
