@@ -7,7 +7,7 @@ RSpec.describe "Profile", type: :feature do
             expect(current_path).to eq("/profiles/new")
 
             fill_in "Display name", with: "John-Patrick"
-            select "Inches", from: "Default unit"
+            select "Imperial", from: "Unit system"
 
             click_button "Create Profile"
 
@@ -17,16 +17,16 @@ RSpec.describe "Profile", type: :feature do
         end
 
         it "can read a single profile/profile show" do
-            Profile.create!(display_name: "Pauly Do Little", default_unit: "in")
+            Profile.create!(display_name: "Pauly Do Little", unit_system: "imperial")
             visit "/profiles/#{Profile.last.id}"
             expect(page).to have_content("Pauly Do Little")
         end
 
         it "can read multiple profiles/profile index" do
-            Profile.create!(display_name: "Pauly Do Lottle", default_unit: "in")
-            Profile.create!(display_name: "Hope Johnstein", default_unit: "in")
-            Profile.create!(display_name: "John Hopenstein", default_unit: "in")
-            Profile.create!(display_name: "Harry Buttler", default_unit: "in")
+            Profile.create!(display_name: "Pauly Do Lottle", unit_system: "imperial")
+            Profile.create!(display_name: "Hope Johnstein", unit_system: "imperial")
+            Profile.create!(display_name: "John Hopenstein", unit_system: "imperial")
+            Profile.create!(display_name: "Harry Buttler", unit_system: "imperial")
 
             visit "/profiles"
             expect(page).to have_content("Pauly Do Lottle")
@@ -36,7 +36,7 @@ RSpec.describe "Profile", type: :feature do
         end
 
         it "can update a profile" do
-            profile_1 = Profile.create!(display_name: "Pauly Do Lottle", default_unit: "in")
+            profile_1 = Profile.create!(display_name: "Pauly Do Lottle", unit_system: "imperial")
 
             visit "profiles/#{profile_1.id}"
             expect(current_path).to eq("/profiles/#{profile_1.id}")
@@ -52,8 +52,8 @@ RSpec.describe "Profile", type: :feature do
         end
 
         it "can destroy a profile" do
-            profile_1 = Profile.create!(display_name: "Pauly Do Lottle", default_unit: "in")
-            profile_2 = Profile.create!(display_name: "Harry Buttler", default_unit: "in")
+            profile_1 = Profile.create!(display_name: "Pauly Do Lottle", unit_system: "imperial")
+            profile_2 = Profile.create!(display_name: "Harry Buttler", unit_system: "imperial")
 
             expect(Profile.all.count).to eq(2)
             visit "profiles" 
@@ -74,7 +74,7 @@ RSpec.describe "Profile", type: :feature do
             expect(current_path).to eq("/profiles/new")
 
             fill_in "Display name", with: ""
-            select "Inches", from: "Default unit"
+            select "Imperial", from: "Unit system"
 
             click_button "Create Profile"
             expect(page).to have_content("Display name can't be blank")
@@ -91,7 +91,7 @@ RSpec.describe "Profile", type: :feature do
             visit "/profiles/new"
           
             fill_in "Display name", with: "J"
-            select "Inches", from: "Default unit"
+            select "Imperial", from: "Unit system"
             click_button "Create Profile"
           
             expect(page).to have_content("Display name is too short")
@@ -101,19 +101,19 @@ RSpec.describe "Profile", type: :feature do
             visit "/profiles/new"
           
             fill_in "Display name", with: "J" * 51
-            select "Inches", from: "Default unit"
+            select "Imperial", from: "Unit system"
             click_button "Create Profile"
           
             expect(page).to have_content("Display name is too long")
         end
 
         it "cannot update a profile with invalid data" do
-            profile = Profile.create!(display_name: "John", default_unit: "in")
+            profile = Profile.create!(display_name: "John", unit_system: "imperial")
           
             visit edit_profile_path(profile)
           
             fill_in "Display name", with: ""
-            select "Inches", from: "Default unit"
+            select "Imperial", from: "Unit system"
             click_button "Update Profile"
           
             expect(page).to have_content("Display name can't be blank")
@@ -138,7 +138,7 @@ RSpec.describe "Profile", type: :feature do
 
     describe "profile functionality" do
         it "links a profile's check-ins to their show pages" do
-            profile = Profile.create!(display_name: "John-Patrick", default_unit: "in")
+            profile = Profile.create!(display_name: "John-Patrick", unit_system: "imperial")
             check_in = profile.check_ins.create!(
               checked_in_on: Date.current,
               notes: "Weekly progress update"

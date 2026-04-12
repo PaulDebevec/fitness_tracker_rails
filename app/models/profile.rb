@@ -2,25 +2,37 @@ class Profile < ApplicationRecord
   has_many :check_ins, dependent: :destroy
 
   scope :recent_first, -> { order(created_at: :desc) }
-  validates :display_name, presence: true, length: { minimum: 2, maximum: 50 }
-  validates :default_unit, presence: true, inclusion: { in: %w[in cm] }
 
-  def formatted_default_unit
-    case default_unit
-    when "in"
-      "Inches"
-    when "cm"
-      "Centimeters"
+  validates :display_name, presence: true, length: { minimum: 2, maximum: 50 }
+  validates :unit_system, presence: true, inclusion: { in: %w[imperial metric] }
+
+  def formatted_unit_system
+    case unit_system
+    when "imperial"
+      "Imperial"
+    when "metric"
+      "Metric"
     else
-      default_unit
+      unit_system
     end
   end
 
-  def abbreviated_default_unit
-    default_unit
+  def unit_for(body_part)
+    case unit_system
+    when "imperial"
+      body_part == "weight" ? "lb" : "in"
+    when "metric"
+      body_part == "weight" ? "kg" : "cm"
+    else
+      ""
+    end
   end
 
   def latest_check_in
     check_ins.reverse_chronological.first
   end
+
+  # def abbreviated_default_unit
+  #   default_unit
+  # end
 end

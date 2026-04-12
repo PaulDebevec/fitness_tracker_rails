@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "CheckIn", type: :feature do
     describe "CRUD Functionality" do
-        let!(:profile) { Profile.create!(display_name: "Paul", default_unit: "in") }
+        let!(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
 
         it "can create a new check-in" do
             visit new_profile_check_in_path(profile)
@@ -82,7 +82,7 @@ RSpec.describe "CheckIn", type: :feature do
         end
 
         it "shows a check-in's measurements on the check-in show page" do
-            profile = Profile.create!(display_name: "Paul", default_unit: "in")
+            profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
             check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
             check_in.measurements.create!(body_part: "waist", value: 34.5)
             check_in.measurements.create!(body_part: "chest", value: 42.0)
@@ -97,7 +97,7 @@ RSpec.describe "CheckIn", type: :feature do
         end
 
         it "shows an empty state when a check-in has no measurements" do
-            profile = Profile.create!(display_name: "Paul", default_unit: "in")
+            profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
             check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
             
             visit profile_check_in_path(profile, check_in)
@@ -107,7 +107,7 @@ RSpec.describe "CheckIn", type: :feature do
     end
 
     describe "sad paths / edge cases" do
-        let!(:profile) { Profile.create!(display_name: "Paul", default_unit: "in") }
+        let!(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
 
         it "cannot create a check-in without a date" do
             visit new_profile_check_in_path(profile)

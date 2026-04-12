@@ -55,7 +55,7 @@
             <li>
               <%= link_to measurement.formatted_body_part,
                   profile_check_in_measurement_path(@profile, @check_in, measurement) %>
-              : <%= measurement.value %> <%= @profile.abbreviated_default_unit %>
+              : <%= measurement.value %> <%= @profile.unit_for(measurement.body_part) %>
             </li>
           <% end %>
         </ul>
