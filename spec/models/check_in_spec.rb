@@ -9,7 +9,7 @@ RSpec.describe CheckIn, type: :model do
     )
   end
 
-  let(:profile) { Profile.create!(display_name: "Paul", default_unit: "in") }
+  let(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
 
   describe "associations" do
     it { should belong_to(:profile) }
@@ -97,7 +97,7 @@ RSpec.describe CheckIn, type: :model do
     end
 
     it "allows the same check-in date for different profiles" do
-      other_profile = Profile.create!(display_name: "Jamie", default_unit: "in")
+      other_profile = Profile.create!(display_name: "Jamie", unit_system: "imperial")
     
       described_class.create!(
         profile: profile,

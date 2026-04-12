@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Measurement", type: :feature do
   describe "CRUD Functionality" do
-    let!(:profile) { Profile.create!(display_name: "Paul", default_unit: "in") }
+    let!(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
     let!(:check_in) { profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update") }
 
     it "can read multiple measurements" do
@@ -81,7 +81,7 @@ RSpec.describe "Measurement", type: :feature do
   end
 
   describe "sad paths / edge cases" do
-    let!(:profile) { Profile.create!(display_name: "Paul", default_unit: "in") }
+    let!(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
     let!(:check_in) { profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update") }
 
     it "cannot create a measurement without a body part" do

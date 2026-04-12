@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "CheckIn photo upload", type: :feature do
     it "can create a new check-in with progress photos" do
-        profile = Profile.create!(display_name: "Paul", default_unit: "in")
+        profile = Profile.create!(display_name: "Paul", unit_system: "imperial") 
     
         visit new_profile_check_in_path(profile)
     
@@ -24,7 +24,7 @@ RSpec.describe "CheckIn photo upload", type: :feature do
     end
 
     it "can update a check-in with progress photos" do
-        profile = Profile.create!(display_name: "Paul", default_unit: "in")
+        profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
         check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Original")
       
         visit edit_profile_check_in_path(profile, check_in)

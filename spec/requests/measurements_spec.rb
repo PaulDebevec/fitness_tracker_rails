@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Measurements", type: :request do
-  let!(:profile) { Profile.create!(display_name: "Paul", default_unit: "in") }
+  let!(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
   let!(:check_in) { profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update") }
 
   describe "GET /profiles/:profile_id/check_ins/:check_in_id/measurements" do
@@ -153,7 +153,7 @@ RSpec.describe "Measurements", type: :request do
 
   describe "measurement" do
     it "creates a measurement with a body part photo" do
-      profile = Profile.create!(display_name: "Paul", default_unit: "in")
+      profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
       check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
       image = test_image_upload("upper_front.png")
 

@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Reports", type: :request do
   describe "GET /profiles/:profile_id/report" do
     let(:profile) do
-      Profile.create!(display_name: "Paul", default_unit: "in")
+      Profile.create!(display_name: "Paul", unit_system: "imperial")
     end
 
     let!(:older_check_in) do
