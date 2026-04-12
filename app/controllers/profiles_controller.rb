@@ -48,6 +48,6 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:display_name, :default_unit)
+    params.require(:profile).permit(:display_name, :unit_system)
   end
 end

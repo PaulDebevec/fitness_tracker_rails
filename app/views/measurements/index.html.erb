@@ -24,7 +24,7 @@
         <div class="measurement-card-body">
           <p>
             <strong>Value:</strong>
-            <%= measurement.value %> <%= @profile.abbreviated_default_unit %>
+            <%= measurement.value %> <%= @profile.unit_for(measurement.body_part) %>
           </p>
 
           <p>
