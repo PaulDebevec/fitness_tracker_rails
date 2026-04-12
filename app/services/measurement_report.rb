@@ -23,15 +23,15 @@ class MeasurementReport
     measurements.group_by(&:body_part)
   end
 
-  def chart_data
-    measurements.map do |measurement|
-      {
-        body_part: measurement.body_part,
-        date: measurement.check_in.checked_in_on,
-        value: measurement.value.to_f
-      }
-    end
-  end
+  # def chart_data
+  #   measurements.map do |measurement|
+  #     {
+  #       body_part: measurement.body_part,
+  #       date: measurement.check_in.checked_in_on,
+  #       value: measurement.value.to_f
+  #     }
+  #   end
+  # end
 
   def summary
     return grouped_summary if body_part.blank?
@@ -41,6 +41,17 @@ class MeasurementReport
   def chart_data
     measurements.each_with_object({}) do |measurement, data|
       data[measurement.check_in.checked_in_on.strftime("%b %d, %Y")] = measurement.value.to_f
+    end
+  end
+
+  def multi_series_chart_data
+    measurements_grouped_by_body_part.map do |body_part, body_part_measurements|
+      {
+        name: body_part.humanize,
+        data: body_part_measurements.each_with_object({}) do |measurement, data|
+          data[measurement.check_in.checked_in_on.strftime("%b %d, %Y")] = measurement.value.to_f
+        end
+      }
     end
   end
 

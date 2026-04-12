@@ -44,26 +44,35 @@
       </div>
     </div>
   <% end %>
-  
-  <% if @body_part.present? && @report.measurements.any? %>
-  <div class="chart-card">
-    <h2><%= @body_part.humanize %> Progress Chart</h2>
+</div>
 
-    <%= line_chart @report.chart_data,
-        height: "300px",
-        xtitle: "Check-in Date",
-        ytitle: "#{@body_part.humanize} (#{@profile.abbreviated_default_unit})",
-        points: true,
-        curve: false,
-        thousands: ",",
-        library: {
-          plugins: {
-            legend: { display: false }
-          }
-        } %>
+<% if @report.measurements.any? %>
+  <div class="chart-card">
+    <% if @body_part.present? %>
+      <h2><%= @body_part.humanize %> Progress Chart</h2>
+
+      <%= line_chart @report.chart_data,
+          height: "300px",
+          xtitle: "Check-in Date",
+          ytitle: "#{@body_part.humanize} (#{@profile.abbreviated_default_unit})",
+          points: true,
+          curve: false,
+          legend: false,
+          thousands: "," %>
+    <% else %>
+      <h2>All Body Parts Progress Chart</h2>
+
+      <%= line_chart @report.multi_series_chart_data,
+          height: "340px",
+          xtitle: "Check-in Date",
+          ytitle: "Measurement (#{@profile.abbreviated_default_unit})",
+          points: true,
+          curve: false,
+          legend: "bottom",
+          thousands: "," %>
+    <% end %>
   </div>
 <% end %>
-</div>
 
 <hr>
 

@@ -60,7 +60,7 @@ RSpec.describe MeasurementReport do
     it "returns date and value pairs" do
       body_part = "waist"
       report = described_class.new(profile: profile, body_part: body_part)
-
+      require 'pry'; binding.pry
       expect(report.chart_data).to eq([
         { body_part: body_part, date: older_check_in.checked_in_on, value: 36.0 },
         { body_part: body_part, date: middle_check_in.checked_in_on, value: 35.0 },
@@ -176,6 +176,29 @@ RSpec.describe MeasurementReport do
       )
   
       expect(report.timeframe).to eq("30_days")
+    end
+  end
+
+  describe "#chart_data" do
+    it "returns formatted date and value pairs for charting" do
+      report = described_class.new(profile: profile, body_part: "waist")
+  
+      expect(report.chart_data).to eq({
+        older_check_in.checked_in_on.strftime("%b %d, %Y") => 36.0,
+        middle_check_in.checked_in_on.strftime("%b %d, %Y") => 35.0,
+        recent_check_in.checked_in_on.strftime("%b %d, %Y") => 34.0
+      })
+    end
+  end
+
+  describe "#multi_series_chart_data" do
+    it "returns multiple named series grouped by body part" do
+      report = described_class.new(profile: profile, body_part: nil)
+  
+      expect(report.multi_series_chart_data).to include(
+        hash_including(name: "Waist"),
+        hash_including(name: "Chest")
+      )
     end
   end
 end
