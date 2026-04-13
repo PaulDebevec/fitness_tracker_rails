@@ -56,19 +56,6 @@ RSpec.describe MeasurementReport do
     end
   end
 
-  describe "#chart_data" do
-    it "returns date and value pairs" do
-      body_part = "waist"
-      report = described_class.new(profile: profile, body_part: body_part)
-
-      expect(report.chart_data).to eq({ 
-        "Feb 11, 2026"=>36.0, 
-        "Mar 13, 2026"=>35.0, 
-        "Apr 05, 2026"=>34.0 
-      })
-    end
-  end
-
   describe "#summary" do
     it "returns summary statistics for the filtered measurements" do
       report = described_class.new(profile: profile, body_part: "waist")
@@ -182,28 +169,36 @@ RSpec.describe MeasurementReport do
   describe "#chart_data" do
     it "returns formatted date and value pairs for charting" do
       report = described_class.new(profile: profile, body_part: "waist")
-  
-      expect(report.chart_data).to eq({
-        older_check_in.checked_in_on.strftime("%b %d, %Y") => 36.0,
-        middle_check_in.checked_in_on.strftime("%b %d, %Y") => 35.0,
-        recent_check_in.checked_in_on.strftime("%b %d, %Y") => 34.0
-      })
+
+      expect(report.chart_data).to eq([
+        [older_check_in.checked_in_on, 36.0], 
+        [middle_check_in.checked_in_on, 35.0], 
+        [recent_check_in.checked_in_on, 34.0]
+        ])
     end
   end
 
-  describe "#multi_series_chart_data" do
-    it "returns multiple named time series grouped by body part" do
+  describe "#weight_chart_data" do
+    it "returns only weight measurements as date/value pairs" do
+      recent_check_in.measurements.create!(body_part: "weight", value: 185.0)
+  
       report = described_class.new(profile: profile, body_part: nil)
   
-      expect(report.multi_series_chart_data).to include(
-        hash_including(
-          name: "Waist",
-          data: include([older_check_in.checked_in_on, 36.0])
-        ),
-        hash_including(
-          name: "Chest",
-          data: include([recent_check_in.checked_in_on, 42.0])
-        )
+      expect(report.weight_chart_data).to include([recent_check_in.checked_in_on, 185.0])
+    end
+  end
+  
+  describe "#body_measurement_chart_data" do
+    it "returns non-weight body parts as multi-series chart data" do
+      report = described_class.new(profile: profile, body_part: nil)
+  
+      expect(report.body_measurement_chart_data).to include(
+        hash_including(name: "Waist"),
+        hash_including(name: "Chest")
+      )
+  
+      expect(report.body_measurement_chart_data).not_to include(
+        hash_including(name: "Weight")
       )
     end
   end

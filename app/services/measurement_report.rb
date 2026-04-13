@@ -45,21 +45,50 @@ class MeasurementReport
       [measurement.check_in.checked_in_on, measurement.value.to_f]
     end
   end
+
+  def weight_chart_data
+    series_for_body_part("weight")
+  end
+
+  def body_measurement_chart_data
+    grouped = measurements_grouped_by_body_part.except("weight")
   
-  def multi_series_chart_data
-    measurements_grouped_by_body_part.map do |body_part, body_part_measurements|
+    Measurement::BODY_PARTS.filter_map do |body_part|
+      next unless grouped[body_part]
+  
       {
         name: body_part.humanize,
         color: BODY_PART_COLORS[body_part],
-        data: body_part_measurements
+        data: grouped[body_part]
           .sort_by { |measurement| measurement.check_in.checked_in_on }
-          .map do |measurement|
-            [measurement.check_in.checked_in_on, measurement.value.to_f]
-          end
+          .map { |measurement| [measurement.check_in.checked_in_on, measurement.value.to_f] }
       }
     end
   end
   
+  def weight_measurements_present?
+    measurements_grouped_by_body_part["weight"].present?
+  end
+  
+  def body_measurements_present?
+    measurements_grouped_by_body_part.except("weight").any?
+  end
+  
+  def max_chart_value_for(collection = measurements)
+    return nil if collection.empty?
+  
+    highest = collection.map { |measurement| measurement.value.to_f }.max
+    (highest + chart_padding).ceil(1)
+  end
+  
+  def max_weight_chart_value
+    max_chart_value_for(measurements.select { |measurement| measurement.body_part == "weight" })
+  end
+  
+  def max_body_measurement_chart_value
+    max_chart_value_for(measurements.reject { |measurement| measurement.body_part == "weight" })
+  end
+
   def max_chart_value
     return nil if measurements.empty?
   
@@ -157,6 +186,14 @@ class MeasurementReport
     "all_time"
   end
 
+  def series_for_body_part(body_part)
+    body_part_measurements = measurements.select { |measurement| measurement.body_part == body_part }
+  
+    body_part_measurements
+      .sort_by { |measurement| measurement.check_in.checked_in_on }
+      .map { |measurement| [measurement.check_in.checked_in_on, measurement.value.to_f] }
+  end
+  
   def chart_padding
     5.0
   end

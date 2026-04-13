@@ -47,35 +47,61 @@
 </div>
 
 <% if @report.measurements.any? %>
-  <div class="chart-card">
-    <% if @body_part.present? %>
-      <h2><%= @body_part.humanize %> Progress Chart</h2>
+  <% if @body_part.present? %>
+   <div class="chart-card">
+      <h2>Body Measurements Progress</h2>
 
-      <%= line_chart @report.chart_data,
-        height: "300px",
-        xtitle: "Check-in Date",
-        ytitle: "#{@body_part.humanize} (#{@profile.abbreviated_default_unit})",
-        min: 0,
-        max: @report.max_chart_value,
-        points: true,
-        curve: false,
-        legend: false,
-        thousands: "," %>
-    <% else %>
-      <h2>All Body Parts Progress Chart</h2>
+      <div class="chart-wrapper">
+        <%= line_chart @report.body_measurement_chart_data,
+            height: "340px",
+            xtitle: "Check-in Date",
+            ytitle: "Measurement",
+            max: @report.max_body_measurement_chart_value,
+            points: true,
+            curve: false,
+            legend: "bottom",
+            thousands: "," %>
+      </div>
+    </div>
+  <% else %>
+   <div class="chart-grid">
+  <% if @report.weight_measurements_present? %>
+    <div class="chart-card">
+      <h2>Weight Progress</h2>
 
-      <%= line_chart @report.multi_series_chart_data,
-        height: "340px",
-        xtitle: "Check-in Date",
-        ytitle: "Measurement (#{@profile.abbreviated_default_unit})",
-        min: 0,
-        max: @report.max_chart_value,
-        points: true,
-        curve: false,
-        legend: "bottom",
-        thousands: "," %>
-    <% end %>
-  </div>
+      <div class="chart-wrapper">
+        <%= line_chart @report.weight_chart_data,
+            height: "300px",
+            xtitle: "Check-in Date",
+            ytitle: "Weight (#{@profile.unit_for('weight')})",
+            max: @report.max_weight_chart_value,
+            points: true,
+            curve: false,
+            legend: false,
+            thousands: "," %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @report.body_measurements_present? %>
+    <div class="chart-card">
+      <h2>Body Measurements Progress</h2>
+
+      <%= line_chart @report.body_measurement_chart_data,
+          height: "340px",
+          xtitle: "Check-in Date",
+          ytitle: "Measurement",
+          max: @report.max_body_measurement_chart_value,
+          points: true,
+          curve: false,
+          legend: "bottom",
+          thousands: "," %>
+    </div>
+  <% end %>
+</div>
+</div>
+
+  <% end %>
 <% end %>
 
 <hr>
