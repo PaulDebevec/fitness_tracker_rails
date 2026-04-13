@@ -74,25 +74,28 @@
 
   <div class="chart-wrapper">
     <%= line_chart @report.body_measurement_change_chart_data,
-        height: "340px",
-        xtitle: "Check-in Date",
-        ytitle: "Change",
-        min: @report.min_body_measurement_change_chart_value,
-        max: @report.max_body_measurement_change_chart_value,
-        points: true,
-        curve: false,
-        legend: "bottom",
-        thousands: ",",
-        dataset: { spanGaps: true },
-        library: {
-          scales: {
-            y: {
-              grid: {
-                color: "#d1d5db"
-              }
+      height: "340px",
+      xtitle: "Check-in Date",
+      ytitle: "Change",
+      min: @report.min_body_measurement_change_chart_value,
+      max: @report.max_body_measurement_change_chart_value,
+      points: true,
+      curve: false,
+      legend: "bottom",
+      dataset: { spanGaps: true },
+      library: {
+        animation: {
+          duration: 700,
+          easing: "easeOutQuart"
+        },
+        transitions: {
+          active: {
+            animation: {
+              duration: 500
             }
           }
-        } %>
+        }
+    }%>
   </div>
 </div>
 
@@ -141,16 +144,21 @@
 
           <div class="chart-wrapper">
             <%= line_chart @report.body_measurement_chart_data,
-                height: "340px",
-                xtitle: "Check-in Date",
-                ytitle: "Measurement",
-                min: @report.min_body_measurement_chart_value,
-                max: @report.max_body_measurement_chart_value,
-                points: true,
-                curve: false,
-                legend: "bottom",
-                thousands: ",",
-                dataset: { spanGaps: true } %>
+              height: "340px",
+              xtitle: "Check-in Date",
+              ytitle: "Measurement",
+              min: @report.min_body_measurement_chart_value,
+              max: @report.max_body_measurement_chart_value,
+              points: true,
+              curve: false,
+              legend: "bottom",
+              dataset: { spanGaps: true },
+              library: {
+                animation: {
+                  duration: 700,
+                  easing: "easeOutQuart"
+                }
+            } %>
           </div>
         </div>
       <% end %>
