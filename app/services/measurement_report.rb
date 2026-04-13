@@ -126,6 +126,49 @@ class MeasurementReport
     (lowest - chart_padding).floor
   end
 
+  def body_measurement_change_chart_data
+    grouped = measurements_grouped_by_body_part.except("weight")
+  
+    Measurement::BODY_PARTS.filter_map do |body_part|
+      next unless grouped[body_part]
+  
+      sorted_measurements = grouped[body_part].sort_by { |measurement| measurement.check_in.checked_in_on }
+      next if sorted_measurements.size < 2
+  
+      previous_value = nil
+  
+      series_data = sorted_measurements.map do |measurement|
+        current_value = measurement.value.to_f
+        change = previous_value.nil? ? 0.0 : (current_value - previous_value).round(2)
+        previous_value = current_value
+  
+        [measurement.check_in.checked_in_on, change]
+      end
+  
+      {
+        name: body_part.humanize,
+        color: BODY_PART_COLORS[body_part],
+        data: series_data
+      }
+    end
+  end
+
+  def min_body_measurement_change_chart_value
+    values = body_measurement_change_values
+    return nil if values.empty?
+  
+    lowest = values.min
+    [lowest - change_chart_padding, 0].min.floor
+  end
+  
+  def max_body_measurement_change_chart_value
+    values = body_measurement_change_values
+    return nil if values.empty?
+  
+    highest = values.max
+    [highest + change_chart_padding, 0].max.ceil
+  end
+
   private
 
   def filtered_measurements
@@ -242,6 +285,16 @@ class MeasurementReport
   end
   
   def chart_padding
+    0.5
+  end
+
+  def body_measurement_change_values
+    body_measurement_change_chart_data.flat_map do |series|
+      series[:data].map { |(_, value)| value.to_f }
+    end
+  end
+  
+  def change_chart_padding
     0.5
   end
 end

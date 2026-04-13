@@ -107,6 +107,33 @@
     </div>
   <% end %>
 <% end %>
+
+<div class="chart-card">
+  <h2>Body Measurement Changes</h2>
+
+  <div class="chart-wrapper">
+    <%= line_chart @report.body_measurement_change_chart_data,
+        height: "340px",
+        xtitle: "Check-in Date",
+        ytitle: "Change",
+        min: @report.min_body_measurement_change_chart_value,
+        max: @report.max_body_measurement_change_chart_value,
+        points: true,
+        curve: false,
+        legend: "bottom",
+        thousands: ",",
+        dataset: { spanGaps: true },
+        library: {
+          scales: {
+            y: {
+              grid: {
+                color: "#d1d5db"
+              }
+            }
+          }
+        } %>
+  </div>
+</div>
 <hr>
 
 <% if @body_part.present? %>
