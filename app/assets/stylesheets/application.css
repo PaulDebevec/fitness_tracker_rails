@@ -860,6 +860,55 @@ button:hover {
   color: #ffffff;
 }
 
+.page-actions-secondary .button-link.subtle {
+  background: transparent !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.page-actions-secondary .button-link.subtle:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.button-link.large {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+a.button-link.subtle {
+  background: transparent !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+a.button-link.subtle-link:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.page-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-actions-primary {
+  flex-grow: 1;
+}
+
+.page-actions-secondary {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.button-link.subtle:hover {
+  background: #f3f4f6;
+}
+
   /* mobile compatibility */
   @media (max-width: 768px) {
     .navbar-inner {
