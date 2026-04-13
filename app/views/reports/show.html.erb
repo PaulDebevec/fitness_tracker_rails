@@ -8,14 +8,15 @@
     </div>
 
     <div class="report-header-actions">
-      <%= link_to "Export CSV",
-          profile_report_path(
-            @profile,
-            format: :csv,
-            body_part: @body_part,
-            timeframe: @timeframe
-          ),
-          class: "button-link secondary" %>
+     <%= link_to "Export CSV",
+      profile_report_path(
+        @profile,
+        format: :csv,
+        body_part: @body_part,
+        timeframe: @timeframe,
+        change_mode: @change_mode
+      ),
+    class: "button-link secondary" %>
     </div>
   </div>
   <p class="report-filter-label">Filters</p>
@@ -44,6 +45,55 @@
       </div>
     </div>
   <% end %>
+</div>
+
+<div class="top-chart-card">
+  <div class="chart-card-header">
+    <h2>Body Measurement Changes</h2>
+
+    <div class="chart-toggle-group">
+      <%= link_to "Since Previous Check-in",
+          profile_report_path(
+            @profile,
+            body_part: @body_part,
+            timeframe: @timeframe,
+            change_mode: "previous"
+          ),
+          class: "chart-toggle-button #{'active' if @change_mode == 'previous'}" %>
+
+      <%= link_to "Since First Check-in",
+          profile_report_path(
+            @profile,
+            body_part: @body_part,
+            timeframe: @timeframe,
+            change_mode: "starting"
+          ),
+          class: "chart-toggle-button #{'active' if @change_mode == 'starting'}" %>
+    </div>
+  </div>
+
+  <div class="chart-wrapper">
+    <%= line_chart @report.body_measurement_change_chart_data,
+        height: "340px",
+        xtitle: "Check-in Date",
+        ytitle: "Change",
+        min: @report.min_body_measurement_change_chart_value,
+        max: @report.max_body_measurement_change_chart_value,
+        points: true,
+        curve: false,
+        legend: "bottom",
+        thousands: ",",
+        dataset: { spanGaps: true },
+        library: {
+          scales: {
+            y: {
+              grid: {
+                color: "#d1d5db"
+              }
+            }
+          }
+        } %>
+  </div>
 </div>
 
 <% if @report.measurements.any? %>
@@ -107,33 +157,6 @@
     </div>
   <% end %>
 <% end %>
-
-<div class="chart-card">
-  <h2>Body Measurement Changes</h2>
-
-  <div class="chart-wrapper">
-    <%= line_chart @report.body_measurement_change_chart_data,
-        height: "340px",
-        xtitle: "Check-in Date",
-        ytitle: "Change",
-        min: @report.min_body_measurement_change_chart_value,
-        max: @report.max_body_measurement_change_chart_value,
-        points: true,
-        curve: false,
-        legend: "bottom",
-        thousands: ",",
-        dataset: { spanGaps: true },
-        library: {
-          scales: {
-            y: {
-              grid: {
-                color: "#d1d5db"
-              }
-            }
-          }
-        } %>
-  </div>
-</div>
 <hr>
 
 <% if @body_part.present? %>

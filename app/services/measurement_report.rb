@@ -1,4 +1,6 @@
 class MeasurementReport
+  attr_reader :profile, :body_part, :timeframe, :change_mode
+
   TIMEFRAME_OPTIONS = {
     "30_days" => 30,
     "90_days" => 90,
@@ -19,12 +21,11 @@ class MeasurementReport
     "thigh_right" => "#ca8a04"
   }.freeze
 
-  attr_reader :profile, :body_part, :timeframe
-
-  def initialize(profile:, body_part: nil, timeframe: "all_time")
+  def initialize(profile:, body_part: nil, timeframe: "all_time", change_mode: "previous")
     @profile = profile
     @body_part = normalize_body_part(body_part)
     @timeframe = normalize_timeframe(timeframe)
+    @change_mode = normalize_change_mode(change_mode)
   end
 
   def measurements
@@ -38,6 +39,12 @@ class MeasurementReport
   def summary
     return grouped_summary if body_part.blank?
     single_body_part_summary
+  end
+
+  def normalize_change_mode(value)
+    return value if %w[previous starting].include?(value)
+  
+    "previous"
   end
 
   def chart_end_date
@@ -133,13 +140,22 @@ class MeasurementReport
       next unless grouped[body_part]
   
       sorted_measurements = grouped[body_part].sort_by { |measurement| measurement.check_in.checked_in_on }
-      next if sorted_measurements.size < 2
+      next if sorted_measurements.empty?
   
+      baseline_value = sorted_measurements.first.value.to_f
       previous_value = nil
   
       series_data = sorted_measurements.map do |measurement|
         current_value = measurement.value.to_f
-        change = previous_value.nil? ? 0.0 : (current_value - previous_value).round(2)
+  
+        change =
+          case change_mode
+          when "starting"
+            (current_value - baseline_value).round(2)
+          else
+            previous_value.nil? ? 0.0 : (current_value - previous_value).round(2)
+          end
+  
         previous_value = current_value
   
         [measurement.check_in.checked_in_on, change]
@@ -167,6 +183,15 @@ class MeasurementReport
   
     highest = values.max
     [highest + change_chart_padding, 0].max.ceil
+  end
+
+  def formatted_change_mode
+    case change_mode
+    when "starting"
+      "Since First Check-in"
+    else
+      "Since Previous Check-in"
+    end
   end
 
   private
