@@ -40,14 +40,21 @@ class MeasurementReport
     single_body_part_summary
   end
 
+  def chart_end_date
+    measurements.map { |measurement| measurement.check_in.checked_in_on }.max
+  end
+
   def chart_data
-    measurements.map do |measurement|
-      [measurement.check_in.checked_in_on, measurement.value.to_f]
-    end
+    extend_series_to_chart_end(
+      measurements.sort_by { |measurement| measurement.check_in.checked_in_on }
+    )
   end
 
   def weight_chart_data
-    series_for_body_part("weight")
+    extend_series_to_chart_end(
+      measurements.select { |measurement| measurement.body_part == "weight" }
+                  .sort_by { |measurement| measurement.check_in.checked_in_on }
+    )
   end
 
   def body_measurement_chart_data
@@ -59,9 +66,9 @@ class MeasurementReport
       {
         name: body_part.humanize,
         color: BODY_PART_COLORS[body_part],
-        data: grouped[body_part]
-          .sort_by { |measurement| measurement.check_in.checked_in_on }
-          .map { |measurement| [measurement.check_in.checked_in_on, measurement.value.to_f] }
+        data: extend_series_to_chart_end(
+          grouped[body_part].sort_by { |measurement| measurement.check_in.checked_in_on }
+        )
       }
     end
   end
@@ -89,11 +96,34 @@ class MeasurementReport
     max_chart_value_for(measurements.reject { |measurement| measurement.body_part == "weight" })
   end
 
+  def min_weight_chart_value
+    weight_measurements = measurements.select { |m| m.body_part == "weight" }
+    return nil if weight_measurements.empty?
+  
+    lowest = weight_measurements.map(&:value).map(&:to_f).min
+    (lowest - chart_padding).floor
+  end
+  
+  def min_body_measurement_chart_value
+    body_measurements = measurements.reject { |m| m.body_part == "weight" }
+    return nil if body_measurements.empty?
+  
+    lowest = body_measurements.map(&:value).map(&:to_f).min
+    (lowest - chart_padding).floor
+  end
+
   def max_chart_value
     return nil if measurements.empty?
   
     highest = measurements.map { |measurement| measurement.value.to_f }.max
     (highest + chart_padding).ceil(1)
+  end
+
+  def min_chart_value
+    return nil if measurements.empty?
+  
+    lowest = measurements.map { |measurement| measurement.value.to_f }.min
+    (lowest - chart_padding).floor
   end
 
   private
@@ -193,8 +223,25 @@ class MeasurementReport
       .sort_by { |measurement| measurement.check_in.checked_in_on }
       .map { |measurement| [measurement.check_in.checked_in_on, measurement.value.to_f] }
   end
+
+  def extend_series_to_chart_end(series_measurements)
+    return [] if series_measurements.empty?
+  
+    points = series_measurements.map do |measurement|
+      [measurement.check_in.checked_in_on, measurement.value.to_f]
+    end
+  
+    last_date, last_value = points.last
+    end_date = chart_end_date
+  
+    if end_date.present? && last_date < end_date
+      points << [end_date, last_value]
+    end
+  
+    points
+  end
   
   def chart_padding
-    5.0
+    0.5
   end
 end
