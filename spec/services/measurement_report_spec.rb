@@ -165,41 +165,4 @@ RSpec.describe MeasurementReport do
       expect(report.timeframe).to eq("30_days")
     end
   end
-
-  describe "#chart_data" do
-    it "returns formatted date and value pairs for charting" do
-      report = described_class.new(profile: profile, body_part: "waist")
-
-      expect(report.chart_data).to eq([
-        [older_check_in.checked_in_on, 36.0], 
-        [middle_check_in.checked_in_on, 35.0], 
-        [recent_check_in.checked_in_on, 34.0]
-        ])
-    end
-  end
-
-  describe "#weight_chart_data" do
-    it "returns only weight measurements as date/value pairs" do
-      recent_check_in.measurements.create!(body_part: "weight", value: 185.0)
-  
-      report = described_class.new(profile: profile, body_part: nil)
-  
-      expect(report.weight_chart_data).to include([recent_check_in.checked_in_on, 185.0])
-    end
-  end
-  
-  describe "#body_measurement_chart_data" do
-    it "returns non-weight body parts as multi-series chart data" do
-      report = described_class.new(profile: profile, body_part: nil)
-  
-      expect(report.body_measurement_chart_data).to include(
-        hash_including(name: "Waist"),
-        hash_including(name: "Chest")
-      )
-  
-      expect(report.body_measurement_chart_data).not_to include(
-        hash_including(name: "Weight")
-      )
-    end
-  end
 end

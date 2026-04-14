@@ -54,12 +54,12 @@
         <h2><%= @body_part.humanize %> Progress Chart</h2>
 
         <div class="chart-wrapper">
-          <%= line_chart @report.chart_data,
+          <%= line_chart @report.chart.chart_data,
               height: "340px",
               xtitle: "Check-in Date",
               ytitle: "#{@body_part.humanize} (#{@profile.unit_for(@body_part)})",
-              min: @report.min_chart_value,
-              max: @report.max_chart_value,
+              min: @report.chart.min_chart_value,
+              max: @report.chart.max_chart_value,
               points: true,
               curve: false,
               legend: false,
@@ -76,7 +76,7 @@
     <% else %>
       <div class="top-chart-card">
         <div class="chart-card-header">
-          <h2>Bodily Changes (<%= @report.formatted_change_mode %>)</h2>
+          <h2>Bodily Changes (<%= @report.chart.formatted_change_mode %>)</h2>
 
           <div class="chart-toggle-group">
             <%= link_to "Since Previous Check-in",
@@ -102,12 +102,12 @@
         </div>
 
         <div class="chart-wrapper">
-          <%= line_chart @report.body_measurement_change_chart_data,
+          <%= line_chart @report.chart.body_measurement_change_chart_data,
               height: "340px",
               xtitle: "Check-in Date",
               ytitle: "Change",
-              min: @report.min_body_measurement_change_chart_value,
-              max: @report.max_body_measurement_change_chart_value,
+              min: @report.chart.min_body_measurement_change_chart_value,
+              max: @report.chart.max_body_measurement_change_chart_value,
               points: true,
               curve: false,
               legend: "bottom",
@@ -123,17 +123,17 @@
       </div>
 
       <div class="chart-grid">
-        <% if @report.weight_measurements_present? %>
+        <% if @report.chart.weight_measurements_present? %>
           <div class="chart-card">
             <h2>Weight Progress</h2>
 
             <div class="chart-wrapper">
-              <%= line_chart @report.weight_chart_data,
+              <%= line_chart @report.chart.weight_chart_data,
                   height: "300px",
                   xtitle: "Check-in Date",
                   ytitle: "Weight (#{@profile.unit_for('weight')})",
-                  min: @report.min_weight_chart_value,
-                  max: @report.max_weight_chart_value,
+                  min: @report.chart.min_weight_chart_value,
+                  max: @report.chart.max_weight_chart_value,
                   points: true,
                   curve: false,
                   legend: false,
@@ -149,17 +149,17 @@
           </div>
         <% end %>
 
-        <% if @report.body_measurements_present? %>
+        <% if @report.chart.body_measurements_present? %>
           <div class="chart-card">
             <h2>Body Measurements Progress</h2>
 
             <div class="chart-wrapper">
-              <%= line_chart @report.body_measurement_chart_data,
+              <%= line_chart @report.chart.body_measurement_chart_data,
                   height: "340px",
                   xtitle: "Check-in Date",
                   ytitle: "Measurement",
-                  min: @report.min_body_measurement_chart_value,
-                  max: @report.max_body_measurement_chart_value,
+                  min: @report.chart.min_body_measurement_chart_value,
+                  max: @report.chart.max_body_measurement_chart_value,
                   points: true,
                   curve: false,
                   legend: "bottom",
