@@ -4,22 +4,24 @@
   <strong>Default unit:</strong>
   <%= @profile.formatted_unit_system %>
 </p>
+
 <div class="page-actions">
-  <div class="page-actions-left">
-      <%= link_to "View Progress Report", profile_report_path(@profile), class: "button-link secondary" %>
- </div>
+  <div class="page-actions-primary">
+    <%= link_to "📊 View Progress Report", 
+      profile_report_path(@profile), 
+      class: "button-link primary large" %>
+  </div>
 
-  <div class="page-actions-right">
-  <%= link_to "Edit Profile",
-      edit_profile_path(@profile),
-      class: "button-link" %>
+  <div class="page-actions-secondary">
+    <%= link_to "Edit Profile",
+        edit_profile_path(@profile),
+        class: "button-link subtle" %>
 
-  <%= link_to "New Check-in",
-      new_profile_check_in_path(@profile),
-      class: "button-link" %>
+    <%= link_to "New Check-in",
+        new_profile_check_in_path(@profile),
+        class: "button-link subtle" %>
   </div>
 </div>
-
 
 <h2>Check-ins</h2>
 

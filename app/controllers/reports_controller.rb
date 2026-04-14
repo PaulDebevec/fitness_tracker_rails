@@ -5,11 +5,13 @@ class ReportsController < ApplicationController
     @report = MeasurementReport.new(
       profile: @profile,
       body_part: params[:body_part],
-      timeframe: params[:timeframe]
+      timeframe: params[:timeframe],
+      change_mode: params[:change_mode]
     )
-
+    
     @body_part = @report.body_part
     @timeframe = @report.timeframe
+    @change_mode = @report.change_mode
 
     respond_to do |format|
       format.html

@@ -1,4 +1,6 @@
 class MeasurementReport
+  attr_reader :profile, :body_part, :timeframe, :change_mode
+
   TIMEFRAME_OPTIONS = {
     "30_days" => 30,
     "90_days" => 90,
@@ -7,12 +9,11 @@ class MeasurementReport
     "all_time" => nil
   }.freeze
 
-  attr_reader :profile, :body_part, :timeframe
-
-  def initialize(profile:, body_part: nil, timeframe: "all_time")
+  def initialize(profile:, body_part: nil, timeframe: "all_time", change_mode: "previous")
     @profile = profile
     @body_part = normalize_body_part(body_part)
     @timeframe = normalize_timeframe(timeframe)
+    @change_mode = normalize_change_mode(change_mode)
   end
 
   def measurements
@@ -23,19 +24,19 @@ class MeasurementReport
     measurements.group_by(&:body_part)
   end
 
-  def chart_data
-    measurements.map do |measurement|
-      {
-        body_part: measurement.body_part,
-        date: measurement.check_in.checked_in_on,
-        value: measurement.value.to_f
-      }
-    end
-  end
-
   def summary
     return grouped_summary if body_part.blank?
     single_body_part_summary
+  end
+
+  def chart
+    @chart ||= MeasurementReportChart.new(report: self)
+  end
+
+  def normalize_change_mode(value)
+    return value if %w[previous starting].include?(value)
+
+    "previous"
   end
 
   private

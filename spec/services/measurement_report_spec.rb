@@ -56,19 +56,6 @@ RSpec.describe MeasurementReport do
     end
   end
 
-  describe "#chart_data" do
-    it "returns date and value pairs" do
-      body_part = "waist"
-      report = described_class.new(profile: profile, body_part: body_part)
-
-      expect(report.chart_data).to eq([
-        { body_part: body_part, date: older_check_in.checked_in_on, value: 36.0 },
-        { body_part: body_part, date: middle_check_in.checked_in_on, value: 35.0 },
-        { body_part: body_part, date: recent_check_in.checked_in_on, value: 34.0 }
-      ])
-    end
-  end
-
   describe "#summary" do
     it "returns summary statistics for the filtered measurements" do
       report = described_class.new(profile: profile, body_part: "waist")
