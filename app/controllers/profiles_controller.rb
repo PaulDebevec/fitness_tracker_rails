@@ -7,6 +7,8 @@ class ProfilesController < ApplicationController
 
   def show
     @check_ins = @profile.check_ins.reverse_chronological
+    @photo_type = params[:photo_type].presence || "front_photo"
+    @photo_timeline = ProfilePhotoTimeline.new(profile: @profile, photo_type: @photo_type)
   end
 
   def new

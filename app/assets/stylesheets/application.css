@@ -292,12 +292,6 @@ button:hover {
     margin-top: 1rem;
   }
   
-  @media (max-width: 768px) {
-    .photo-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
   .photo-card {
     background: #f9fafb;
     border: 1px solid #e5e7eb;
@@ -909,24 +903,47 @@ a.button-link.subtle-link:hover {
   background: #f3f4f6;
 }
 
+.photo-timeline-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.photo-timeline-meta p {
+  margin: 0.35rem 0;
+}
+
+.photo-timeline-viewer .photo-card {
+  max-width: 420px;
+}
+
   /* mobile compatibility */
-  @media (max-width: 768px) {
-    .navbar-inner {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.75rem;
-    }
+@media (max-width: 768px) {
+  .navbar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-timeline-shell {
+    grid-template-columns: 1fr;
+  }
   
-    .navbar-left,
-    .navbar-right {
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-  
-    .page-shell {
-      margin: 1rem auto;
-      padding: 0 1rem 1.5rem;
-    }
+  .navbar-left,
+  .navbar-right {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .page-shell {
+    margin: 1rem auto;
+    padding: 0 1rem 1.5rem;
+  }
   
     .page-card,
     .detail-card,

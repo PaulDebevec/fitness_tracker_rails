@@ -1,0 +1,44 @@
+<%= turbo_frame_tag "profile_photo_timeline" do %>
+  <div class="detail-card">
+    <div class="chart-card-header">
+      <h2>Progress Photo Timeline</h2>
+
+      <div class="chart-toggle-group">
+        <% ProfilePhotoTimeline::PHOTO_TYPES.each do |type| %>
+          <%= link_to type.delete_suffix("_photo").humanize,
+              profile_path(@profile, photo_type: type),
+              class: "chart-toggle-button #{'active' if @photo_type == type}",
+              data: { turbo_frame: "profile_photo_timeline" } %>
+        <% end %>
+      </div>
+    </div>
+
+    <% if @photo_timeline.any_photos? %>
+      <div class="photo-timeline-shell">
+        <div class="photo-timeline-meta">
+          <p>
+            <strong>Showing:</strong>
+            <%= @photo_timeline.photo_type_label %>
+          </p>
+          <p>
+            <strong>Oldest:</strong>
+            <%= @photo_timeline.oldest_photo[:formatted_date] %>
+          </p>
+          <p>
+            <strong>Most Recent:</strong>
+            <%= @photo_timeline.newest_photo[:formatted_date] %>
+          </p>
+        </div>
+
+        <div class="photo-timeline-viewer">
+          <div class="photo-card">
+            <p><strong><%= @photo_timeline.photo_type_label %></strong></p>
+            <%= image_tag @photo_timeline.newest_photo[:attachment], class: "progress-photo", id: "timeline-photo-preview" %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <p>No <%= @photo_timeline.photo_type_label.downcase %> photos yet.</p>
+    <% end %>
+  </div>
+<% end %>
