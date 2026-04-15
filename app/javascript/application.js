@@ -5,29 +5,27 @@ import "chartkick"
 import "Chart.bundle"
 
 
-document.addEventListener("turbo:load", initializePhotoTimelines);
-document.addEventListener("turbo:frame-load", initializePhotoTimelines);
+document.addEventListener("turbo:load", initializePhotoComparisons);
+document.addEventListener("turbo:frame-load", initializePhotoComparisons);
 
-function initializePhotoTimelines() {
-  document.querySelectorAll("[data-photo-timeline]").forEach((timeline) => {
-    if (timeline.dataset.initialized === "true") return;
-    timeline.dataset.initialized = "true";
+function initializePhotoComparisons() {
+  document.querySelectorAll("[data-photo-comparison]").forEach((comparison) => {
+    if (comparison.dataset.initialized === "true") return;
+    comparison.dataset.initialized = "true";
 
-    const photos = JSON.parse(timeline.dataset.photos || "[]");
-    const slider = timeline.querySelector("[data-photo-timeline-slider]");
-    const image = timeline.querySelector("[data-photo-timeline-image]");
-    const dateLabel = timeline.querySelector("[data-photo-timeline-date]");
+    const slider = comparison.querySelector("[data-photo-comparison-slider]");
+    const overlay = comparison.querySelector("[data-photo-comparison-overlay]");
+    const divider = comparison.querySelector("[data-photo-comparison-divider]");
 
-    if (!slider || !image || !dateLabel || photos.length === 0) return;
+    if (!slider || !overlay || !divider) return;
 
-    const updateTimeline = () => {
-      const selectedPhoto = photos[Number(slider.value)];
-      if (!selectedPhoto) return;
-
-      image.src = selectedPhoto.url;
-      dateLabel.textContent = selectedPhoto.date;
+    const updateComparison = () => {
+      const value = `${slider.value}%`;
+      overlay.style.width = value;
+      divider.style.left = value;
     };
 
-    slider.addEventListener("input", updateTimeline);
+    slider.addEventListener("input", updateComparison);
+    updateComparison();
   });
 }

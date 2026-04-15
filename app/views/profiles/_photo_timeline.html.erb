@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "profile_photo_timeline" do %>
   <div class="detail-card">
     <div class="chart-card-header">
-      <h2>Progress Photo Timeline</h2>
+      <h2>Progress Photo Comparison</h2>
 
       <div class="chart-toggle-group">
         <% ProfilePhotoTimeline::PHOTO_TYPES.each do |type| %>
@@ -13,64 +13,60 @@
       </div>
     </div>
 
-    <% if @photo_timeline.any_photos? %>
-      <div class="photo-timeline-shell">
-        <div class="photo-timeline-meta">
-          <p>
-            <strong>Showing:</strong>
-            <%= @photo_timeline.photo_type_label %>
-          </p>
-          <p>
-            <strong>Oldest:</strong>
-            <%= @photo_timeline.oldest_photo[:formatted_date] %>
-          </p>
-          <p>
-            <strong>Most Recent:</strong>
-            <%= @photo_timeline.newest_photo[:formatted_date] %>
-          </p>
-        </div>
+    <% if @photo_timeline.comparable? %>
+      <div class="photo-comparison-meta">
+        <p>
+          <strong>Comparing:</strong>
+          <%= @photo_timeline.photo_type_label %>
+        </p>
+        <p>
+          <strong>Oldest:</strong>
+          <%= @photo_timeline.oldest_photo[:formatted_date] %>
+        </p>
+        <p>
+          <strong>Most Recent:</strong>
+          <%= @photo_timeline.newest_photo[:formatted_date] %>
+        </p>
+      </div>
 
-        <div class="photo-timeline-viewer"
-             data-photo-timeline
-             data-photos="<%= raw(
-               @photo_timeline.photos.map { |photo|
-                 {
-                   url: url_for(photo[:attachment]),
-                   date: photo[:formatted_date]
-                 }
-               }.to_json
-             ) %>">
+      <div class="photo-comparison"
+           data-photo-comparison>
+        <div class="photo-comparison-image-wrap">
+          <%= image_tag @photo_timeline.oldest_photo[:attachment],
+              class: "photo-comparison-image base-image" %>
 
-          <div class="photo-card">
-            <p>
-              <strong><%= @photo_timeline.photo_type_label %></strong>
-              -
-              <span data-photo-timeline-date><%= @photo_timeline.oldest_photo[:formatted_date] %></span>
-            </p>
-
-            <%= image_tag @photo_timeline.oldest_photo[:attachment],
-                class: "progress-photo",
-                id: "timeline-photo-preview",
-                data: { photo_timeline_image: true } %>
+          <div class="photo-comparison-overlay" data-photo-comparison-overlay>
+            <%= image_tag @photo_timeline.newest_photo[:attachment],
+                class: "photo-comparison-image overlay-image" %>
           </div>
 
-          <% if @photo_timeline.photos.size > 1 %>
-            <div class="photo-timeline-slider-wrap">
-              <div class="photo-timeline-slider-labels">
-                <span><%= @photo_timeline.oldest_photo[:formatted_date] %></span>
-                <span><%= @photo_timeline.newest_photo[:formatted_date] %></span>
-              </div>
+          <div class="photo-comparison-divider" data-photo-comparison-divider></div>
 
-              <input type="range"
-                     min="0"
-                     max="<%= @photo_timeline.photos.size - 1 %>"
-                     value="0"
-                     step="1"
-                     class="photo-timeline-slider"
-                     data-photo-timeline-slider>
-            </div>
-          <% end %>
+          <div class="photo-comparison-label oldest-label">
+            Oldest
+          </div>
+
+          <div class="photo-comparison-label newest-label">
+            Most Recent
+          </div>
         </div>
+
+        <input type="range"
+               min="0"
+               max="100"
+               value="50"
+               class="photo-comparison-slider"
+               data-photo-comparison-slider>
+      </div>
+    <% elsif @photo_timeline.any_photos? %>
+      <p>
+        Only one <%= @photo_timeline.photo_type_label.downcase %> photo is available so far.
+        Upload at least one older and one newer photo to compare progress.
+      </p>
+
+      <div class="photo-card">
+        <p><strong><%= @photo_timeline.photo_type_label %></strong></p>
+        <%= image_tag @photo_timeline.newest_photo[:attachment], class: "progress-photo" %>
       </div>
     <% else %>
       <p>No <%= @photo_timeline.photo_type_label.downcase %> photos yet.</p>

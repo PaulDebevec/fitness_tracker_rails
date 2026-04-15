@@ -39,6 +39,10 @@ class ProfilePhotoTimeline
     def photo_type_label
       photo_type.delete_suffix("_photo").humanize
     end
+
+    def comparable?
+        photos.size >= 2
+    end
   
     private
   

@@ -916,6 +916,7 @@ a.button-link.subtle-link:hover {
 
 .photo-timeline-viewer .photo-card {
   max-width: 420px;
+  width: 100%;
 }
 
 .photo-timeline-slider-wrap {
@@ -935,6 +936,92 @@ a.button-link.subtle-link:hover {
   width: 100%;
   cursor: pointer;
 }
+
+/* Profile photos slider */
+.photo-timeline-viewer .progress-photo {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.photo-comparison {
+  max-width: 520px;
+  margin-top: 1rem;
+}
+
+.photo-comparison-meta p {
+  margin: 0.35rem 0;
+}
+
+.photo-comparison-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.photo-comparison-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-comparison-overlay {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.photo-comparison-overlay .overlay-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-comparison-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  background: #ffffff;
+  box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.2);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.photo-comparison-label {
+  position: absolute;
+  top: 0.75rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.8);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.oldest-label {
+  left: 0.75rem;
+}
+
+.newest-label {
+  right: 0.75rem;
+}
+
+.photo-comparison-slider {
+  width: 100%;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
 
   /* mobile compatibility */
 @media (max-width: 768px) {
