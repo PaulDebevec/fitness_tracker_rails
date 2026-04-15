@@ -54,23 +54,24 @@
         <h2><%= @body_part.humanize %> Progress Chart</h2>
 
         <div class="chart-wrapper">
-          <%= line_chart @report.chart.chart_data,
-              height: "340px",
-              xtitle: "Check-in Date",
-              ytitle: "#{@body_part.humanize} (#{@profile.unit_for(@body_part)})",
-              min: @report.chart.min_chart_value,
-              max: @report.chart.max_chart_value,
-              points: true,
-              curve: false,
-              legend: false,
-              thousands: ",",
-              dataset: { spanGaps: true },
-              library: {
-                animation: {
-                  duration: 700,
-                  easing: "easeOutQuart"
-                }
-              } %>
+         <%= line_chart @report.chart.chart_data,
+            height: "340px",
+            xtitle: "Check-in Date",
+            ytitle: "#{@body_part.humanize} (#{@profile.unit_for(@body_part)})",
+            min: @report.chart.min_chart_value,
+            max: @report.chart.max_chart_value,
+            colors: [@report.chart.selected_body_part_color],
+            points: true,
+            curve: false,
+            legend: false,
+            thousands: ",",
+            dataset: { spanGaps: true },
+            library: {
+              animation: {
+                duration: 700,
+                easing: "easeOutQuart"
+              }
+            } %>
         </div>
       </div>
     <% else %>
