@@ -104,6 +104,21 @@ RSpec.describe "CheckIn", type: :feature do
             
             expect(page).to have_content("No measurements yet.")
         end
+
+        it "shows an error instead of crashing when creating a duplicate check-in date" do
+            profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
+            profile.check_ins.create!(checked_in_on: Date.current, notes: "Existing check-in")
+          
+            visit new_profile_check_in_path(profile)
+          
+            fill_in "Check-in Date", with: Date.current
+            fill_in "Notes", with: "Duplicate attempt"
+            click_button "Create Check-in"
+          
+            expect(page).to have_content("has already been taken")
+            expect(page).to have_current_path(profile_check_ins_path(profile)) .or have_current_path(profile_check_ins_path(profile, anchor: nil))
+            expect(page).to have_content("Create Check-in").or have_content("New Check-in")
+          end
     end
 
     describe "sad paths / edge cases" do

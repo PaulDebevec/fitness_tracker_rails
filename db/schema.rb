@@ -64,7 +64,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_12_212604) do
 
   create_table "profiles", force: :cascade do |t|
     t.string "display_name"
-    t.string "unit_system", default: "in"
+    t.string "unit_system", default: "imperial"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -160,19 +160,19 @@ RSpec.describe "CheckIns", type: :request do
   describe "checkin photo upload" do
     it "creates a check-in with an upper front photo" do
       profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
-      image = test_image_upload("upper_front.png")
+      image = test_image_upload("front_photo.png")
     
       post profile_check_ins_path(profile), params: {
         check_in: {
           checked_in_on: Date.current,
           notes: "With photo",
-          upper_front_photo: image
+          front_photo: image
         }
       }
     
       check_in = CheckIn.last
       expect(response).to redirect_to(profile_check_in_path(profile, check_in))
-      expect(check_in.upper_front_photo).to be_attached
+      expect(check_in.front_photo).to be_attached
     end
   end
 end

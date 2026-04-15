@@ -2,10 +2,9 @@ class CheckIn < ApplicationRecord
     belongs_to :profile
     has_many :measurements, dependent: :destroy
 
-    has_one_attached :upper_front_photo
-    has_one_attached :upper_back_photo
-    has_one_attached :lower_front_photo
-    has_one_attached :lower_back_photo
+    has_one_attached :front_photo
+    has_one_attached :back_photo
+    has_one_attached :side_photo
 
     scope :chronological, -> { order(checked_in_on: :asc) }
     scope :reverse_chronological, -> { order(checked_in_on: :desc) }

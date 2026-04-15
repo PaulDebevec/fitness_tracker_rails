@@ -9,8 +9,9 @@ RSpec.describe "CheckIn photo upload", type: :feature do
         fill_in "Check-in Date", with: Date.current
         fill_in "Notes", with: "Photo upload test"
     
-        attach_file "check_in_upper_front_photo", Rails.root.join("spec/fixtures/files/upper_front.png")
-        attach_file "check_in_upper_back_photo", Rails.root.join("spec/fixtures/files/upper_back.png")
+        attach_file "check_in_front_photo", Rails.root.join("spec/fixtures/files/front_photo.png")
+        attach_file "check_in_back_photo", Rails.root.join("spec/fixtures/files/back_photo.png")
+        attach_file "check_in_side_photo", Rails.root.join("spec/fixtures/files/side_photo.png")
     
         click_button "Create Check-in"
     
@@ -18,8 +19,9 @@ RSpec.describe "CheckIn photo upload", type: :feature do
     
         expect(current_path).to eq(profile_check_in_path(profile, check_in))
         expect(page).to have_content("Check-in created successfully.")
-        expect(check_in.upper_front_photo).to be_attached
-        expect(check_in.upper_back_photo).to be_attached
+        expect(check_in.front_photo).to be_attached
+        expect(check_in.back_photo).to be_attached
+        expect(check_in.side_photo).to be_attached
         expect(page).to have_css("img")
     end
 
@@ -29,14 +31,15 @@ RSpec.describe "CheckIn photo upload", type: :feature do
       
         visit edit_profile_check_in_path(profile, check_in)
       
-        attach_file "check_in_lower_front_photo", Rails.root.join("spec/fixtures/files/upper_front.png")
-        attach_file "check_in_lower_back_photo", Rails.root.join("spec/fixtures/files/upper_back.png")
+        attach_file "check_in_front_photo", Rails.root.join("spec/fixtures/files/front_photo.png")
+        attach_file "check_in_back_photo", Rails.root.join("spec/fixtures/files/back_photo.png")
+        attach_file "check_in_side_photo", Rails.root.join("spec/fixtures/files/side_photo.png")
       
         click_button "Update Check-in"
       
         expect(current_path).to eq(profile_check_in_path(profile, check_in))
         expect(page).to have_content("Check-in updated successfully.")
-        expect(check_in.reload.lower_front_photo).to be_attached
-        expect(check_in.reload.lower_back_photo).to be_attached
+        expect(check_in.reload.front_photo).to be_attached
+        expect(check_in.reload.back_photo).to be_attached
       end
 end

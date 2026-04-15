@@ -7,9 +7,9 @@ Profile.destroy_all
 puts "Seeding profiles, check-ins, measurements, and photos..."
 
 SEED_IMAGE_PATHS = [
-  Rails.root.join("spec/fixtures/files/test_image.png"),
-  Rails.root.join("spec/fixtures/files/test_image_2.png"),
-  Rails.root.join("spec/fixtures/files/test_image_3.png")
+  Rails.root.join("spec/fixtures/files/back_photo.png"),
+  Rails.root.join("spec/fixtures/files/front_photo.png"),
+  Rails.root.join("spec/fixtures/files/side_photo.png")
 ].freeze
 
 def sample_notes_for(profile_name)
@@ -161,10 +161,9 @@ end
 
 def seed_photo_directories
   {
-    upper_front_photo: Rails.root.join("db/seed_files/upper_front"),
-    upper_back_photo: Rails.root.join("db/seed_files/upper_back"),
-    lower_back_photo: Rails.root.join("db/seed_files/lower_back"),
-    lower_front_photo: Rails.root.join("db/seed_files/lower_front")
+    front_photo: Rails.root.join("db/seed_files/front_photos"),
+    back_photo: Rails.root.join("db/seed_files/back_photos"),
+    side_photo: Rails.root.join("db/seed_files/side_photos"),
   }
 end
 
@@ -179,14 +178,12 @@ def available_photo_sets
 
       suffix =
         case attachment_name
-        when :upper_front_photo
-          filename.delete_prefix("upper_front_")
-        when :upper_back_photo
-          filename.delete_prefix("upper_back_")
-        when :lower_front_photo
-          filename.delete_prefix("lower_front_")
-        when :lower_back_photo
-          filename.delete_prefix("lower_back_")
+        when :front_photo
+          filename.delete_prefix("front_photo_")
+        when :back_photo
+          filename.delete_prefix("back_photo_")
+        when :side_photo
+          filename.delete_prefix("side_photo_")
         end
 
       sets[suffix][attachment_name] = file_path
@@ -272,7 +269,6 @@ puts "Profiles: #{Profile.count}"
 puts "CheckIns: #{CheckIn.count}"
 puts "Measurements: #{Measurement.count}"
 puts "CheckIns with photos:"
-puts "  Upper front: #{CheckIn.all.count { |c| c.upper_front_photo.attached? }}"
-puts "  Upper back: #{CheckIn.all.count { |c| c.upper_back_photo.attached? }}"
-puts "  Lower front: #{CheckIn.all.count { |c| c.lower_front_photo.attached? }}"
-puts "  Lower back: #{CheckIn.all.count { |c| c.lower_back_photo.attached? }}"
+puts "  Front photos: #{CheckIn.all.count { |c| c.front_photo.attached? }}"
+puts "  Back photos: #{CheckIn.all.count { |c| c.back_photo.attached? }}"
+puts "  Side photos: #{CheckIn.all.count { |c| c.side_photo.attached? }}"
