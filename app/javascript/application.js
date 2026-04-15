@@ -14,15 +14,12 @@ function initializePhotoComparisons() {
     comparison.dataset.initialized = "true";
 
     const slider = comparison.querySelector("[data-photo-comparison-slider]");
-    const overlay = comparison.querySelector("[data-photo-comparison-overlay]");
-    const divider = comparison.querySelector("[data-photo-comparison-divider]");
+    const wrapper = comparison.querySelector(".photo-comparison-image-wrap");
 
-    if (!slider || !overlay || !divider) return;
+    if (!slider || !wrapper) return;
 
     const updateComparison = () => {
-      const value = `${slider.value}%`;
-      overlay.style.width = value;
-      divider.style.left = value;
+      wrapper.style.setProperty("--comparison-position", `${slider.value}%`);
     };
 
     slider.addEventListener("input", updateComparison);
