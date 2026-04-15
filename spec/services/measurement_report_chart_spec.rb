@@ -130,8 +130,8 @@ RSpec.describe MeasurementReportChart do
       waist_series = chart.body_measurement_chart_data.find { |series| series[:name] == "Waist" }
       chest_series = chart.body_measurement_chart_data.find { |series| series[:name] == "Chest" }
 
-      expect(waist_series[:color]).to eq("#059669")
-      expect(chest_series[:color]).to eq("#dc2626")
+      expect(waist_series[:color]).to eq("#7F7F7F")
+      expect(chest_series[:color]).to eq("#56B4E9")
     end
   end
 

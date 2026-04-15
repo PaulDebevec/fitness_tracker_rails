@@ -1,15 +1,16 @@
 class MeasurementReportChart
-    BODY_PART_COLORS = {
-      "weight" => "#2563eb",
-      "chest" => "#dc2626",
-      "waist" => "#059669",
-      "hips" => "#7c3aed",
-      "shoulders" => "#ea580c",
-      "bicep_left" => "#0891b2",
-      "bicep_right" => "#0d9488",
-      "thigh_left" => "#9333ea",
-      "thigh_right" => "#ca8a04"
-    }.freeze
+  BODY_PART_COLORS = {
+    "weight" => "#0072B2",
+    "chest" => "#56B4E9",
+    "waist" => "#7F7F7F",
+    "hips" => "#CC79A7",
+    "shoulders" => "#6A3D9A",
+    "bicep_left" => "#D55E00",
+    "bicep_right" => "#E69F00",
+    "thigh_left" => "#009E73",
+    "thigh_right" => "#1B9E77"
+  }.freeze
+  
   
     attr_reader :report
   
@@ -141,6 +142,10 @@ class MeasurementReportChart
       else
         "Since Previous Check-in"
       end
+    end
+
+    def selected_body_part_color
+      BODY_PART_COLORS[report.body_part]
     end
   
     private
