@@ -86,7 +86,7 @@ class CheckInsController < ApplicationController
     %w[
       front_photo
       back_photo
-      profile_photo
+      side_photo
     ]
   end
 
@@ -96,7 +96,7 @@ class CheckInsController < ApplicationController
       :notes,
       :front_photo,
       :back_photo,
-      :profile_photo
+      :side_photo
     )
   end
   
