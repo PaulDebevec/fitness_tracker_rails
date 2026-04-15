@@ -25,7 +25,8 @@
   <%= form.label :front_photo %>
 
   <div class="photo-upload-row">
-    <% if @check_in.front_photo.attached? %>
+    <% if @check_in.persisted? && @check_in.front_photo.attached? %>
+    
       <div class="photo-preview-wrapper">
         <span class="photo-preview-hint">
           Uploading a new photo will replace the current one
@@ -43,7 +44,7 @@
   <%= form.label :back_photo %>
 
   <div class="photo-upload-row">
-    <% if @check_in.back_photo.attached? %>
+    <% if @check_in.persisted? && @check_in.back_photo.attached? %>
       <div class="photo-preview-wrapper">
         <span class="photo-preview-hint">
           Uploading a new photo will replace the current one
@@ -61,7 +62,7 @@
   <%= form.label :side_photo %>
 
   <div class="photo-upload-row">
-    <% if @check_in.side_photo.attached? %>
+    <% if @check_in.persisted? && @check_in.side_photo.attached? %>
       <div class="photo-preview-wrapper">
         <span class="photo-preview-hint">
           Uploading a new photo will replace the current one
