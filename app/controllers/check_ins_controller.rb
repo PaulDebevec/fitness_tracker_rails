@@ -22,9 +22,11 @@ class CheckInsController < ApplicationController
     else
       render :new, status: :unprocessable_content
     end
-  end
-
-  def edit
+  rescue ActiveRecord::RecordNotUnique
+    @check_in = @profile.check_ins.new(check_in_form_params)
+    @check_in.errors.add(:checked_in_on, "has already been taken for this profile")
+    flash.now[:alert] = "Please re-select any photos before submitting again."
+    render :new, status: :unprocessable_content
   end
 
   def update
@@ -33,6 +35,14 @@ class CheckInsController < ApplicationController
     else
       render :edit, status: :unprocessable_content
     end
+  rescue ActiveRecord::RecordNotUnique
+    @check_in.assign_attributes(check_in_form_params)
+    @check_in.errors.add(:checked_in_on, "has already been taken for this profile")
+    flash.now[:alert] = "Please re-select any replacement photos before submitting again."
+    render :edit, status: :unprocessable_content
+  end
+
+  def edit
   end
 
   def destroy
@@ -72,23 +82,28 @@ class CheckInsController < ApplicationController
     redirect_to profile_check_ins_path(@profile), alert: "Check-in not found."
   end
 
+  def removable_photo_names
+    %w[
+      front_photo
+      back_photo
+      profile_photo
+    ]
+  end
+
   def check_in_params
     params.require(:check_in).permit(
       :checked_in_on,
       :notes,
-      :upper_front_photo,
-      :upper_back_photo,
-      :lower_front_photo,
-      :lower_back_photo
+      :front_photo,
+      :back_photo,
+      :profile_photo
     )
   end
-
-  def removable_photo_names
-    %w[
-      upper_front_photo
-      upper_back_photo
-      lower_front_photo
-      lower_back_photo
-    ]
+  
+  def check_in_form_params
+    params.require(:check_in).permit(
+      :checked_in_on,
+      :notes
+    )
   end
 end

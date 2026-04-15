@@ -9,7 +9,7 @@ RSpec.describe "Measurement photo upload", type: :feature do
     
         select "Waist", from: "Body part"
         fill_in "Value", with: 34.5
-        attach_file "Photo", Rails.root.join("spec/fixtures/files/upper_back.png")
+        attach_file "Photo", Rails.root.join("spec/fixtures/files/back_photo.png")
     
         click_button "Create Measurement"
     
@@ -28,7 +28,7 @@ RSpec.describe "Measurement photo upload", type: :feature do
       
         visit edit_profile_check_in_measurement_path(profile, check_in, measurement)
       
-        attach_file "Photo", Rails.root.join("spec/fixtures/files/upper_back.png")
+        attach_file "Photo", Rails.root.join("spec/fixtures/files/back_photo.png")
         click_button "Update Measurement"
       
         expect(current_path).to eq(profile_check_in_measurement_path(profile, check_in, measurement))

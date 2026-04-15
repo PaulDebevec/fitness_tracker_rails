@@ -38,10 +38,9 @@
       <p>
         <strong>Progress Photos:</strong>
         <%= [
-          @check_in.upper_front_photo.attached?,
-          @check_in.upper_back_photo.attached?,
-          @check_in.lower_front_photo.attached?,
-          @check_in.lower_back_photo.attached?
+          @check_in.front_photo.attached?,
+          @check_in.back_photo.attached?,
+          @check_in.side_photo.attached?
         ].count(true) %>
       </p>
     </div>
@@ -65,16 +64,14 @@
     </div>
   </div>
 
-    <% if @check_in.upper_front_photo.attached? ||
-          @check_in.upper_back_photo.attached? ||
-          @check_in.lower_front_photo.attached? ||
-          @check_in.lower_back_photo.attached? %>
+    <% if @check_in.front_photo.attached? ||
+          @check_in.back_photo.attached? ||
+          @check_in.side_photo.attached? %>
 
     <% photo_sections = [
-      ["Upper Front", "upper_front_photo"],
-      ["Upper Back", "upper_back_photo"],
-      ["Lower Front", "lower_front_photo"],
-      ["Lower Back", "lower_back_photo"]
+      ["Front", "front_photo"],
+      ["Back", "back_photo"],
+      ["Side", "side_photo"]
     ] %>
 
     <% attached_photos = photo_sections.select { |_, photo_name| @check_in.public_send(photo_name).attached? } %>

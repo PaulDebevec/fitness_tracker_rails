@@ -21,77 +21,59 @@
     <%= form.text_area :notes, rows: 4 %>
   </div>
 
-  <div class="form-field">
-    <%= form.label :upper_front_photo %>
+<div class="form-field">
+  <%= form.label :front_photo %>
 
-    <div class="photo-upload-row">
-    <%= form.file_field :upper_front_photo %>
-      <% if @check_in.upper_front_photo.attached? %>
-        <div class="photo-preview-wrapper">
-          <span class="photo-preview-hint">
-            Uploading a new photo will replace the current one
-          </span>
+  <div class="photo-upload-row">
+    <% if @check_in.front_photo.attached? %>
+      <div class="photo-preview-wrapper">
+        <span class="photo-preview-hint">
+          Uploading a new photo will replace the current one
+        </span>
 
-          <%= image_tag @check_in.upper_front_photo,
-              class: "photo-preview-thumbnail" %>
-        </div>
-      <% end %>
-    </div>
+        <%= image_tag @check_in.front_photo, class: "photo-preview-thumbnail" %> 
+      </div>
+    <% end %>
+
+    <%= form.file_field :front_photo %>
   </div>
+</div>
 
-  <div class="form-field">
-    <%= form.label :upper_back_photo %>
+<div class="form-field">
+  <%= form.label :back_photo %>
 
-    <div class="photo-upload-row">
-    <%= form.file_field :upper_back_photo %>
-      <% if @check_in.upper_back_photo.attached? %>
-        <div class="photo-preview-wrapper">
-          <span class="photo-preview-hint">
-            Uploading a new photo will replace the current one
-          </span>
+  <div class="photo-upload-row">
+    <% if @check_in.back_photo.attached? %>
+      <div class="photo-preview-wrapper">
+        <span class="photo-preview-hint">
+          Uploading a new photo will replace the current one
+        </span>
 
-          <%= image_tag @check_in.upper_back_photo,
-              class: "photo-preview-thumbnail" %>
-        </div>
-      <% end %>
-    </div>
+        <%= image_tag @check_in.back_photo, class: "photo-preview-thumbnail" %>
+      </div>
+    <% end %>
+
+    <%= form.file_field :back_photo %>
   </div>
-  
-  <div class="form-field">
-    <%= form.label :lower_front_photo %>
+</div>
 
-    <div class="photo-upload-row">
-    <%= form.file_field :lower_front_photo %>
-      <% if @check_in.lower_front_photo.attached? %>
-        <div class="photo-preview-wrapper">
-          <span class="photo-preview-hint">
-            Uploading a new photo will replace the current one
-          </span>
+<div class="form-field">
+  <%= form.label :side_photo %>
 
-          <%= image_tag @check_in.lower_front_photo,
-              class: "photo-preview-thumbnail" %>
-        </div>
-      <% end %>
-    </div>
+  <div class="photo-upload-row">
+    <% if @check_in.side_photo.attached? %>
+      <div class="photo-preview-wrapper">
+        <span class="photo-preview-hint">
+          Uploading a new photo will replace the current one
+        </span>
+
+        <%= image_tag @check_in.side_photo, class: "photo-preview-thumbnail" %>
+      </div>
+    <% end %>
+
+    <%= form.file_field :side_photo %>
   </div>
-
-  <div class="form-field">
-    <%= form.label :lower_back_photo %>
-
-    <div class="photo-upload-row">
-    <%= form.file_field :lower_back_photo %>
-      <% if @check_in.lower_back_photo.attached? %>
-        <div class="photo-preview-wrapper">
-          <span class="photo-preview-hint">
-            Uploading a new photo will replace the current one
-          </span>
-
-          <%= image_tag @check_in.lower_back_photo,
-              class: "photo-preview-thumbnail" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
+</div>
 
   <div class="form-actions">
     <%= form.submit @check_in.persisted? ? "Update Check-in" : "Create Check-in" %>

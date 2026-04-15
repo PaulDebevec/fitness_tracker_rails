@@ -43,10 +43,9 @@
       <div class="check-in-meta">
         <span><strong>Measurements:</strong> <%= check_in.measurements.count %></span>
         <span><strong>Photos:</strong> <%= [
-          check_in.upper_front_photo.attached?,
-          check_in.upper_back_photo.attached?,
-          check_in.lower_front_photo.attached?,
-          check_in.lower_back_photo.attached?
+          check_in.front_photo.attached?,
+          check_in.back_photo.attached?,
+          check_in.side_photo.attached?
         ].count(true) %></span>
       </div>
 
