@@ -30,11 +30,46 @@
           </p>
         </div>
 
-        <div class="photo-timeline-viewer">
+        <div class="photo-timeline-viewer"
+             data-photo-timeline
+             data-photos="<%= raw(
+               @photo_timeline.photos.map { |photo|
+                 {
+                   url: url_for(photo[:attachment]),
+                   date: photo[:formatted_date]
+                 }
+               }.to_json
+             ) %>">
+
           <div class="photo-card">
-            <p><strong><%= @photo_timeline.photo_type_label %></strong></p>
-            <%= image_tag @photo_timeline.newest_photo[:attachment], class: "progress-photo", id: "timeline-photo-preview" %>
+            <p>
+              <strong><%= @photo_timeline.photo_type_label %></strong>
+              -
+              <span data-photo-timeline-date><%= @photo_timeline.oldest_photo[:formatted_date] %></span>
+            </p>
+
+            <%= image_tag @photo_timeline.oldest_photo[:attachment],
+                class: "progress-photo",
+                id: "timeline-photo-preview",
+                data: { photo_timeline_image: true } %>
           </div>
+
+          <% if @photo_timeline.photos.size > 1 %>
+            <div class="photo-timeline-slider-wrap">
+              <div class="photo-timeline-slider-labels">
+                <span><%= @photo_timeline.oldest_photo[:formatted_date] %></span>
+                <span><%= @photo_timeline.newest_photo[:formatted_date] %></span>
+              </div>
+
+              <input type="range"
+                     min="0"
+                     max="<%= @photo_timeline.photos.size - 1 %>"
+                     value="0"
+                     step="1"
+                     class="photo-timeline-slider"
+                     data-photo-timeline-slider>
+            </div>
+          <% end %>
         </div>
       </div>
     <% else %>

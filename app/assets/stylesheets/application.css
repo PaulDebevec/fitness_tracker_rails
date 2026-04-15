@@ -918,6 +918,24 @@ a.button-link.subtle-link:hover {
   max-width: 420px;
 }
 
+.photo-timeline-slider-wrap {
+  margin-top: 1rem;
+}
+
+.photo-timeline-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.photo-timeline-slider {
+  width: 100%;
+  cursor: pointer;
+}
+
   /* mobile compatibility */
 @media (max-width: 768px) {
   .navbar-inner {
