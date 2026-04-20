@@ -13,7 +13,8 @@ RSpec.describe User, type: :model do
 
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }
-
+    it { should have_one(:profile).dependent(:destroy) }
+  
     it "is valid with a valid email, password, and role" do
       user = described_class.new(
         email: "paul@example.com",

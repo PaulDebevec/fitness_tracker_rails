@@ -205,10 +205,11 @@ def attach_photo_set(check_in, photo_set)
   end
 end
 
-def create_profile_with_history(display_name:, unit_system:, day_offsets:, photo_sets:)
+def create_profile_with_history(display_name:, unit_system:, day_offsets:, photo_sets:, user:)
   profile = Profile.create!(
     display_name: display_name,
-    unit_system: unit_system
+    unit_system: unit_system,
+    user: user
   )
 
   notes = sample_notes_for(display_name)
@@ -238,25 +239,49 @@ end
 
 photo_sets = available_photo_sets.values
 
+user_1 = User.create!(
+  email: "paul@example.com",
+  password: "supersecure123",
+  password_confirmation: "supersecure123",
+  role: "user"
+)
+
 create_profile_with_history(
   display_name: "Paul",
   unit_system: "imperial",
   day_offsets: [84, 63, 49, 35, 14, 3],
-  photo_sets: photo_sets
+  photo_sets: photo_sets,
+  user: user_1
+)
+
+user_2 = User.create!(
+  email: "jamie@example.com",
+  password: "supersecure123",
+  password_confirmation: "supersecure123",
+  role: "user"
 )
 
 create_profile_with_history(
   display_name: "Jamie",
   unit_system: "imperial",
   day_offsets: [90, 70, 52, 28, 12, 1],
-  photo_sets: photo_sets.rotate(1)
+  photo_sets: photo_sets.rotate(1),
+  user: user_2
+)
+
+user_3 = User.create!(
+  email: "sHaiNa@exaMPle.com",
+  password: "supersecure123",
+  password_confirmation: "supersecure123",
+  role: "user"
 )
 
 create_profile_with_history(
   display_name: "Shaina",
   unit_system: "metric",
   day_offsets: [95, 74, 58, 41, 19, 6],
-  photo_sets: photo_sets.rotate(2)
+  photo_sets: photo_sets.rotate(2),
+  user: user_3
 )
 
 available_photo_sets.each do |suffix, files|
