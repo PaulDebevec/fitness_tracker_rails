@@ -12,7 +12,8 @@ class UsersController < ApplicationController
         @user.save!
         @profile.save!
       end
-  
+      
+      reset_session
       session[:user_id] = @user.id
   
       redirect_to profile_path(@user.profile), notice: "Account created successfully."
@@ -36,4 +37,4 @@ class UsersController < ApplicationController
         :unit_system
       )
     end
-  end
+end
