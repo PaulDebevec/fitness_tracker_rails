@@ -1,0 +1,57 @@
+<h1>Create Account</h1>
+
+<div class="form-card">
+  <%= form_with url: signup_path, method: :post, class: "stacked-form" do |form| %>
+    <% if @user.errors.any? || @profile.errors.any? %>
+      <div class="form-errors">
+        <h2>Please fix the following errors:</h2>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+
+          <% @profile.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <h2>Account Details</h2>
+
+    <div class="form-field">
+      <%= label_tag "user[email]", "Email" %>
+      <%= email_field_tag "user[email]", @user.email %>
+    </div>
+
+    <div class="form-field">
+      <%= label_tag "user[password]", "Password" %>
+      <%= password_field_tag "user[password]" %>
+    </div>
+
+    <div class="form-field">
+      <%= label_tag "user[password_confirmation]", "Confirm Password" %>
+      <%= password_field_tag "user[password_confirmation]" %>
+    </div>
+
+    <h2>Profile Details</h2>
+
+    <div class="form-field">
+      <%= label_tag "profile[display_name]", "Display Name" %>
+      <%= text_field_tag "profile[display_name]", @profile.display_name %>
+    </div>
+
+    <div class="form-field">
+      <%= label_tag "profile[unit_system]", "Unit System" %>
+      <%= select_tag "profile[unit_system]",
+          options_for_select(
+            [["Imperial", "imperial"], ["Metric", "metric"]],
+            @profile.unit_system
+          ) %>
+    </div>
+
+    <div class="form-actions">
+      <%= submit_tag "Create Account" %>
+    </div>
+  <% end %>
+</div>

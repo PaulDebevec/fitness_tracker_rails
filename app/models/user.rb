@@ -12,5 +12,5 @@ class User < ApplicationRecord
               uniqueness: true,
               format: { with: URI::MailTo::EMAIL_REGEXP }
   
-    validates :password, length: { minimum: 12 }, if: -> { password.present? }
+    validates :password, length: { minimum: 10 }, if: -> { password.present? }
   end

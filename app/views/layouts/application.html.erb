@@ -20,7 +20,13 @@
             <%= link_to "Back to Profile", profile_path(@profile), class: "nav-link" %>
           <% end %>
         </div>
+        <div class="navbar-right">
+          <% if controller_name != "home" %>
+            <%= link_to "Sign Up", signup_path, class: "button-link" %>
+          <% end %>
+
         </div>
+       </div>
       </div>
     </header>
 
