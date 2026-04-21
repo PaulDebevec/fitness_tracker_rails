@@ -1,5 +1,7 @@
 class ProfilesController < ApplicationController
+  before_action :require_login
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action -> { require_profile_owner_or_admin(@profile) }, only: [:show, :edit, :update, :destroy]
 
   def index
     @profiles = Profile.recent_first
@@ -11,19 +13,19 @@ class ProfilesController < ApplicationController
     @photo_timeline = ProfilePhotoTimeline.new(profile: @profile, photo_type: @photo_type)
   end
 
-  def new
-    @profile = Profile.new
-  end
+  # def new
+  #   @profile = Profile.new
+  # end
 
-  def create
-    @profile = Profile.new(profile_params)
+  # def create
+  #   @profile = Profile.new(profile_params)
 
-    if @profile.save
-      redirect_to profile_path(@profile), notice: "Profile created successfully."
-    else
-      render :new, status: :unprocessable_content
-    end
-  end
+  #   if @profile.save
+  #     redirect_to profile_path(@profile), notice: "Profile created successfully."
+  #   else
+  #     render :new, status: :unprocessable_content
+  #   end
+  # end
 
   def edit
   end

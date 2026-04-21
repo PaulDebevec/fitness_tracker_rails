@@ -1,5 +1,7 @@
 class MeasurementsController < ApplicationController
+    before_action :require_login
     before_action :set_profile
+    before_action -> { require_profile_owner_or_admin(@profile) }
     before_action :set_check_in
     before_action :set_measurement, only: [:show, :edit, :update, :destroy]
   

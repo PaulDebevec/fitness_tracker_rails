@@ -16,4 +16,17 @@ class ApplicationController < ActionController::Base
 
     redirect_to login_path, alert: "You must be logged in to access that page."
   end
+
+  def require_admin
+    return if current_user&.admin?
+
+    redirect_to root_path, alert: "You are not authorized to access that page."
+  end
+
+  def require_profile_owner_or_admin(profile)
+    return if current_user&.admin?
+    return if current_user == profile.user
+
+    redirect_to root_path, alert: "You are not authorized to access that page."
+  end
 end
