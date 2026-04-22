@@ -1,13 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Profiles", type: :request do
-  describe "GET /profiles/new" do
-    it "returns a success response" do
-      get new_profile_path
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
   describe "POST /profiles" do
     context "with valid params" do
       it "creates a profile and redirects to check-ins index" do

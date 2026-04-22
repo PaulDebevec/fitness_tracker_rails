@@ -16,13 +16,14 @@
         <div class="navbar-left">
           <%= link_to "Fitness Progression", root_path, class: "brand-link" %>
           <%= link_to "Profiles", profiles_path, class: "nav-link" %>
-          <% if controller_name == "check_ins" || controller_name == "reports" || controller_name == "measurements" %>
-            <%= link_to "Back to Profile", profile_path(@profile), class: "nav-link" %>
-          <% end %>
-        </div>
-        <div class="navbar-right">
+
           <% if logged_in? %>
             <%= link_to "My Profile", profile_path(current_user.profile), class: "nav-link" %>
+          <% end %>
+        </div>
+
+        <div class="navbar-right">
+          <% if logged_in? %>
             <%= button_to "Log Out", logout_path, method: :delete %>
           <% else %>
             <%= link_to "Sign Up", signup_path, class: "nav-link" %>
