@@ -12,21 +12,26 @@
 
 <div class="page-actions">
   <div class="page-actions-primary">
-    <%= link_to "📊 View Progress Report", 
-      profile_report_path(@profile), 
-      class: "button-link primary large" %>
+    <% if can_view_profile?(@profile) %>
+      <%= link_to "📊 View Progress Report", 
+        profile_report_path(@profile), 
+        class: "button-link primary large" %>
+    <% end %>
   </div>
 
-  <div class="page-actions-secondary">
-    <%= link_to "Edit Profile",
-        edit_profile_path(@profile),
-        class: "button-link subtle" %>
+  <% if can_manage_profile?(@profile) %>
+    <div class="page-actions-secondary">
+      <%= link_to "Edit Profile",
+          edit_profile_path(@profile),
+          class: "button-link subtle" %>
 
-    <%= link_to "New Check-in",
-        new_profile_check_in_path(@profile),
-        class: "button-link subtle" %>
-  </div>
+      <%= link_to "New Check-in",
+          new_profile_check_in_path(@profile),
+          class: "button-link subtle" %>
+    </div>
+  <% end %>
 </div>
+
 
 <%= render "photo_timeline" %>
 
@@ -70,9 +75,11 @@
   <p>No check-ins yet.</p>
 <% end %>
 
-<div class="danger-zone">
-  <%= button_to "Delete Profile",
-      profile_path(@profile),
-      method: :delete,
-      data: { turbo_confirm: "Are you sure?" } %>
-</div>
+<% if can_manage_profile?(@profile) %>
+  <div class="danger-zone">
+    <%= button_to "Delete Profile",
+        profile_path(@profile),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" } %>
+  </div>
+<% end %>
