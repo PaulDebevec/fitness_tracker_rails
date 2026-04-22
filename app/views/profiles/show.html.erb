@@ -95,7 +95,9 @@
 
             <div class="card-hint-row">
               <span class="card-hint-text muted">
-                <%= link_to "Log in to view details", login_path, class: "inline-link" %>
+                <%= link_to "Log in to view details",
+                  login_path(return_to: profile_check_in_path(@profile, check_in)),
+                  class: "inline-link" %>
               </span>
             </div>
           </div>
