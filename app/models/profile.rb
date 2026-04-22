@@ -33,4 +33,12 @@ class Profile < ApplicationRecord
   def latest_check_in
     check_ins.reverse_chronological.first
   end
+
+  def public?
+    public_profile
+  end
+  
+  def private?
+    !public_profile
+  end
 end

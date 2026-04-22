@@ -1,7 +1,8 @@
 class ProfilesController < ApplicationController
   before_action :require_login
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
-  before_action -> { require_profile_owner_or_admin(@profile) }, only: [:show, :edit, :update, :destroy]
+  before_action -> { require_profile_view_access(@profile) }, only: [:show]
+  before_action -> { require_profile_owner_or_admin(@profile) }, only: [:edit, :update, :destroy]
 
   def index
     @profiles = Profile.recent_first
@@ -38,6 +39,10 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:display_name, :unit_system)
+    params.require(:profile).permit(
+      :display_name,
+      :unit_system,
+      :public_profile
+    )
   end
 end

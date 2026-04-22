@@ -5,6 +5,11 @@
   <%= @profile.formatted_unit_system %>
 </p>
 
+<p class="profile-visibility">
+  <strong>Profile visibility:</strong>
+  <%= @profile.public? ? "Public" : "Private" %>
+</p>
+
 <div class="page-actions">
   <div class="page-actions-primary">
     <%= link_to "📊 View Progress Report", 

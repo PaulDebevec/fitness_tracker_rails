@@ -29,4 +29,18 @@ class ApplicationController < ActionController::Base
 
     redirect_to root_path, alert: "You are not authorized to access that page."
   end
+
+  def can_view_profile?(profile)
+    return true if profile.public?
+    return true if current_user&.admin?
+    return true if current_user == profile.user
+  
+    false
+  end
+  
+  def require_profile_view_access(profile)
+    return if can_view_profile?(profile)
+  
+    redirect_to root_path, alert: "You are not authorized to view that profile."
+  end
 end
