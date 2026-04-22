@@ -22,7 +22,7 @@
               <%= profile.check_ins.count %>
             </p>
 
-            <% unless profile.public? %>
+            <% if show_private_profile_label?(profile) %>
               <p><strong>Private Profile</strong></p>
             <% end %>
 
