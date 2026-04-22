@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?, :can_manage_profile?, :can_view_profile?, :show_private_profile_label?
+  helper_method :can_view_check_in_details?
+
 
   private
 
@@ -63,6 +65,15 @@ class ApplicationController < ActionController::Base
   def show_private_profile_label?(profile)
     return false if profile.public?
     return true if current_user&.admin?
+
+    false
+  end
+
+  def can_view_check_in_details?(profile)
+    return false unless logged_in?
+    return true if current_user&.admin?
+    return true if current_user == profile.user
+    return true if profile.public?
 
     false
   end

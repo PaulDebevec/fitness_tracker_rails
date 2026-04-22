@@ -1,9 +1,9 @@
 class MeasurementsController < ApplicationController
     before_action :require_login
     before_action :set_profile
-    before_action -> { require_profile_owner_or_admin(@profile) }, only: [:create, :edit, :update, :destroy]
     before_action :set_check_in
     before_action :set_measurement, only: [:show, :edit, :update, :destroy]
+    before_action -> { require_profile_owner_or_admin(@profile) }, only: [:create, :edit, :update, :destroy]
   
     def index
       @measurements = @check_in.measurements.ordered_by_body_part

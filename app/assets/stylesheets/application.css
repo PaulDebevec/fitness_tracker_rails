@@ -1078,6 +1078,20 @@ a.button-link.subtle-link:hover {
   text-align: left;
 }
 
+.check-in-card.disabled {
+  cursor: default;
+  opacity: 0.95;
+}
+
+.check-in-card.disabled:hover {
+  transform: none; /* prevent hover animation if you have one */
+}
+
+.card-link.muted {
+  color: #9ca3af; /* subtle gray */
+  font-weight: 500;
+}
+
 
   /* mobile compatibility */
 @media (max-width: 768px) {
