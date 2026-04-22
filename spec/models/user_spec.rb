@@ -46,7 +46,7 @@ RSpec.describe User, type: :model do
       )
 
       expect(user).not_to be_valid
-      expect(user.errors[:password]).to include("is too short (minimum is 12 characters)")
+      expect(user.errors[:password]).to include("is too short (minimum is 10 characters)")
     end
 
     it "defaults role to user" do
