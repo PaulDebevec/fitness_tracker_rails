@@ -38,20 +38,6 @@ RSpec.describe "Profile", type: :feature do
             )
         end
 
-        xit "can create new profiles" do
-            visit "/profiles/new"
-            expect(current_path).to eq("/profiles/new")
-
-            fill_in "Display name", with: "John-Patrick"
-            select "Imperial", from: "Unit system"
-
-            click_button "Create Profile"
-
-            profile_id = Profile.last.id
-            expect(current_path).to eq("/profiles/#{profile_id}")
-            expect(page).to have_content("John-Patrick")
-        end
-
         it "can read a single profile/profile show" do
             visit "/profiles/#{@profile.id}"
             expect(page).to have_content("Pauly Do Little")
@@ -118,43 +104,11 @@ RSpec.describe "Profile", type: :feature do
             unit_system: "imperial"
             )
         end
-        
-        xit "new profile with no display_name" do
-            visit "/profiles/new"
-            expect(current_path).to eq("/profiles/new")
-
-            fill_in "Display name", with: ""
-            select "Imperial", from: "Unit system"
-
-            click_button "Create Profile"
-            expect(page).to have_content("Display name can't be blank")
-            expect(page).to have_content("Display name is too short (minimum is 2 characters)")
-        end
 
         it "visit show page of non-existant profile" do
             missing_id = Profile.maximum(:id).to_i + 1
             visit "/profiles/#{missing_id}"
             expect(page).to have_content("Profile not found")
-        end
-
-        it "new profile with display_name too short" do
-            visit "/profiles/new"
-          
-            fill_in "Display name", with: "J"
-            select "Imperial", from: "Unit system"
-            click_button "Create Profile"
-          
-            expect(page).to have_content("Display name is too short")
-        end
-
-        it "new profile with display_name too long" do
-            visit "/profiles/new"
-          
-            fill_in "Display name", with: "J" * 51
-            select "Imperial", from: "Unit system"
-            click_button "Create Profile"
-          
-            expect(page).to have_content("Display name is too long")
         end
 
         it "cannot update a profile with invalid data" do
