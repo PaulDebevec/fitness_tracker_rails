@@ -1,11 +1,20 @@
 class ProfilesController < ApplicationController
-  before_action :require_login
+  before_action :require_login, except: [:index, :show]
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
   before_action -> { require_profile_view_access(@profile) }, only: [:show]
   before_action -> { require_profile_owner_or_admin(@profile) }, only: [:edit, :update, :destroy]
 
   def index
-    @profiles = Profile.recent_first
+    @profiles =
+      if current_user&.admin?
+        Profile.recent_first
+      elsif current_user.present?
+        Profile
+          .where("public_profile = ? OR user_id = ?", true, current_user.id)
+          .recent_first
+      else
+        Profile.where(public_profile: true).recent_first
+      end
   end
 
   def show

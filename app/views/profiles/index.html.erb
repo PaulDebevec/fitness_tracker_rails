@@ -1,12 +1,6 @@
 <h1>Profiles</h1>
 
-<div class="page-actions">
-  <div class="page-actions-left"></div>
-
-  <div class="page-actions-right">
-    <%= link_to "Create New Profile", new_profile_path, class: "button-link" %>
-  </div>
-</div>
+<div class="page-actions"></div>
 
 <% if @profiles.any? %>
   <div class="profile-grid">
@@ -27,6 +21,10 @@
               <strong>Total Check-ins:</strong>
               <%= profile.check_ins.count %>
             </p>
+
+            <% unless profile.public? %>
+              <p><strong>Private Profile</strong></p>
+            <% end %>
 
             <div class="card-hint-row">
               <span class="card-hint-text card-hint-desktop">Details</span>
