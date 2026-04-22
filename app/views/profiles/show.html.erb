@@ -77,9 +77,10 @@
 
 <% if can_manage_profile?(@profile) %>
   <div class="danger-zone">
-    <%= button_to "Delete Profile",
-        profile_path(@profile),
-        method: :delete,
-        data: { turbo_confirm: "Are you sure?" } %>
+    <%= button_to "Delete Account",
+      user_path(@profile.user),
+      method: :delete,
+      data: { turbo_confirm: "Are you sure? This will permanently delete your account and all associated data." },
+      class: "button-link subtle" %>
   </div>
 <% end %>
