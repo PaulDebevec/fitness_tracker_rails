@@ -1,8 +1,18 @@
 require "rails_helper"
 
 RSpec.describe "Measurements", type: :request do
-  let!(:profile) { Profile.create!(display_name: "Paul", unit_system: "imperial") }
+  let!(:user) { 
+    User.create!(email: "viewer@example.com", 
+    password: "supersecure123", 
+    password_confirmation: "supersecure123",
+    role: "user") 
+  }
+  let!(:profile) { Profile.create!(user: user, display_name: "Paul", unit_system: "imperial") }
   let!(:check_in) { profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update") }
+
+  before(:each) do
+    log_in_as(user)
+  end
 
   describe "GET /profiles/:profile_id/check_ins/:check_in_id/measurements" do
     it "returns http success" do
@@ -153,10 +163,7 @@ RSpec.describe "Measurements", type: :request do
 
   describe "measurement" do
     it "creates a measurement with a body part photo" do
-      profile = Profile.create!(display_name: "Paul", unit_system: "imperial")
-      check_in = profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
       image = test_image_upload("front_photo.png")
-
     
       post profile_check_in_measurements_path(profile, check_in), params: {
         measurement: {

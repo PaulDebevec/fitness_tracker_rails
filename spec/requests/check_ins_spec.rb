@@ -23,18 +23,18 @@ RSpec.describe "CheckIns", type: :request do
       role: "user"
     )
 
-    @non_owner_profile = Profile.create!(
-      user: @non_owner,
-      display_name: "Owner",
-      unit_system: "imperial",
-      public_profile: false
-    )
-
     @admin = User.create!(
       email: "admin@example.com",
       password: "supersecure123",
       password_confirmation: "supersecure123",
       role: "admin"
+    )
+
+    @non_owner_profile = Profile.create!(
+      user: @non_owner,
+      display_name: "Owner",
+      unit_system: "imperial",
+      public_profile: false
     )
 
     @admin_profile = Profile.create!(
