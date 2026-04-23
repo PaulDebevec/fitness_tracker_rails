@@ -1,8 +1,9 @@
 class CheckInsController < ApplicationController
-  before_action :require_login
   before_action :set_profile
   before_action :set_check_in, only: [:show, :edit, :update, :destroy, :remove_photo]
-  before_action -> { require_profile_owner_or_admin(@profile) }, only: [:new, :create, :edit, :update, :destroy]
+  before_action -> { require_profile_view_access(@profile) }, only: [:index, :show]
+  before_action :require_login, only: [:new, :create, :edit, :update, :destroy, :remove_photo]
+  before_action -> { require_profile_owner_or_admin(@profile) }, only: [:new, :create, :edit, :update, :destroy, :remove_photo]
 
   def index
     @check_ins = @profile.check_ins.reverse_chronological
