@@ -16,6 +16,10 @@ RSpec.describe "Measurement photo upload", type: :feature do
         )
     end
 
+    before do
+        log_in_with(email: "paul@example.com")
+    end
+
     it "can create a new measurement with a body part photo" do
         check_in = @profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update")
     

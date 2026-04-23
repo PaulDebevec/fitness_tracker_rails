@@ -17,6 +17,10 @@ RSpec.describe "CheckIn", type: :feature do
             )
         end
 
+        before do
+            log_in_with(email: "paul@example.com")
+        end
+
         it "can create a new check-in" do
             visit new_profile_check_in_path(@profile)
 
@@ -145,6 +149,10 @@ RSpec.describe "CheckIn", type: :feature do
               display_name: "Paul",
               unit_system: "imperial"
             )
+        end
+        
+        before do
+            log_in_with(email: "paul@example.com")
         end
 
         it "cannot create a check-in without a date" do

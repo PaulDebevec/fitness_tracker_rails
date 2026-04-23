@@ -17,6 +17,10 @@ RSpec.describe "Measurement", type: :feature do
         )
     end
 
+    before do
+        log_in_with(email: "paul@example.com")
+    end
+
     let!(:check_in) { @profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update") }
 
     it "can read multiple measurements" do
@@ -109,7 +113,12 @@ RSpec.describe "Measurement", type: :feature do
         unit_system: "imperial"
         )
     end
+
     let!(:check_in) { @profile.check_ins.create!(checked_in_on: Date.current, notes: "Weekly update") }
+
+    before do
+        log_in_with(email: "paul@example.com")
+    end
 
     it "cannot create a measurement without a body part" do
         visit new_profile_check_in_measurement_path(@profile, check_in)
