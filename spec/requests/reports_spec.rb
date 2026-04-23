@@ -8,6 +8,7 @@ RSpec.describe "Reports", type: :request do
       password_confirmation: "supersecure123",
       role: "user") 
     }
+    
     let(:profile) do
       Profile.create!(user: user, display_name: "Paul", unit_system: "imperial")
     end
