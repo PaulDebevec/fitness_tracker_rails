@@ -1,158 +1,243 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Profile", type: :feature do
-    describe "CRUD Functionality" do
-        it "can create new profiles" do
-            visit "/profiles/new"
-            expect(current_path).to eq("/profiles/new")
+  before(:each) do
+    @public_owner = User.create!(
+      email: "public_owner@example.com",
+      password: "supersecure123",
+      password_confirmation: "supersecure123",
+      role: "user"
+    )
 
-            fill_in "Display name", with: "John-Patrick"
-            select "Imperial", from: "Unit system"
+    @public_profile = Profile.create!(
+      user: @public_owner,
+      display_name: "PublicOwn",
+      unit_system: "imperial",
+      public_profile: true
+    )
 
-            click_button "Create Profile"
+    @private_owner = User.create!(
+      email: "private_owner@example.com",
+      password: "supersecure123",
+      password_confirmation: "supersecure123",
+      role: "user"
+    )
 
-            profile_id = Profile.last.id
-            expect(current_path).to eq("/profiles/#{profile_id}")
-            expect(page).to have_content("John-Patrick")
-        end
+    @private_profile = Profile.create!(
+      user: @private_owner,
+      display_name: "PrivateOwn",
+      unit_system: "imperial",
+      public_profile: false
+    )
 
-        it "can read a single profile/profile show" do
-            Profile.create!(display_name: "Pauly Do Little", unit_system: "imperial")
-            visit "/profiles/#{Profile.last.id}"
-            expect(page).to have_content("Pauly Do Little")
-        end
+    @viewer = User.create!(
+      email: "viewer@example.com",
+      password: "supersecure123",
+      password_confirmation: "supersecure123",
+      role: "user"
+    )
 
-        it "can read multiple profiles/profile index" do
-            Profile.create!(display_name: "Pauly Do Lottle", unit_system: "imperial")
-            Profile.create!(display_name: "Hope Johnstein", unit_system: "imperial")
-            Profile.create!(display_name: "John Hopenstein", unit_system: "imperial")
-            Profile.create!(display_name: "Harry Buttler", unit_system: "imperial")
+    @viewer_profile = Profile.create!(
+      user: @viewer,
+      display_name: "Viewer",
+      unit_system: "imperial",
+      public_profile: true
+    )
 
-            visit "/profiles"
-            expect(page).to have_content("Pauly Do Lottle")
-            expect(page).to have_content("Hope Johnstein")
-            expect(page).to have_content("John Hopenstein")
-            expect(page).to have_content("Harry Buttler")
-        end
+    @admin = User.create!(
+      email: "admin@example.com",
+      password: "supersecure123",
+      password_confirmation: "supersecure123",
+      role: "admin"
+    )
 
-        it "can update a profile" do
-            profile_1 = Profile.create!(display_name: "Pauly Do Lottle", unit_system: "imperial")
+    @admin_profile = Profile.create!(
+      user: @admin,
+      display_name: "Admin",
+      unit_system: "imperial",
+      public_profile: true
+    )
+  end
 
-            visit "profiles/#{profile_1.id}"
-            expect(current_path).to eq("/profiles/#{profile_1.id}")
-            expect(page).to have_content("Pauly Do Lottle")
+  def log_in_as(email)
+    visit login_path
+    fill_in "Email", with: email
+    fill_in "Password", with: "supersecure123"
+    click_button "Log In"
+  end
 
-            click_link "Edit Profile"
-            expect(current_path).to eq("/profiles/#{profile_1.id}/edit")
-            fill_in "Display name", with: "Pauly Pocket"
-            click_button "Update Profile"
+  describe "profile index" do
+    it "shows public profiles to guests" do
+      visit profiles_path
 
-            expect(current_path).to eq("/profiles/#{profile_1.id}")
-            expect(page).to have_content("Pauly Pocket")
-        end
-
-        it "can destroy a profile" do
-            profile_1 = Profile.create!(display_name: "Pauly Do Lottle", unit_system: "imperial")
-            profile_2 = Profile.create!(display_name: "Harry Buttler", unit_system: "imperial")
-
-            expect(Profile.all.count).to eq(2)
-            visit "profiles" 
-            expect(page).to have_content("Pauly Do Lottle")
-            expect(page).to have_content("Harry Buttler")
-
-            visit "profiles/#{profile_1.id}" 
-            click_button "Delete Profile"
-            expect(Profile.all.count).to eq(1)
-            expect(page).to have_content("Harry Buttler")
-            expect(page).not_to have_content("Pauly Do Lottle")
-        end
+      expect(page).to have_content("PublicOwn")
+      expect(page).to have_content("Viewer")
+      expect(page).to have_content("Admin")
+      expect(page).not_to have_content("PrivateOwn")
     end
 
-    describe "Profile CRUD sad paths/edge cases" do
-        it "new profile with no display_name" do
-            visit "/profiles/new"
-            expect(current_path).to eq("/profiles/new")
+    it "shows public profiles and the user's own private profile to a logged-in user" do
+      log_in_with(email: "private_owner@example.com")
 
-            fill_in "Display name", with: ""
-            select "Imperial", from: "Unit system"
+      visit profiles_path
 
-            click_button "Create Profile"
-            expect(page).to have_content("Display name can't be blank")
-            expect(page).to have_content("Display name is too short (minimum is 2 characters)")
-        end
-
-        it "visit show page of non-existant profile" do
-            missing_id = Profile.maximum(:id).to_i + 1
-            visit "/profiles/#{missing_id}"
-            expect(page).to have_content("Profile not found")
-        end
-
-        it "new profile with display_name too short" do
-            visit "/profiles/new"
-          
-            fill_in "Display name", with: "J"
-            select "Imperial", from: "Unit system"
-            click_button "Create Profile"
-          
-            expect(page).to have_content("Display name is too short")
-        end
-
-        it "new profile with display_name too long" do
-            visit "/profiles/new"
-          
-            fill_in "Display name", with: "J" * 51
-            select "Imperial", from: "Unit system"
-            click_button "Create Profile"
-          
-            expect(page).to have_content("Display name is too long")
-        end
-
-        it "cannot update a profile with invalid data" do
-            profile = Profile.create!(display_name: "John", unit_system: "imperial")
-          
-            visit edit_profile_path(profile)
-          
-            fill_in "Display name", with: ""
-            select "Imperial", from: "Unit system"
-            click_button "Update Profile"
-          
-            expect(page).to have_content("Display name can't be blank")
-            expect(profile.reload.display_name).to eq("John")
-        end
-
-        it "visit edit page of non-existent profile" do
-            visit "/profiles/999999/edit"
-          
-            expect(current_path).to eq("/profiles")
-            expect(page).to have_content("Profile not found.")
-        end
-
-        it "shows an empty state when there are no profiles" do
-            Profile.destroy_all
-          
-            visit "/profiles"
-          
-            expect(page).to have_content("No profiles yet")
-        end
+      expect(page).to have_content("PrivateOwn")
+      expect(page).to have_content("PublicOwn")
+      expect(page).to have_content("Viewer")
     end
 
-    describe "profile functionality" do
-        it "links a profile's check-ins to their show pages" do
-            profile = Profile.create!(display_name: "John-Patrick", unit_system: "imperial")
-            check_in = profile.check_ins.create!(
-              checked_in_on: Date.current,
-              notes: "Weekly progress update"
-            )
-          
-            visit profile_path(profile)
-          
-            expect(page).to have_link(check_in.formatted_date)
-          
-            click_link check_in.formatted_date
-          
-            expect(current_path).to eq(profile_check_in_path(profile, check_in))
-            expect(page).to have_content(check_in.formatted_date)
-            expect(page).to have_content("Weekly progress update")
-          end
+    it "shows all profiles to an admin" do
+      log_in_with(email: "admin@example.com")
+
+      visit profiles_path
+
+      expect(page).to have_content("PrivateOwn")
+      expect(page).to have_content("PublicOwn")
+      expect(page).to have_content("Viewer")
+      expect(page).to have_content("Admin")
     end
+  end
+
+  describe "profile show" do
+    it "allows guests to view public profiles" do
+      visit profile_path(@public_profile)
+
+      expect(page).to have_content("PublicOwn")
+      expect(page).to have_link("View Progress Report")
+    end
+
+    it "does not allow guests to view private profiles" do
+      visit profile_path(@private_profile)
+
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content("You are not authorized to view that profile.")
+    end
+
+    it "allows the owner to view their private profile" do
+      log_in_with(email: "private_owner@example.com")
+
+      visit profile_path(@private_profile)
+
+      expect(page).to have_content("PrivateOwn")
+    end
+
+    it "allows an admin to view private profiles" do
+      log_in_with(email: "admin@example.com")
+
+      visit profile_path(@private_profile)
+
+      expect(page).to have_content("PrivateOwn")
+    end
+  end
+
+  describe "profile management controls" do
+    it "shows edit, new check-in, and delete account controls to the owner" do
+      log_in_with(email: "public_owner@example.com")
+
+      visit profile_path(@public_profile)
+
+      expect(page).to have_link("Edit Profile")
+      expect(page).to have_link("New Check-in")
+      expect(page).to have_button("Delete Account")
+    end
+
+    it "does not show owner controls to guests viewing a public profile" do
+      visit profile_path(@public_profile)
+
+      expect(page).not_to have_link("Edit Profile")
+      expect(page).not_to have_link("New Check-in")
+      expect(page).not_to have_button("Delete Account")
+      expect(page).to have_link("View Progress Report")
+    end
+
+    it "does not show owner controls to another logged-in user viewing a public profile" do
+      log_in_with(email: "viewer@example.com")
+
+      visit profile_path(@public_profile)
+
+      expect(page).not_to have_link("Edit Profile")
+      expect(page).not_to have_link("New Check-in")
+      expect(page).not_to have_button("Delete Account")
+      expect(page).to have_link("View Progress Report")
+    end
+  end
+
+  describe "profile update" do
+    it "allows the owner to update their profile" do
+      log_in_with(email: "public_owner@example.com")
+
+      visit profile_path(@public_profile)
+      click_link "Edit Profile"
+
+      fill_in "Display name", with: "Updated Public Owner"
+      select "Imperial", from: "Unit system"
+      click_button "Update Profile"
+
+      expect(current_path).to eq(profile_path(@public_profile))
+      expect(page).to have_content("Updated Public Owner")
+      expect(@public_profile.reload.display_name).to eq("Updated Public Owner")
+    end
+
+    it "does not update with invalid data" do
+      log_in_with(email: "public_owner@example.com")
+
+      visit edit_profile_path(@public_profile)
+
+      fill_in "Display name", with: ""
+      click_button "Update Profile"
+
+      expect(page).to have_content("Display name can't be blank")
+      expect(@public_profile.reload.display_name).to eq("PublicOwn")
+    end
+  end
+
+  describe "missing profiles" do
+    it "shows a not found message for a missing profile" do
+      missing_id = Profile.maximum(:id).to_i + 1
+
+      visit profile_path(missing_id)
+
+      expect(page).to have_content("Profile not found")
+    end
+
+    it "redirects from edit page for a missing profile" do
+      log_in_with(email: "admin@example.com")
+
+      visit "/profiles/999999/edit"
+
+      expect(page).to have_content("Profile not found")
+    end
+  end
+
+  describe "check-in cards on profile show" do
+    before(:each) do
+      @check_in = @public_profile.check_ins.create!(
+        checked_in_on: Date.current,
+        notes: "Weekly progress update"
+      )
+    end
+
+    it "shows read-only check-in cards to guests with a login prompt" do
+      visit profile_path(@public_profile)
+
+      expect(page).to have_content(@check_in.formatted_date)
+      expect(page).to have_content("Weekly progress update")
+      expect(page).to have_link("Log in to view details")
+      expect(page).not_to have_content("Tap to view details")
+    end
+
+    it "links check-in cards to check-in show pages for logged-in users" do
+      log_in_with(email: "viewer@example.com")
+
+      visit profile_path(@public_profile)
+
+      expect(page).to have_content(@check_in.formatted_date)
+      expect(page).to have_content("Details")
+
+      click_link "Details"
+
+      expect(current_path).to eq(profile_check_in_path(@public_profile, @check_in))
+      expect(page).to have_content("Weekly progress update")
+    end
+  end
 end

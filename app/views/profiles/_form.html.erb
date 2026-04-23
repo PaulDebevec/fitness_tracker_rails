@@ -21,6 +21,15 @@
     <%= form.select :unit_system, [["Imperial", "imperial"], ["Metric", "metric"]] %>
   </div>
 
+  <div class="form-field">
+    <%= form.label :public_profile, "Profile Visibility" %>
+
+    <div class="checkbox-row">
+      <%= form.check_box :public_profile %>
+      <span>This profile is visible to others</span>
+    </div>
+  </div>
+
   <div class="form-actions">
     <%= form.submit profile.persisted? ? "Update Profile" : "Create Profile" %>
   </div>

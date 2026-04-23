@@ -1,8 +1,15 @@
 require "rails_helper"
 
 RSpec.describe MeasurementReport do
+  let!(:user) { 
+    User.create!(email: "viewer@example.com", 
+    password: "supersecure123", 
+    password_confirmation: "supersecure123",
+    role: "user") 
+  }
+
   let(:profile) do
-    Profile.create!(display_name: "Paul", unit_system: "imperial")
+    Profile.create!(user: user, display_name: "Paul", unit_system: "imperial")
   end
 
   let!(:older_check_in) do

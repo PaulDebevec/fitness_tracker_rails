@@ -1,4 +1,6 @@
 class Profile < ApplicationRecord
+  belongs_to :user
+
   has_many :check_ins, dependent: :destroy
 
   scope :recent_first, -> { order(created_at: :desc) }
@@ -32,7 +34,11 @@ class Profile < ApplicationRecord
     check_ins.reverse_chronological.first
   end
 
-  # def abbreviated_default_unit
-  #   default_unit
-  # end
+  def public?
+    public_profile
+  end
+  
+  def private?
+    !public_profile
+  end
 end

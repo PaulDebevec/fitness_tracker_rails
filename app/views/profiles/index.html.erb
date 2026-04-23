@@ -1,12 +1,6 @@
 <h1>Profiles</h1>
 
-<div class="page-actions">
-  <div class="page-actions-left"></div>
-
-  <div class="page-actions-right">
-    <%= link_to "Create New Profile", new_profile_path, class: "button-link" %>
-  </div>
-</div>
+<div class="page-actions"></div>
 
 <% if @profiles.any? %>
   <div class="profile-grid">
@@ -28,6 +22,10 @@
               <%= profile.check_ins.count %>
             </p>
 
+            <% if show_private_profile_label?(profile) %>
+              <p><strong>Private Profile</strong></p>
+            <% end %>
+
             <div class="card-hint-row">
               <span class="card-hint-text card-hint-desktop">Details</span>
               <span class="card-hint-text card-hint-mobile">Tap to view details</span>
@@ -41,7 +39,5 @@
 <% else %>
   <div class="empty-state-card">
     <h2>No profiles yet</h2>
-    <p>Create your first profile to start tracking check-ins, measurements, and progress photos.</p>
-    <%= link_to "Create Profile", new_profile_path, class: "button-link" %>
   </div>
 <% end %>

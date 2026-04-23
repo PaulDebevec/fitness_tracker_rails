@@ -1,7 +1,15 @@
 require "rails_helper"
 
 RSpec.describe Profile, type: :model do
-    subject(:profile) {described_class.new(display_name: "Paul", unit_system: "imperial")}
+    let(:user) do 
+        User.create!(email: "paul@example.com", password: "supersecure123", password_confirmation: "supersecure123", role: "user")
+    end
+
+    subject(:profile) {described_class.new(display_name: "Paul", unit_system: "imperial", user: user)}
+    describe "relationships" do
+        it { should belong_to(:user) }
+    end
+
     describe "profile must be valid" do
         it "has valid attributes" do
             expect(profile).to be_valid
@@ -22,12 +30,4 @@ RSpec.describe Profile, type: :model do
             expect(profile).not_to be_valid
         end
     end
-    
-    # describe "#abbreviated_unit_system" do
-    #     it "returns the default unit abbreviation" do
-    #       profile = described_class.new(display_name: "Paul", unit_system: "imperial")
-      
-    #       expect(profile.abbreviated_unit_system).to eq("imperial")
-    #     end
-    # end
 end

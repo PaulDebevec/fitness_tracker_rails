@@ -1,28 +1,26 @@
 class ProfilesController < ApplicationController
+  before_action :require_login, except: [:index, :show]
   before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action -> { require_profile_view_access(@profile) }, only: [:show]
+  before_action -> { require_profile_owner_or_admin(@profile) }, only: [:edit, :update, :destroy]
 
   def index
-    @profiles = Profile.recent_first
+    @profiles =
+      if current_user&.admin?
+        Profile.recent_first
+      elsif current_user.present?
+        Profile
+          .where("public_profile = ? OR user_id = ?", true, current_user.id)
+          .recent_first
+      else
+        Profile.where(public_profile: true).recent_first
+      end
   end
 
   def show
     @check_ins = @profile.check_ins.reverse_chronological
     @photo_type = params[:photo_type].presence || "front_photo"
     @photo_timeline = ProfilePhotoTimeline.new(profile: @profile, photo_type: @photo_type)
-  end
-
-  def new
-    @profile = Profile.new
-  end
-
-  def create
-    @profile = Profile.new(profile_params)
-
-    if @profile.save
-      redirect_to profile_path(@profile), notice: "Profile created successfully."
-    else
-      render :new, status: :unprocessable_content
-    end
   end
 
   def edit
@@ -50,6 +48,10 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:display_name, :unit_system)
+    params.require(:profile).permit(
+      :display_name,
+      :unit_system,
+      :public_profile
+    )
   end
 end
