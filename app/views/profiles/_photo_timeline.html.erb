@@ -40,6 +40,8 @@
             </span>
           </div>
         </div>
+  <div class="photo-timeline-frame-content">
+
     <div class="photo-comparison-image-wrap">
       <%= image_tag @photo_timeline.newest_photo[:attachment],
             class: "photo-comparison-image overlay-image" %>
@@ -61,6 +63,8 @@
              data-photo-comparison-slider>
     </div>
   </div>
+</div>
+
 <% elsif @photo_timeline.any_photos? %>
   <div class="photo-comparison">
   <div class="photo-comparison-meta">

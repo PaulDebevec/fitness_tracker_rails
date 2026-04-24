@@ -1124,7 +1124,25 @@ a.button-link.subtle-link:hover {
 }
 
 
-  /* mobile compatibility */
+/* ---- Keyframe Settings ---- */
+.photo-timeline-frame-content {
+  animation: photoFadeIn 260ms ease-out;
+}
+
+@keyframes photoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+  /* ---- mobile compatibility ---- */
 @media (max-width: 768px) {
   .photo-comparison-date-row {
     display: grid;
