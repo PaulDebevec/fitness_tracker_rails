@@ -1092,9 +1092,46 @@ a.button-link.subtle-link:hover {
   font-weight: 500;
 }
 
+.photo-comparison-help {
+  margin: 0 0 0.75rem;
+  color: #4b5563;
+  text-align: center;
+}
+
+.photo-comparison-date-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.photo-label-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.photo-label-block.right {
+  text-align: right;
+}
+
+.photo-direction-hint {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-style: italic;
+}
+
 
   /* mobile compatibility */
 @media (max-width: 768px) {
+  .photo-comparison-date-row {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
   .navbar-inner {
     flex-direction: column;
     align-items: stretch;
