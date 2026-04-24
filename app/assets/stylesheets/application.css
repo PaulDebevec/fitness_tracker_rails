@@ -1127,6 +1127,24 @@ a.button-link.subtle-link:hover {
   /* mobile compatibility */
 @media (max-width: 768px) {
   .photo-comparison-date-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .photo-label-block,
+  .photo-label-block.right {
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  .photo-direction-hint {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .photo-comparison-date-row {
     flex-direction: column;
     gap: 0.25rem;
     text-align: center;
