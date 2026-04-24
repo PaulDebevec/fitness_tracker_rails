@@ -1,5 +1,8 @@
 <div class="detail-card">
 <h2 class="photo-comparison-title">Progress Photo Comparison</h2>
+<p class="photo-comparison-help">
+          Drag the slider to compare your earliest and most recent <%= @photo_timeline.photo_type_label.downcase %> photos.
+        </p>
 
 <div class="photo-comparison-toggle-row">
   <div class="chart-toggle-group">
@@ -15,9 +18,7 @@
 <% if @photo_timeline.comparable? %>
   <div class="photo-comparison"
        data-photo-comparison>
-       <p class="photo-comparison-help">
-          Drag the slider to compare your earliest and most recent <%= @photo_timeline.photo_type_label.downcase %> photos.
-        </p>
+       
 
         <div class="photo-comparison-date-row">
           <div class="photo-label-block">
