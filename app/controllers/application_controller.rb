@@ -4,13 +4,11 @@ class ApplicationController < ActionController::Base
   helper_method :theme_classes
 
   def theme_classes
-    return "" unless current_user
-
-    profile = current_user.profile
-
+    return "theme-mode-system theme-color-default" unless current_user&.profile
+  
     [
-      "theme-mode-#{profile.theme_mode}",
-      "theme-color-#{profile.theme_color}"
+      "theme-mode-#{current_user.profile.theme_mode || 'system'}",
+      "theme-color-#{current_user.profile.theme_color || 'default'}"
     ].join(" ")
   end
 

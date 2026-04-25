@@ -46,3 +46,30 @@ function initializeUserMenu() {
     menu.classList.remove("open");
   });
 }
+
+document.addEventListener("turbo:load", initializeThemePreview);
+
+function initializeThemePreview() {
+  const modeSelect = document.querySelector("[data-theme-mode-select]");
+  const colorSelect = document.querySelector("[data-theme-color-select]");
+  const body = document.body;
+
+  if (!modeSelect || !colorSelect || !body) return;
+
+  const modeClasses = ["theme-mode-light", "theme-mode-dark", "theme-mode-system"];
+  const colorClasses = [
+    "theme-color-default",
+    "theme-color-ocean",
+    "theme-color-forest",
+    "theme-color-sunset"
+  ];
+
+  function updatePreview() {
+    body.classList.remove(...modeClasses, ...colorClasses);
+    body.classList.add(`theme-mode-${modeSelect.value}`);
+    body.classList.add(`theme-color-${colorSelect.value}`);
+  }
+
+  modeSelect.addEventListener("change", updatePreview);
+  colorSelect.addEventListener("change", updatePreview);
+}
