@@ -4,11 +4,6 @@
   <p class="photo-comparison-help">
     Upload some check-in photos to compare your progress!
   </p>
-  <div class="photo-empty-state">
-  <%= link_to "Add a Check-In",
-    new_profile_check_in_path(@profile),
-    class: "button-link primary" %>
-    </div>
 <% else %>
   <p class="photo-comparison-help">
             Drag the slider to compare your earliest and most recent <%= @photo_timeline.photo_type_label.downcase %> photos.

@@ -32,13 +32,14 @@
 <%= turbo_frame_tag "photo_timeline" do %>
   <%= render "photo_timeline" %>
 <% end %>
+
 <% if !@photo_timeline.any_photos? %>
   </div>
 <% end %>
 
 
 <div class="detail-card">
-<h2 class="photo-comparison-title">Check-ins</h2>
+  <h2 class="photo-comparison-title">Check-ins</h2>
 
   <% if @check_ins.any? %>
     <div class="check-in-grid">
@@ -74,7 +75,6 @@
               </div>
             </div>
           <% end %>
-
         <% else %>
           <div class="check-in-card disabled">
             <div class="check-in-card-header">
@@ -106,7 +106,6 @@
             </div>
           </div>
         <% end %>
-
       <% end %>
     </div>
   <% else %>
@@ -114,7 +113,9 @@
     <div class="photo-empty-state">
       <%= link_to "New Check-in",
           new_profile_check_in_path(@profile),
-          class: "button-link primary" %>
+          class: "button-link primary",
+          data: { turbo_frame: "_top" } %>
     </div>
   <% end %>
 </div>
+

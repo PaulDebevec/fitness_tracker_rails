@@ -20,7 +20,7 @@ class MeasurementsController < ApplicationController
       @measurement = @check_in.measurements.new(measurement_params)
   
       if @measurement.save
-        redirect_to profile_check_in_measurement_path(@profile, @check_in, @measurement), notice: "Measurement created successfully."
+        redirect_to profile_check_in_path(@profile, @check_in, @measurement), notice: "Measurement created successfully."
       else
         render :new, status: :unprocessable_content
       end
