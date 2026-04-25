@@ -15,8 +15,7 @@
       <div class="navbar-inner">
         <div class="navbar-left">
           <%= link_to "BodMetriks", root_path, class: "brand-link" %>
-          <%= link_to "Public Profiles", profiles_path, class: "nav-link" %>
-        
+          <%= link_to "Profiles", profiles_path, class: "nav-link #{'active' if current_page?(profiles_path)}" %>
         </div>
 
         <div class="navbar-right">
@@ -36,8 +35,16 @@
               </div>
             </div>
           <% else %>
-            <%= link_to "Sign Up", signup_path, class: "nav-link" %>
-            <%= link_to "Log In", login_path, class: "nav-link" %>
+            <div class="user-menu">
+              <button class="user-menu-button" type="button" data-user-menu-button>
+                ☰
+              </button>
+
+              <div class="user-menu-dropdown" data-user-menu-dropdown>
+                <%= link_to "Create Account", signup_path, class: "user-menu-link" %>
+                <%= link_to "Log In", login_path, class: "user-menu-link" %>
+              </div>
+            </div>
           <% end %>
         </div>
        </div>
