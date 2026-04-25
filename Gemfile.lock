@@ -320,7 +320,7 @@ GEM
     zeitwerk (2.7.5)
 
 PLATFORMS
-  X86_64-linux
+  x86_64-linux
   ruby
   x86_64-darwin-23
 
