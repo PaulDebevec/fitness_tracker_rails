@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :redirect_if_logged_in, only: [:new, :create]
   before_action :require_login, only: [:destroy]
   before_action :set_user, only: [:destroy]
   before_action :require_user_owner_or_admin, only: [:destroy]
@@ -45,6 +46,12 @@ class UsersController < ApplicationController
     return if current_user == @user
 
     redirect_to root_path, alert: "You are not authorized to perform that action."
+  end
+
+  def redirect_if_logged_in
+    if logged_in?
+      redirect_to profile_path(current_user.profile), notice: "You are already logged in."
+    end
   end
 
   def user_params

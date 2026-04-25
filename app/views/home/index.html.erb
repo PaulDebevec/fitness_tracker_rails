@@ -7,7 +7,9 @@
 
     <div class="home-actions">
       <%= link_to "View Public Profiles", profiles_path, class: "button-link" %>
-      <%= link_to "Create Account", signup_path, class: "button-link primary" %>
+      <% unless logged_in? %>
+        <%= link_to "Create Account", signup_path, class: "button-link primary" %>
+      <% end %>
     </div>
   </div>
 </div>
