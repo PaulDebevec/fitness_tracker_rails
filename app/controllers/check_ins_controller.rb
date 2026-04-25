@@ -50,7 +50,7 @@ class CheckInsController < ApplicationController
 
   def destroy
     @check_in.destroy
-    redirect_to profile_check_ins_path(@profile), notice: "Check-in deleted successfully."
+    redirect_to profile_path(@profile), notice: "Check-in deleted successfully."
   end
 
   def remove_photo

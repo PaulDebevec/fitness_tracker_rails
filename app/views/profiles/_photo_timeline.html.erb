@@ -1,83 +1,90 @@
 <div class="detail-card">
 <h2 class="photo-comparison-title">Progress Photo Comparison</h2>
-<p class="photo-comparison-help">
-          Drag the slider to compare your earliest and most recent <%= @photo_timeline.photo_type_label.downcase %> photos.
-        </p>
-
-<div class="photo-comparison-toggle-row">
-  <div class="chart-toggle-group">
-    <% ProfilePhotoTimeline::PHOTO_TYPES.each do |type| %>
-      <%= link_to type.delete_suffix("_photo").humanize,
-          profile_path(@profile, photo_type: type),
-          class: "chart-toggle-button #{'active' if @photo_type == type}",
-          data: { turbo_frame: "profile_photo_timeline" } %>
-    <% end %>
-  </div>
-</div>
-
-<% if @photo_timeline.comparable? %>
-  <div class="photo-comparison"
-       data-photo-comparison>
-       
-
-        <div class="photo-comparison-date-row">
-          <div class="photo-label-block">
-            <span>
-              <strong>Earliest:</strong>
-            </span>
-              <%= @photo_timeline.oldest_photo[:formatted_date] %>
-            <span class="photo-direction-hint">
-              slide right →
-            </span>
-          </div>
-          <div class="photo-label-block right">
-            <span>
-              <strong>Most Recent:</strong>
-            </span>
-              <%= @photo_timeline.newest_photo[:formatted_date] %>
-            <span class="photo-direction-hint">
-              ← slide left
-            </span>
-          </div>
-        </div>
-  <div class="photo-timeline-frame-content">
-
-    <div class="photo-comparison-image-wrap">
-      <%= image_tag @photo_timeline.newest_photo[:attachment],
-            class: "photo-comparison-image overlay-image" %>
-
-      <div class="photo-comparison-overlay" data-photo-comparison-overlay>
-            <%= image_tag @photo_timeline.oldest_photo[:attachment],
-          class: "photo-comparison-image base-image" %>
-      </div>
-
-      <div class="photo-comparison-divider" data-photo-comparison-divider>
-        <div class="photo-comparison-handle"></div>
-      </div>
-
-      <input type="range"
-             min="0"
-             max="100"
-             value="50"
-             class="photo-comparison-slider"
-             data-photo-comparison-slider>
-    </div>
-  </div>
-</div>
-
-<% elsif @photo_timeline.any_photos? %>
-  <div class="photo-comparison">
-  <div class="photo-comparison-meta">
-    <p class="photo-comparison-help">Only one <%= @photo_timeline.photo_type_label.downcase %> photo is available so far.
-      Upload at least one older and one newer photo to compare progress.
-      </p>
-    </div>
-    <div class="photo-card">
-      <p><strong><%= @photo_timeline.photo_type_label %></strong></p>
-      <%= image_tag @photo_timeline.newest_photo[:attachment], class: "progress-photo" %>
-    </div>
-  </div>
+<% if !@photo_timeline.any_photos? %>
+  <p class="photo-comparison-help">
+    Upload some check-in photos to compare your progress!
+  </p>
 <% else %>
-  <p>No <%= @photo_timeline.photo_type_label.downcase %> photos yet.</p>
-<% end %>
+  <p class="photo-comparison-help">
+            Drag the slider to compare your earliest and most recent <%= @photo_timeline.photo_type_label.downcase %> photos.
+          </p>
+
+  <div class="photo-comparison-toggle-row">
+    <div class="chart-toggle-group">
+      <% ProfilePhotoTimeline::PHOTO_TYPES.each do |type| %>
+        <%= link_to type.delete_suffix("_photo").humanize,
+            profile_path(@profile, photo_type: type),
+            class: "chart-toggle-button #{'active' if @photo_type == type}",
+            data: { turbo_frame: "profile_photo_timeline" } %>
+      <% end %>
+    </div>
   </div>
+
+  <% if @photo_timeline.comparable? %>
+    <div class="photo-comparison"
+        data-photo-comparison>
+        
+
+          <div class="photo-comparison-date-row">
+            <div class="photo-label-block">
+              <span>
+                <strong>Earliest:</strong>
+              </span>
+                <%= @photo_timeline.oldest_photo[:formatted_date] %>
+              <span class="photo-direction-hint">
+                slide right →
+              </span>
+            </div>
+            <div class="photo-label-block right">
+              <span>
+                <strong>Most Recent:</strong>
+              </span>
+                <%= @photo_timeline.newest_photo[:formatted_date] %>
+              <span class="photo-direction-hint">
+                ← slide left
+              </span>
+            </div>
+          </div>
+    <div class="photo-timeline-frame-content">
+
+      <div class="photo-comparison-image-wrap">
+        <%= image_tag @photo_timeline.newest_photo[:attachment],
+              class: "photo-comparison-image overlay-image" %>
+
+        <div class="photo-comparison-overlay" data-photo-comparison-overlay>
+              <%= image_tag @photo_timeline.oldest_photo[:attachment],
+            class: "photo-comparison-image base-image" %>
+        </div>
+
+        <div class="photo-comparison-divider" data-photo-comparison-divider>
+          <div class="photo-comparison-handle"></div>
+        </div>
+
+        <input type="range"
+              min="0"
+              max="100"
+              value="50"
+              class="photo-comparison-slider"
+              data-photo-comparison-slider>
+      </div>
+    </div>
+  </div>
+
+  <% elsif @photo_timeline.any_photos? %>
+    <div class="photo-comparison">
+    <div class="photo-comparison-meta">
+      <p class="photo-comparison-help">Only one <%= @photo_timeline.photo_type_label.downcase %> photo is available so far.
+        Upload at least one older and one newer photo to compare progress.
+        </p>
+      </div>
+      <div class="photo-card">
+        <p><strong><%= @photo_timeline.photo_type_label %></strong></p>
+        <%= image_tag @photo_timeline.newest_photo[:attachment], class: "progress-photo" %>
+      </div>
+    </div>
+  <% else %>
+    <p>No <%= @photo_timeline.photo_type_label.downcase %> photos yet.</p>
+  <% end %>
+  </div>
+<% end %>
+

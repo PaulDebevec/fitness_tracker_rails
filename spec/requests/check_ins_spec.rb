@@ -314,7 +314,7 @@ RSpec.describe "CheckIns", type: :request do
         delete profile_check_in_path(@private_profile, @check_in)
       }.to change(CheckIn, :count).by(-1)
 
-      expect(response).to redirect_to(profile_check_ins_path(@private_profile))
+      expect(response).to redirect_to(profile_path(@private_profile))
     end
 
     it "redirects when deleting a non-existent check-in" do

@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :redirect_if_logged_in, only: [:new]
+
   def new
     session[:return_to] = safe_return_to(params[:return_to]) if params[:return_to].present?
   end

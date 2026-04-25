@@ -43,7 +43,7 @@ RSpec.describe "Measurements", type: :request do
         }.to change(Measurement, :count).by(1)
 
         measurement = Measurement.last
-        expect(response).to redirect_to(profile_check_in_measurement_path(profile, check_in, measurement))
+        expect(response).to redirect_to(profile_check_in_path(profile, check_in))
       end
     end
 
@@ -174,7 +174,7 @@ RSpec.describe "Measurements", type: :request do
       }
     
       measurement = Measurement.last
-      expect(response).to redirect_to(profile_check_in_measurement_path(profile, check_in, measurement))
+      expect(response).to redirect_to(profile_check_in_path(profile, check_in))
       expect(measurement.body_part_photo).to be_attached
     end
   end

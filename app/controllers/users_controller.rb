@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :redirect_if_logged_in, only: [:new, :create]
   before_action :require_login, only: [:destroy]
   before_action :set_user, only: [:destroy]
   before_action :require_user_owner_or_admin, only: [:destroy]

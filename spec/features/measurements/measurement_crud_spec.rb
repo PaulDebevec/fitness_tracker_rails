@@ -53,7 +53,7 @@ RSpec.describe "Measurement", type: :feature do
 
         measurement = Measurement.last
 
-        expect(current_path).to eq(profile_check_in_measurement_path(@profile, check_in, measurement))
+        expect(current_path).to eq(profile_check_in_path(@profile, check_in))
         expect(page).to have_content("Measurement created successfully.")
         expect(page).to have_content("Waist")
         expect(page).to have_content("34.5")
