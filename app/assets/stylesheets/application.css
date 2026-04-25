@@ -1236,6 +1236,17 @@ a.button-link.subtle-link:hover {
   cursor: pointer;
 }
 
+.photo-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.photo-empty-state .button-link {
+  margin-top: 0.75rem;
+}
+
 
 /* ---- Keyframe Settings ---- */
 .photo-timeline-frame-content {

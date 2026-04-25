@@ -32,16 +32,51 @@
 <%= turbo_frame_tag "photo_timeline" do %>
   <%= render "photo_timeline" %>
 <% end %>
+<% if !@photo_timeline.any_photos? %>
+  </div>
+<% end %>
 
-<h2 style="padding-top: 0.5rem;">Check-ins</h2>
 
-<% if @check_ins.any? %>
-  <div class="check-in-grid">
-    <% @check_ins.each do |check_in| %>
+<div class="detail-card">
+<h2 class="photo-comparison-title">Check-ins</h2>
 
-      <% if can_view_check_in_details?(@profile) %>
-        <%= link_to profile_check_in_path(@profile, check_in), class: "check-in-card-link" do %>
-          <div class="check-in-card">
+  <% if @check_ins.any? %>
+    <div class="check-in-grid">
+      <% @check_ins.each do |check_in| %>
+
+        <% if can_view_check_in_details?(@profile) %>
+          <%= link_to profile_check_in_path(@profile, check_in), class: "check-in-card-link" do %>
+            <div class="check-in-card">
+              <div class="check-in-card-header">
+                <h3><%= check_in.formatted_date %></h3>
+              </div>
+
+              <div class="check-in-card-body">
+                <p>
+                  <strong>Notes:</strong>
+                  <%= check_in.notes.present? ? truncate(check_in.notes, length: 100) : "No notes added." %>
+                </p>
+
+                <div class="check-in-meta">
+                  <span><strong>Measurements:</strong> <%= check_in.measurements.count %></span>
+                  <span><strong>Photos:</strong> <%= [
+                    check_in.front_photo.attached?,
+                    check_in.back_photo.attached?,
+                    check_in.side_photo.attached?
+                  ].count(true) %></span>
+                </div>
+
+                <div class="card-hint-row">
+                  <span class="card-hint-text card-hint-desktop">Details</span>
+                  <span class="card-hint-text card-hint-mobile">Tap to view details</span>
+                  <span class="card-hint-arrow">›</span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        <% else %>
+          <div class="check-in-card disabled">
             <div class="check-in-card-header">
               <h3><%= check_in.formatted_date %></h3>
             </div>
@@ -62,48 +97,24 @@
               </div>
 
               <div class="card-hint-row">
-                <span class="card-hint-text card-hint-desktop">Details</span>
-                <span class="card-hint-text card-hint-mobile">Tap to view details</span>
-                <span class="card-hint-arrow">›</span>
+                <span class="card-hint-text muted">
+                  <%= link_to "Log in to view details",
+                    login_path(return_to: profile_check_in_path(@profile, check_in)),
+                    class: "inline-link" %>
+                </span>
               </div>
             </div>
           </div>
         <% end %>
 
-      <% else %>
-        <div class="check-in-card disabled">
-          <div class="check-in-card-header">
-            <h3><%= check_in.formatted_date %></h3>
-          </div>
-
-          <div class="check-in-card-body">
-            <p>
-              <strong>Notes:</strong>
-              <%= check_in.notes.present? ? truncate(check_in.notes, length: 100) : "No notes added." %>
-            </p>
-
-            <div class="check-in-meta">
-              <span><strong>Measurements:</strong> <%= check_in.measurements.count %></span>
-              <span><strong>Photos:</strong> <%= [
-                check_in.front_photo.attached?,
-                check_in.back_photo.attached?,
-                check_in.side_photo.attached?
-              ].count(true) %></span>
-            </div>
-
-            <div class="card-hint-row">
-              <span class="card-hint-text muted">
-                <%= link_to "Log in to view details",
-                  login_path(return_to: profile_check_in_path(@profile, check_in)),
-                  class: "inline-link" %>
-              </span>
-            </div>
-          </div>
-        </div>
       <% end %>
-
-    <% end %>
-  </div>
-<% else %>
-  <p>No check-ins yet.</p>
-<% end %>
+    </div>
+  <% else %>
+    <p class="photo-comparison-help">No check-ins yet.</p>
+    <div class="photo-empty-state">
+      <%= link_to "New Check-in",
+          new_profile_check_in_path(@profile),
+          class: "button-link primary" %>
+    </div>
+  <% end %>
+</div>

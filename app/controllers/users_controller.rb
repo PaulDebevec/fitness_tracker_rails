@@ -48,12 +48,6 @@ class UsersController < ApplicationController
     redirect_to root_path, alert: "You are not authorized to perform that action."
   end
 
-  def redirect_if_logged_in
-    if logged_in?
-      redirect_to profile_path(current_user.profile), notice: "You are already logged in."
-    end
-  end
-
   def user_params
     params.require(:user).permit(
       :email,
