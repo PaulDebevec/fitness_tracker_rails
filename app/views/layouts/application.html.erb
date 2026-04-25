@@ -28,7 +28,7 @@
 
               <div class="user-menu-dropdown" data-user-menu-dropdown>
                 <%= link_to "My Profile", profile_path(current_user.profile), class: "user-menu-link" %>
-                <%= link_to "Settings", edit_profile_path(current_user.profile), class: "user-menu-link" %>
+                <%= link_to "Settings", edit_settings_path, class: "user-menu-link" %>
                 <%= button_to "Log Out",
                     logout_path,
                     method: :delete,
