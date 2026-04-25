@@ -70,4 +70,22 @@
       <%= link_to "Cancel", profile_path(@profile), class: "button-link secondary" %>
     </div>
   <% end %>
+
+  <hr class="section-divider">
+
+  <div class="danger-zone">
+    <h2>Danger Zone</h2>
+
+    <p class="danger-text">
+      Deleting your account will permanently remove your profile, check-ins, measurements, and photos. This action cannot be undone.
+    </p>
+
+    <%= button_to "Delete Account",
+        user_path(@user),
+        method: :delete,
+        data: {
+          turbo_confirm: "Are you sure you want to delete your account? This cannot be undone."
+        },
+        class: "button-danger" %>
+  </div>
 </div>

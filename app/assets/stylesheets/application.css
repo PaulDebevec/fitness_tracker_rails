@@ -459,9 +459,9 @@ button:hover {
     font-size: 1rem;
   }
   
-  .danger-zone {
+  /* .danger-zone {
     margin-top: 1.5rem;
-  }
+  } */
 
   .measurement-summary-list {
     margin: 0;
@@ -758,7 +758,7 @@ button:hover {
     display: none;
   }
 
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .card-hint-desktop {
       display: none;
     }
@@ -766,6 +766,44 @@ button:hover {
     .card-hint-mobile {
       display: inline;
     }
+  } */
+
+
+  .section-divider {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #e5e7eb;
+  }
+  
+  .danger-zone {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px solid #fecaca;
+    background-color: #fef2f2;
+    border-radius: 0.75rem;
+  }
+  
+  .danger-zone h2 {
+    color: #b91c1c;
+    margin-bottom: 0.5rem;
+  }
+  
+  .danger-text {
+    color: #7f1d1d;
+    margin-bottom: 1rem;
+  }
+  
+  .button-danger {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+  }
+  
+  .button-danger:hover {
+    background-color: #b91c1c;
   }
 
 .chart-grid {
@@ -1236,6 +1274,14 @@ a.button-link.subtle-link:hover {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+
+  .card-hint-desktop {
+    display: none;
+  }
+
+  .card-hint-mobile {
+    display: inline;
   }
 
   .user-menu {
