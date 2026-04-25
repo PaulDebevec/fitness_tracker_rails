@@ -22,9 +22,9 @@ This app focuses on turning raw check-in data into **clear, meaningful insights*
 
 ## About
 
-The Fitness Progression Tracker allows users to:
+BodMetriks allows users to:
 
-- Create profiles  
+- Create an account  
 - Log check-ins over time  
 - Record body measurements and weight  
 - Upload progress photos  
