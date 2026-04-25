@@ -39,6 +39,18 @@
         data: { theme_color_select: true } %>
     </div>
 
+    <div class="form-field">
+      <label>Theme Preview</label>
+
+      <%= link_to "Theme Color Example",
+          "#",
+          class: "button-link primary large",
+          data: { turbo: false },
+          onclick: "event.preventDefault();" %>
+    </div>
+
+    <hr class="section-divider">
+
     <h2>Account Settings</h2>
 
     <div class="form-field">
@@ -62,6 +74,8 @@
         <%= label_tag "user[password_confirmation]", "Confirm New Password" %>
         <%= password_field_tag "user[password_confirmation]" %>
     </div>
+
+    <hr class="section-divider">
 
     <h2>Profile Settings</h2>
 
