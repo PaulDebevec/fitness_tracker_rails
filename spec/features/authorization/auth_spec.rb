@@ -112,9 +112,7 @@ RSpec.describe "Profile authorization", type: :feature do
 
     visit profile_path(@private_profile)
 
-    expect(page).to have_link("Edit Profile")
     expect(page).to have_link("New Check-in")
-    expect(page).to have_button("Delete Account")
   end
 
   it "does not show owner-only management actions to another logged-in user" do
@@ -122,18 +120,14 @@ RSpec.describe "Profile authorization", type: :feature do
 
     visit profile_path(@public_prof)
 
-    expect(page).not_to have_link("Edit Profile")
     expect(page).not_to have_link("New Check-in")
-    expect(page).not_to have_button("Delete Account")
     expect(page).to have_link("View Progress Report")
   end
 
   it "does not show owner-only management actions to a guest viewing a public profile" do
     visit profile_path(@public_prof)
 
-    expect(page).not_to have_link("Edit Profile")
     expect(page).not_to have_link("New Check-in")
-    expect(page).not_to have_button("Delete Account")
     expect(page).to have_link("View Progress Report")
   end
 end

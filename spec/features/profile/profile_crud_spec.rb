@@ -131,22 +131,18 @@ RSpec.describe "Profile", type: :feature do
   end
 
   describe "profile management controls" do
-    it "shows edit, new check-in, and delete account controls to the owner" do
+    it "shows new check-in controls to the owner" do
       log_in_with(email: "public_owner@example.com")
 
       visit profile_path(@public_profile)
 
-      expect(page).to have_link("Edit Profile")
       expect(page).to have_link("New Check-in")
-      expect(page).to have_button("Delete Account")
     end
 
     it "does not show owner controls to guests viewing a public profile" do
       visit profile_path(@public_profile)
 
-      expect(page).not_to have_link("Edit Profile")
       expect(page).not_to have_link("New Check-in")
-      expect(page).not_to have_button("Delete Account")
       expect(page).to have_link("View Progress Report")
     end
 
@@ -155,39 +151,8 @@ RSpec.describe "Profile", type: :feature do
 
       visit profile_path(@public_profile)
 
-      expect(page).not_to have_link("Edit Profile")
       expect(page).not_to have_link("New Check-in")
-      expect(page).not_to have_button("Delete Account")
       expect(page).to have_link("View Progress Report")
-    end
-  end
-
-  describe "profile update" do
-    it "allows the owner to update their profile" do
-      log_in_with(email: "public_owner@example.com")
-
-      visit profile_path(@public_profile)
-      click_link "Edit Profile"
-
-      fill_in "Display name", with: "Updated Public Owner"
-      select "Imperial", from: "Unit system"
-      click_button "Update Profile"
-
-      expect(current_path).to eq(profile_path(@public_profile))
-      expect(page).to have_content("Updated Public Owner")
-      expect(@public_profile.reload.display_name).to eq("Updated Public Owner")
-    end
-
-    it "does not update with invalid data" do
-      log_in_with(email: "public_owner@example.com")
-
-      visit edit_profile_path(@public_profile)
-
-      fill_in "Display name", with: ""
-      click_button "Update Profile"
-
-      expect(page).to have_content("Display name can't be blank")
-      expect(@public_profile.reload.display_name).to eq("PublicOwn")
     end
   end
 

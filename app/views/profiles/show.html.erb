@@ -46,7 +46,9 @@
       <% @check_ins.each do |check_in| %>
 
         <% if can_view_check_in_details?(@profile) %>
-          <%= link_to profile_check_in_path(@profile, check_in), class: "check-in-card-link" do %>
+          <%= link_to profile_check_in_path(@profile, check_in), 
+            class: "check-in-card-link",
+            data: { turbo_frame: "_top" } do %>
             <div class="check-in-card">
               <div class="check-in-card-header">
                 <h3><%= check_in.formatted_date %></h3>
@@ -110,12 +112,14 @@
     </div>
   <% else %>
     <p class="photo-comparison-help">No check-ins yet.</p>
-    <div class="photo-empty-state">
-      <%= link_to "New Check-in",
-          new_profile_check_in_path(@profile),
-          class: "button-link primary",
-          data: { turbo_frame: "_top" } %>
-    </div>
+    <% if can_manage_profile?(@profile) %>
+      <div class="photo-empty-state">
+        <%= link_to "New Check-in",
+            new_profile_check_in_path(@profile),
+            class: "button-link primary",
+            data: { turbo_frame: "_top" } %>
+      </div>
+    <% end %>
   <% end %>
 </div>
 

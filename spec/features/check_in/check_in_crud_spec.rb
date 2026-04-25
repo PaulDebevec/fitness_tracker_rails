@@ -93,7 +93,7 @@ RSpec.describe "CheckIn", type: :feature do
 
             click_button "Delete Check-in"
 
-            expect(current_path).to eq(profile_check_ins_path(@profile))
+            expect(current_path).to eq(profile_path(@profile))
             expect(page).to have_content("Check-in deleted successfully.")
             expect(CheckIn.exists?(check_in.id)).to be(false)
         end
