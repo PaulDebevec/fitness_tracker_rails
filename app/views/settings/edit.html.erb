@@ -17,6 +17,35 @@
       </div>
     <% end %>
 
+    <h2>Appearance</h2>
+
+    <div class="form-field">
+      <%= label_tag "profile[theme_mode]", "Theme Mode" %>
+      <%= select_tag "profile[theme_mode]",
+          options_for_select(
+            [
+              ["System", "system"],
+              ["Light", "light"],
+              ["Dark", "dark"]
+            ],
+            @profile.theme_mode
+          ) %>
+    </div>
+
+    <div class="form-field">
+      <%= label_tag "profile[theme_color]", "Theme" %>
+      <%= select_tag "profile[theme_color]",
+          options_for_select(
+            [
+              ["Default", "default"],
+              ["Ocean", "ocean"],
+              ["Forest", "forest"],
+              ["Sunset", "sunset"]
+            ],
+            @profile.theme_color
+          ) %>
+    </div>
+
     <h2>Account Settings</h2>
 
     <div class="form-field">

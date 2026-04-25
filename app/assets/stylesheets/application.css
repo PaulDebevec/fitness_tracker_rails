@@ -1268,6 +1268,48 @@ a.button-link.subtle-link:hover {
 }
 
 
+/* ---- THEME SETTINGS ---- */
+/* Default (light) */
+body {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+/* Dark mode */
+body.theme-mode-dark {
+  background-color: #0f172a;
+  color: #e5e7eb;
+}
+
+/* Default */
+body.theme-color-default {
+  --primary: #2563eb;
+}
+
+/* Ocean */
+body.theme-color-ocean {
+  --primary: #0ea5e9;
+}
+
+/* Forest */
+body.theme-color-forest {
+  --primary: #16a34a;
+}
+
+/* Sunset */
+body.theme-color-sunset {
+  --primary: #f97316;
+}
+
+/* System mode */
+@media (prefers-color-scheme: dark) {
+  body.theme-mode-system {
+    background-color: #0f172a;
+    color: #e5e7eb;
+  }
+}
+
+
 /* ---- Keyframe Settings ---- */
 .photo-timeline-frame-content {
   animation: photoFadeIn 260ms ease-out;

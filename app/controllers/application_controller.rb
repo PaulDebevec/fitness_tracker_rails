@@ -1,7 +1,18 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?, :can_manage_profile?, :can_view_profile?, :show_private_profile_label?
   helper_method :can_view_check_in_details?
+  helper_method :theme_classes
 
+  def theme_classes
+    return "" unless current_user
+
+    profile = current_user.profile
+
+    [
+      "theme-mode-#{profile.theme_mode}",
+      "theme-color-#{profile.theme_color}"
+    ].join(" ")
+  end
 
   private
 

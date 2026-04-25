@@ -60,7 +60,9 @@ class SettingsController < ApplicationController
       params.require(:profile).permit(
         :display_name,
         :unit_system,
-        :public_profile
+        :public_profile,
+        :theme_mode,
+        :theme_color
       )
     end
 end
