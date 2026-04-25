@@ -29,5 +29,9 @@
 
   <div class="form-actions">
     <%= form.submit @measurement.persisted? ? "Update Measurement" : "Create Measurement" %>
+
+    <%= link_to "Cancel",
+      request.referer || profile_path(@check_in),
+      class: "button-secondary" %>
   </div>
 <% end %>

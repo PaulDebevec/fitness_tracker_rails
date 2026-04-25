@@ -26,3 +26,23 @@ function initializePhotoComparisons() {
     updateComparison();
   });
 }
+
+document.addEventListener("turbo:load", initializeUserMenu);
+
+function initializeUserMenu() {
+  const menu = document.querySelector(".user-menu");
+  const button = document.querySelector("[data-user-menu-button]");
+
+  if (!menu || !button || menu.dataset.initialized === "true") return;
+
+  menu.dataset.initialized = "true";
+
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
+    menu.classList.toggle("open");
+  });
+
+  document.addEventListener("click", () => {
+    menu.classList.remove("open");
+  });
+}

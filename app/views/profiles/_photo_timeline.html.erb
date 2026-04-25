@@ -1,5 +1,8 @@
 <div class="detail-card">
 <h2 class="photo-comparison-title">Progress Photo Comparison</h2>
+<p class="photo-comparison-help">
+          Drag the slider to compare your earliest and most recent <%= @photo_timeline.photo_type_label.downcase %> photos.
+        </p>
 
 <div class="photo-comparison-toggle-row">
   <div class="chart-toggle-group">
@@ -15,21 +18,42 @@
 <% if @photo_timeline.comparable? %>
   <div class="photo-comparison"
        data-photo-comparison>
+       
+
+        <div class="photo-comparison-date-row">
+          <div class="photo-label-block">
+            <span>
+              <strong>Earliest:</strong>
+            </span>
+              <%= @photo_timeline.oldest_photo[:formatted_date] %>
+            <span class="photo-direction-hint">
+              slide right →
+            </span>
+          </div>
+          <div class="photo-label-block right">
+            <span>
+              <strong>Most Recent:</strong>
+            </span>
+              <%= @photo_timeline.newest_photo[:formatted_date] %>
+            <span class="photo-direction-hint">
+              ← slide left
+            </span>
+          </div>
+        </div>
+  <div class="photo-timeline-frame-content">
+
     <div class="photo-comparison-image-wrap">
-      <%= image_tag @photo_timeline.oldest_photo[:attachment],
-          class: "photo-comparison-image base-image" %>
+      <%= image_tag @photo_timeline.newest_photo[:attachment],
+            class: "photo-comparison-image overlay-image" %>
 
       <div class="photo-comparison-overlay" data-photo-comparison-overlay>
-        <%= image_tag @photo_timeline.newest_photo[:attachment],
-            class: "photo-comparison-image overlay-image" %>
+            <%= image_tag @photo_timeline.oldest_photo[:attachment],
+          class: "photo-comparison-image base-image" %>
       </div>
 
       <div class="photo-comparison-divider" data-photo-comparison-divider>
         <div class="photo-comparison-handle"></div>
       </div>
-
-      <div class="photo-comparison-label oldest-label">Oldest</div>
-      <div class="photo-comparison-label newest-label">Most Recent</div>
 
       <input type="range"
              min="0"
@@ -38,23 +62,19 @@
              class="photo-comparison-slider"
              data-photo-comparison-slider>
     </div>
-
-    <div class="photo-comparison-meta">
-      <p><strong>Comparing:</strong> <%= @photo_timeline.photo_type_label %></p>
-      <p><strong>Oldest:</strong> <%= @photo_timeline.oldest_photo[:formatted_date] %></p>
-      <p><strong>Most Recent:</strong> <%= @photo_timeline.newest_photo[:formatted_date] %></p>
-    </div>
   </div>
+</div>
+
 <% elsif @photo_timeline.any_photos? %>
   <div class="photo-comparison">
+  <div class="photo-comparison-meta">
+    <p class="photo-comparison-help">Only one <%= @photo_timeline.photo_type_label.downcase %> photo is available so far.
+      Upload at least one older and one newer photo to compare progress.
+      </p>
+    </div>
     <div class="photo-card">
       <p><strong><%= @photo_timeline.photo_type_label %></strong></p>
       <%= image_tag @photo_timeline.newest_photo[:attachment], class: "progress-photo" %>
-    </div>
-
-    <div class="photo-comparison-meta">
-      <p>Only one <%= @photo_timeline.photo_type_label.downcase %> photo is available so far.</p>
-      <p>Upload at least one older and one newer photo to compare progress.</p>
     </div>
   </div>
 <% else %>
