@@ -111,7 +111,7 @@
 <% end %>
 
 <% if can_manage_profile?(@profile) %>
-  <div class="danger-zone">
+  <div class="danger-zone photo-empty-state">
     <%= button_to "Delete Check-in",
         profile_check_in_path(@profile, @check_in),
         method: :delete %>
@@ -119,3 +119,4 @@
 <% end %>
 
 </div>
+
