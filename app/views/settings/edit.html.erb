@@ -1,0 +1,73 @@
+<h1>Settings</h1>
+
+<div class="form-card">
+  <%= form_with url: settings_path, method: :patch, class: "stacked-form" do |form| %>
+    <% if @user.errors.any? || @profile.errors.any? %>
+      <div class="form-errors">
+        <h2>Please fix the following errors:</h2>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+
+          <% @profile.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <h2>Account Settings</h2>
+
+    <div class="form-field">
+        <%= label_tag "user[email]", "Email" %>
+        <%= email_field_tag "user[email]", @user.email %>
+    </div>
+
+    <div class="form-field">
+        <%= label_tag "user[current_password]", "Current Password" %>
+        <%= password_field_tag "user[current_password]" %>
+        <small>Required to change your password or email.</small>
+    </div>
+
+    <div class="form-field">
+        <%= label_tag "user[password]", "New Password" %>
+        <%= password_field_tag "user[password]" %>
+        <small>Leave blank to keep your current password.</small>
+    </div>
+
+    <div class="form-field">
+        <%= label_tag "user[password_confirmation]", "Confirm New Password" %>
+        <%= password_field_tag "user[password_confirmation]" %>
+    </div>
+
+    <h2>Profile Settings</h2>
+
+    <div class="form-field">
+        <%= label_tag "profile[display_name]", "Display Name" %>
+        <%= text_field_tag "profile[display_name]", @profile.display_name %>
+    </div>
+
+    <div class="form-field">
+      <%= label_tag "profile[unit_system]", "Unit System" %>
+      <%= select_tag "profile[unit_system]",
+          options_for_select(
+            [["Imperial", "imperial"], ["Metric", "metric"]],
+            @profile.unit_system
+          ) %>
+    </div>
+
+    <div class="form-field">
+      <label class="checkbox-row">
+        <%= hidden_field_tag "profile[public_profile]", "0" %>
+        <%= check_box_tag "profile[public_profile]", "1", @profile.public_profile %>
+        <span>Make my profile public</span>
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <%= submit_tag "Update Settings" %>
+      <%= link_to "Cancel", profile_path(@profile), class: "button-link secondary" %>
+    </div>
+  <% end %>
+</div>

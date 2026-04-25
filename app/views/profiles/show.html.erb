@@ -33,7 +33,9 @@
 </div>
 
 
-<%= render "photo_timeline" %>
+<%= turbo_frame_tag "photo_timeline" do %>
+  <%= render "photo_timeline" %>
+<% end %>
 
 <h2 style="padding-top: 0.5rem;">Check-ins</h2>
 

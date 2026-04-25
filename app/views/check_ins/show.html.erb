@@ -2,17 +2,21 @@
 
 <div class="page-actions">
   <div class="page-actions-left">
+    <%= link_to "Back to Profile",
+          profile_path(@profile),
+          class: "button-link" %>
   </div>
   <% if can_manage_profile?(@profile) %>
+    <div class="page-actions-secondary">
+      <div class="page-actions-right">
+        <%= link_to "Add Measurement",
+            new_profile_check_in_measurement_path(@profile, @check_in),
+            class: "button-link subtle" %>
 
-    <div class="page-actions-right">
-      <%= link_to "Add Measurement",
-          new_profile_check_in_measurement_path(@profile, @check_in),
-          class: "button-link" %>
-
-      <%= link_to "Edit Check-in",
-                  edit_profile_check_in_path(@profile, @check_in),
-                  class: "button-link" %>
+        <%= link_to "Edit Check-in",
+                    edit_profile_check_in_path(@profile, @check_in),
+                    class: "button-link subtle" %>
+      </div>
     </div>
     <% end %>
 </div>

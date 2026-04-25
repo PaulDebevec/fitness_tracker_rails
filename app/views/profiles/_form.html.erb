@@ -32,6 +32,10 @@
 
   <div class="form-actions">
     <%= form.submit profile.persisted? ? "Update Profile" : "Create Profile" %>
+
+    <%= link_to "Cancel",
+      request.referer || profile_path(@profile),
+      class: "button-secondary" %>
   </div>
 
 <% end %>
