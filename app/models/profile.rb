@@ -42,7 +42,7 @@ class Profile < ApplicationRecord
   end
 
   def set_defaults
-    self.theme_mode ||= "system"
+    self.theme_mode ||= "dark"
     self.theme_color ||= "default"
   end
 end
