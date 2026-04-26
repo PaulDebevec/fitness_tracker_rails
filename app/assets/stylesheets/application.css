@@ -125,10 +125,13 @@
    Base
 ========================================================= */
 
-html,
-body,
-body.app-body,
-.page-shell {
+html {
+  min-height: 100%;
+  background: var(--page-bg);
+}
+
+body {
+  min-height: 100vh;
   background: var(--page-bg);
 }
 
