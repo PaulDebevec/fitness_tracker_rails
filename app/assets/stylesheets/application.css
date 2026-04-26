@@ -135,6 +135,12 @@ body {
   background: var(--page-bg);
 }
 
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 body.app-body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -174,6 +180,18 @@ hr,
   max-width: 1100px;
   margin: 2rem auto;
   padding: 0 1.5rem 2rem;
+  flex: 1;
+}
+
+.app-footer {
+  margin-top: auto;
+  padding: 1.5rem;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  background: var(--surface-bg);
+  font-size: 0.9rem;
+  opacity: 0.85;
 }
 
 .page-card {
