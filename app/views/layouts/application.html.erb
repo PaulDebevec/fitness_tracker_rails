@@ -1,20 +1,82 @@
 <!DOCTYPE html>
 <html class="<%= theme_classes %>">
   <head>
-    <title>BodMetriks</title>
+    <title><%= content_for?(:title) ? yield(:title) : "BodMetriks | Track Fitness Progress with Photos & Measurements" %></title>
+
+    <% if Rails.env.production? %>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-P8Y8WPNJF7"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-P8Y8WPNJF7');
+      </script>
+    <% end %>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="Track body measurements, progress photos, and check-ins over time with BodMetriks.">
+
+    <!-- Theme color (browser UI) -->
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="BodMetriks">
+    <meta property="og:site_name" content="BodMetriks">
+    <meta property="og:description" content="Track your fitness progress with measurements, photos, and reports.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.base_url + request.path %>">
+    <meta property="og:image" content="<%= image_url('og-image.png') %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="627">
+
+    <!-- Favicons -->
+    <link rel="icon" href="<%= asset_path('favicon.ico') %>">
+    <link rel="apple-touch-icon" href="<%= asset_path('apple-touch-icon.png') %>">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BodMetriks">
+    <meta name="twitter:description" content="Track your progress. Compare your results. Stay consistent.">
+    <meta name="twitter:image" content="<%= image_url('og-image.png') %>">
+
+    <meta name="keywords" content="fitness tracker, bodimetrix, bodmetriks, metrics, body metrics body measurements, progress photos, rails app, full stack project">
+    <meta name="author" content="Paul Debevec">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<%= request.original_url %>">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BodMetriks",
+        "url": "<%= request.base_url %>",
+        "description": "Track body measurements, progress photos, and fitness check-ins over time.",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "creator": {
+          "@type": "Person",
+          "name": "Paul Debevec"
+        }
+      }
+    </script>
   </head>
 
-  <body class="app-body <%= theme_classes %>">
+  <body class="app-body <%= theme_classes %>"
+      data-track-signup="<%= flash[:track_signup].present? %>"
+      data-track-checkin="<%= flash[:track_checkin].present? %>">
+
     <header class="navbar">
       <div class="navbar-inner">
         <div class="navbar-left">
-          <%= link_to "BodMetriks", root_path, class: "brand-link" %>
+          <%= link_to "📊 BodMetriks", root_path, class: "brand-link" %>
           <%= link_to "Profiles", profiles_path, class: "nav-link #{'active' if current_page?(profiles_path)}" %>
         </div>
 
@@ -70,5 +132,9 @@
         <%= yield %>
       </div>
     </main>
+
+    <footer class="app-footer">
+      <p>© <%= Time.current.year %> BodMetriks</p>
+    </footer>h
   </body>
 </html>

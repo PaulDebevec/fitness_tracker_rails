@@ -105,3 +105,23 @@ function initializeAppearanceAutoSave() {
     });
   });
 }
+
+document.addEventListener("turbo:load", () => {
+  const body = document.body;
+
+  if (!body) return;
+
+  // Track signup
+  if (body.dataset.trackSignup === "true") {
+    if (typeof gtag === "function") {
+      gtag('event', 'sign_up');
+    }
+  }
+
+  // Track check-in creation
+  if (body.dataset.trackCheckin === "true") {
+    if (typeof gtag === "function") {
+      gtag('event', 'create_checkin');
+    }
+  }
+});

@@ -21,7 +21,10 @@ class UsersController < ApplicationController
     reset_session
     session[:user_id] = @user.id
 
-    redirect_to profile_path(@user.profile), notice: "Account created successfully."
+    redirect_to profile_path(@user.profile),
+      notice: "Account created successfully.",
+      flash: { track_signup: true }
+      
   rescue ActiveRecord::RecordInvalid
     render :new, status: :unprocessable_content
   end
