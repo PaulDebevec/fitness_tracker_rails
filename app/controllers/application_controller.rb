@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     return "theme-mode-system theme-color-default" unless current_user&.profile
   
     [
-      "theme-mode-#{current_user.profile.theme_mode || 'system'}",
+      "theme-mode-#{current_user.profile.theme_mode || 'dark'}",
       "theme-color-#{current_user.profile.theme_color || 'default'}"
     ].join(" ")
   end

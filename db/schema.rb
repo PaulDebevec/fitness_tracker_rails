@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_25_212644) do
+ActiveRecord::Schema[7.1].define(version: 2026_04_26_010722) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,7 +69,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_25_212644) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.boolean "public_profile", default: true, null: false
-    t.string "theme_mode"
+    t.string "theme_mode", default: "dark"
     t.string "theme_color"
     t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
