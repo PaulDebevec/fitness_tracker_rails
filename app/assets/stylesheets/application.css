@@ -1305,6 +1305,62 @@ a.button-link.subtle:hover,
   margin-bottom: 1rem;
 }
 
+/* --- Theme Swatches --- */
+
+.theme-swatch-row {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.theme-swatch-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.theme-swatch-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.theme-swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 2px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-swatch-default {
+  background: #2563eb;
+}
+
+.theme-swatch-ocean {
+  background: #0ea5e9;
+}
+
+.theme-swatch-forest {
+  background: #16a34a;
+}
+
+.theme-swatch-sunset {
+  background: #f97316;
+}
+
+.theme-swatch-option input:checked + .theme-swatch {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+  transform: scale(1.08);
+}
+
 /* =========================================================
    Animations
 ========================================================= */

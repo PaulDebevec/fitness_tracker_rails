@@ -30,13 +30,26 @@
     </div>
 
     <div class="form-field">
-      <%= label_tag "profile[theme_color]", "Theme" %>
-      <%= select_tag "profile[theme_color]",
-        options_for_select(
-          [["Default", "default"], ["Ocean", "ocean"], ["Forest", "forest"], ["Sunset", "sunset"]],
-          @profile.theme_color
-        ),
-        data: { theme_color_select: true } %>
+      <label>Theme</label>
+
+      <div class="theme-swatch-row" data-theme-color-select-group>
+        <% [
+          ["Default", "default"],
+          ["Ocean", "ocean"],
+          ["Forest", "forest"],
+          ["Sunset", "sunset"]
+        ].each do |label, value| %>
+          <label class="theme-swatch-option" title="<%= label %>">
+            <%= radio_button_tag "profile[theme_color]",
+                value,
+                @profile.theme_color == value,
+                data: { theme_color_radio: true } %>
+
+            <span class="theme-swatch theme-swatch-<%= value %>"></span>
+            <span class="theme-swatch-label"><%= label %></span>
+          </label>
+        <% end %>
+      </div>
     </div>
 
     <div class="form-field">
