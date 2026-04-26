@@ -3,3 +3,5 @@ Allow: /
 Disallow: /settings
 Disallow: /login
 Disallow: /signup
+
+Sitemap: https://bodmetriks.sitemap.xml

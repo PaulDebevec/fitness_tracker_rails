@@ -3,6 +3,18 @@
   <head>
     <title><%= content_for?(:title) ? yield(:title) : "BodMetriks | Track Fitness Progress with Photos & Measurements" %></title>
 
+    <% if Rails.env.production? %>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-P8Y8WPNJF7"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-P8Y8WPNJF7');
+      </script>
+    <% end %>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Track body measurements, progress photos, and check-ins over time with BodMetriks.">
 
@@ -51,7 +63,10 @@
     </script>
   </head>
 
-  <body class="app-body <%= theme_classes %>">
+  <body class="app-body <%= theme_classes %>"
+      data-track-signup="<%= flash[:track_signup].present? %>"
+      data-track-checkin="<%= flash[:track_checkin].present? %>">
+      
     <header class="navbar">
       <div class="navbar-inner">
         <div class="navbar-left">

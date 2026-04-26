@@ -21,7 +21,9 @@ class CheckInsController < ApplicationController
     @check_in = @profile.check_ins.new(check_in_params)
 
     if @check_in.save
-      redirect_to profile_check_in_path(@profile, @check_in), notice: "Check-in created successfully."
+      redirect_to profile_check_in_path(@profile, @check_in),
+        notice: "Check-in created successfully.",
+        flash: { track_checkin: true }
     else
       render :new, status: :unprocessable_content
     end
