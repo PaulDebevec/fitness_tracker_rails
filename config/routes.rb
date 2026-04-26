@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  constraints(host: "bodmetriks.com") do
+    get "*path", to: redirect { |params, req|
+      "https://bodimetrix.com/#{params[:path]}"
+    }
+  end
   root "home#index"
 
   get "/signup", to: "users#new"

@@ -22,7 +22,7 @@ This app focuses on turning raw check-in data into **clear, meaningful insights*
 
 ## About
 
-BodMetriks allows users to:
+BodiMetrix allows users to:
 
 - Create an account  
 - Log check-ins over time  

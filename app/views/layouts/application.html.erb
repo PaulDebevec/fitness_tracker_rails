@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="<%= theme_classes %>">
   <head>
-    <title><%= content_for?(:title) ? yield(:title) : "BodMetriks | Track Fitness Progress with Photos & Measurements" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "#{app_name} | Track Fitness Progress with Photos & Measurements" %></title>
 
     <% if Rails.env.production? %>
       <!-- Google tag (gtag.js) -->
@@ -16,14 +16,14 @@
     <% end %>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="Track body measurements, progress photos, and check-ins over time with BodMetriks.">
+    <meta name="description" content="Track body measurements, progress photos, and check-ins over time with BodiMetrix.">
 
     <!-- Theme color (browser UI) -->
     <meta name="theme-color" content="#0f172a">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="BodMetriks">
-    <meta property="og:site_name" content="BodMetriks">
+    <meta property="og:title" content="BodiMetrix">
+    <meta property="og:site_name" content="BodiMetrix">
     <meta property="og:description" content="Track your fitness progress with measurements, photos, and reports.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<%= request.base_url + request.path %>">
@@ -37,11 +37,11 @@
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="BodMetriks">
+    <meta name="twitter:title" content="BodiMetrix">
     <meta name="twitter:description" content="Track your progress. Compare your results. Stay consistent.">
     <meta name="twitter:image" content="<%= image_url('og-image.png') %>">
 
-    <meta name="keywords" content="fitness tracker, bodimetrix, bodmetriks, metrics, body metrics body measurements, progress photos, rails app, full stack project">
+    <meta name="keywords" content="fitness tracker, bodimetrix, BodiMetrix, metrics, body metrics body measurements, progress photos, rails app, full stack project">
     <meta name="author" content="Paul Debevec">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="<%= request.original_url %>">
@@ -56,7 +56,7 @@
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "BodMetriks",
+        "name": "BodiMetrix",
         "url": "<%= request.base_url %>",
         "description": "Track body measurements, progress photos, and fitness check-ins over time.",
         "applicationCategory": "HealthApplication",
@@ -76,7 +76,7 @@
     <header class="navbar">
       <div class="navbar-inner">
         <div class="navbar-left">
-          <%= link_to "📊 BodMetriks", root_path, class: "brand-link" %>
+          <%= link_to "📊 BodiMetrix", root_path, class: "brand-link" %>
           <%= link_to "Profiles", profiles_path, class: "nav-link #{'active' if current_page?(profiles_path)}" %>
         </div>
 
@@ -134,7 +134,7 @@
     </main>
 
     <footer class="app-footer">
-      <p>© <%= Time.current.year %> BodMetriks</p>
+      <p>© <%= Time.current.year %> BodiMetrix</p>
     </footer>
   </body>
 </html>
