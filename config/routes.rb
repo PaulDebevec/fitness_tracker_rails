@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
+  patch "/settings/appearance", to: "settings#update_appearance", as: :settings_appearance
 
   resource :settings, only: [:edit, :update]
   resources :users, only: [:destroy]

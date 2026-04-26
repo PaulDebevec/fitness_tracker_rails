@@ -1,12 +1,11 @@
 class Profile < ApplicationRecord
   belongs_to :user
-
   has_many :check_ins, dependent: :destroy
-
   scope :recent_first, -> { order(created_at: :desc) }
-
   validates :display_name, presence: true, length: { minimum: 2, maximum: 50 }
   validates :unit_system, presence: true, inclusion: { in: %w[imperial metric] }
+  after_initialize :set_defaults, if: :new_record?
+
 
   def formatted_unit_system
     case unit_system
@@ -40,5 +39,10 @@ class Profile < ApplicationRecord
   
   def private?
     !public_profile
+  end
+
+  def set_defaults
+    self.theme_mode ||= "system"
+    self.theme_color ||= "default"
   end
 end

@@ -1,6 +1,71 @@
 <h1>Settings</h1>
 
 <div class="form-card">
+<h2>Appearance</h2>
+
+<%= form_with url: settings_appearance_path,
+    method: :patch,
+    class: "stacked-form appearance-form",
+    data: { auto_save_appearance_form: true } do %>
+
+    <div class="form-field">
+      <label>Theme Mode</label>
+
+      <div class="theme-mode-toggle-group">
+        <% [
+          ["Light", "light"],
+          ["System", "system"],
+          ["Dark", "dark"]
+        ].each do |label, value| %>
+          <label class="theme-mode-option">
+            <%= radio_button_tag "profile[theme_mode]",
+                value,
+                @profile.theme_mode == value,
+                data: { theme_mode_radio: true } %>
+
+            <span><%= label %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Theme</label>
+
+      <div class="theme-swatch-row" data-theme-color-select-group>
+        <% [
+          ["Default", "default"],
+          ["Ocean", "ocean"],
+          ["Forest", "forest"],
+          ["Sunset", "sunset"]
+        ].each do |label, value| %>
+          <label class="theme-swatch-option" title="<%= label %>">
+            <%= radio_button_tag "profile[theme_color]",
+                value,
+                @profile.theme_color == value,
+                data: { theme_color_radio: true } %>
+
+            <span class="theme-swatch theme-swatch-<%= value %>"></span>
+            <span class="theme-swatch-label"><%= label %></span>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Theme Preview</label>
+
+      <%= link_to "Theme Color Example",
+          "#",
+          class: "button-link primary large",
+          data: { turbo: false },
+          onclick: "event.preventDefault();" %>
+    </div>
+
+    <hr class="section-divider">
+
+<% end %>
+
   <%= form_with url: settings_path, method: :patch, class: "stacked-form" do |form| %>
     <% if @user.errors.any? || @profile.errors.any? %>
       <div class="form-errors">
@@ -40,6 +105,8 @@
         <%= label_tag "user[password_confirmation]", "Confirm New Password" %>
         <%= password_field_tag "user[password_confirmation]" %>
     </div>
+
+    <hr class="section-divider">
 
     <h2>Profile Settings</h2>
 
