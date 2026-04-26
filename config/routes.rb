@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
   patch "/settings/appearance", to: "settings#update_appearance", as: :settings_appearance
+  get "/sitemap.xml", to: "sitemap#index", defaults: { format: "xml" }
 
   resource :settings, only: [:edit, :update]
   resources :users, only: [:destroy]
