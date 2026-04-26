@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="<%= theme_classes %>">
   <head>
-    <title><%= content_for?(:title) ? yield(:title) : "BodMetriks" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "BodMetriks | Track Fitness Progress with Photos & Measurements" %></title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="Track body measurements, progress photos, and check-ins over time with BodMetriks.">
@@ -16,21 +16,39 @@
     <meta property="og:url" content="<%= request.original_url %>">
     <meta property="og:image" content="<%= image_url('og-image.png') %>">
 
-      <!-- Favicons -->
+    <!-- Favicons -->
     <link rel="icon" href="<%= asset_path('favicon.ico') %>">
     <link rel="apple-touch-icon" href="<%= asset_path('apple-touch-icon.png') %>">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="BodMetriks">
-    <meta name="twitter:description" content="Track your fitness journey with real data.">
+    <meta name="twitter:description" content="Track your progress. Compare your results. Stay consistent.">
     <meta name="twitter:image" content="<%= image_url('og-image.png') %>">
+
+    <link rel="canonical" href="<%= request.original_url %>">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "BodMetriks",
+        "url": "<%= request.base_url %>",
+        "description": "Track body measurements, progress photos, and fitness check-ins over time.",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "creator": {
+          "@type": "Person",
+          "name": "Paul Debevec"
+        }
+      }
+    </script>
   </head>
 
   <body class="app-body <%= theme_classes %>">
