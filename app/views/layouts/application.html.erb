@@ -23,10 +23,13 @@
 
     <!-- Open Graph -->
     <meta property="og:title" content="BodMetriks">
+    <meta property="og:site_name" content="BodMetriks">
     <meta property="og:description" content="Track your fitness progress with measurements, photos, and reports.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:url" content="<%= request.base_url + request.path %>">
     <meta property="og:image" content="<%= image_url('og-image.png') %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="627">
 
     <!-- Favicons -->
     <link rel="icon" href="<%= asset_path('favicon.ico') %>">
@@ -38,6 +41,9 @@
     <meta name="twitter:description" content="Track your progress. Compare your results. Stay consistent.">
     <meta name="twitter:image" content="<%= image_url('og-image.png') %>">
 
+    <meta name="keywords" content="fitness tracker, bodimetrix, bodmetriks, metrics, body metrics body measurements, progress photos, rails app, full stack project">
+    <meta name="author" content="Paul Debevec">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="<%= request.original_url %>">
 
     <%= csrf_meta_tags %>
@@ -66,7 +72,7 @@
   <body class="app-body <%= theme_classes %>"
       data-track-signup="<%= flash[:track_signup].present? %>"
       data-track-checkin="<%= flash[:track_checkin].present? %>">
-      
+
     <header class="navbar">
       <div class="navbar-inner">
         <div class="navbar-left">
