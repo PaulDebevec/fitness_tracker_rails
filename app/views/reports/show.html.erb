@@ -66,12 +66,12 @@
             legend: false,
             thousands: ",",
             dataset: { spanGaps: true },
-            library: {
+            library: chart_theme_options.deep_merge({
               animation: {
                 duration: 700,
                 easing: "easeOutQuart"
               }
-            } %>
+            }) %>
         </div>
       </div>
     <% else %>
@@ -114,12 +114,12 @@
               legend: "bottom",
               thousands: ",",
               dataset: { spanGaps: true },
-              library: {
+              library: chart_theme_options.deep_merge({
                 animation: {
                   duration: 700,
                   easing: "easeOutQuart"
                 }
-              } %>
+              }) %>
         </div>
       </div>
 
@@ -140,12 +140,12 @@
                   legend: false,
                   thousands: ",",
                   dataset: { spanGaps: true },
-                  library: {
+                  library: chart_theme_options.deep_merge({
                     animation: {
                       duration: 700,
                       easing: "easeOutQuart"
                     }
-                  } %>
+                  }) %>
             </div>
           </div>
         <% end %>
@@ -166,12 +166,12 @@
                   legend: "bottom",
                   thousands: ",",
                   dataset: { spanGaps: true },
-                  library: {
+                  library: chart_theme_options.deep_merge({
                     animation: {
                       duration: 700,
                       easing: "easeOutQuart"
                     }
-                  } %>
+                  }) %>
             </div>
           </div>
         <% end %>
