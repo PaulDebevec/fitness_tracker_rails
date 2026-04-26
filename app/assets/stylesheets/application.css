@@ -1305,6 +1305,43 @@ a.button-link.subtle:hover,
   margin-bottom: 1rem;
 }
 
+/* --- Theme Mode --- */
+
+.theme-mode-toggle-group {
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--surface-muted-bg);
+  flex-wrap: wrap;
+}
+
+.theme-mode-option {
+  cursor: pointer;
+}
+
+.theme-mode-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.theme-mode-option span {
+  display: inline-block;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.theme-mode-option input:checked + span {
+  background: var(--primary);
+  color: #ffffff;
+}
+
 /* --- Theme Swatches --- */
 
 .theme-swatch-row {

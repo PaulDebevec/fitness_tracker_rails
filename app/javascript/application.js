@@ -50,11 +50,11 @@ function initializeUserMenu() {
 document.addEventListener("turbo:load", initializeThemePreview);
 
 function initializeThemePreview() {
-  const modeSelect = document.querySelector("[data-theme-mode-select]");
+  const modeRadios = document.querySelectorAll("[data-theme-mode-radio]");
   const colorRadios = document.querySelectorAll("[data-theme-color-radio]");
   const body = document.body;
 
-  if (!modeSelect || colorRadios.length === 0 || !body) return;
+  if (modeRadios.length === 0 || colorRadios.length === 0 || !body) return;
 
   const modeClasses = ["theme-mode-light", "theme-mode-dark", "theme-mode-system"];
   const colorClasses = [
@@ -64,6 +64,11 @@ function initializeThemePreview() {
     "theme-color-sunset"
   ];
 
+  function selectedThemeMode() {
+    const selectedRadio = document.querySelector("[data-theme-mode-radio]:checked");
+    return selectedRadio ? selectedRadio.value : "system";
+  }
+
   function selectedThemeColor() {
     const selectedRadio = document.querySelector("[data-theme-color-radio]:checked");
     return selectedRadio ? selectedRadio.value : "default";
@@ -71,11 +76,13 @@ function initializeThemePreview() {
 
   function updatePreview() {
     body.classList.remove(...modeClasses, ...colorClasses);
-    body.classList.add(`theme-mode-${modeSelect.value}`);
+    body.classList.add(`theme-mode-${selectedThemeMode()}`);
     body.classList.add(`theme-color-${selectedThemeColor()}`);
   }
 
-  modeSelect.addEventListener("change", updatePreview);
+  modeRadios.forEach((radio) => {
+    radio.addEventListener("change", updatePreview);
+  });
 
   colorRadios.forEach((radio) => {
     radio.addEventListener("change", updatePreview);

@@ -20,13 +20,24 @@
     <h2>Appearance</h2>
 
     <div class="form-field">
-      <%= label_tag "profile[theme_mode]", "Theme Mode" %>
-      <%= select_tag "profile[theme_mode]",
-        options_for_select(
-          [["System", "system"], ["Light", "light"], ["Dark", "dark"]],
-          @profile.theme_mode
-        ),
-        data: { theme_mode_select: true } %>
+      <label>Theme Mode</label>
+
+      <div class="theme-mode-toggle-group">
+        <% [
+          ["Light", "light"],
+          ["System", "system"],
+          ["Dark", "dark"]
+        ].each do |label, value| %>
+          <label class="theme-mode-option">
+            <%= radio_button_tag "profile[theme_mode]",
+                value,
+                @profile.theme_mode == value,
+                data: { theme_mode_radio: true } %>
+
+            <span><%= label %></span>
+          </label>
+        <% end %>
+      </div>
     </div>
 
     <div class="form-field">
