@@ -737,6 +737,19 @@ a.button-link.subtle:hover,
   margin-bottom: 2rem;
 }
 
+/* Dark mode override for hero */
+.theme-mode-dark .home-hero {
+  background: linear-gradient(135deg, var(--surface-muted-bg), var(--surface-bg));
+  border-color: var(--border-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-mode-system .home-hero {
+    background: linear-gradient(135deg, var(--surface-muted-bg), var(--surface-bg));
+    border-color: var(--border-color);
+  }
+}
+
 .home-hero-content {
   max-width: 720px;
 }
