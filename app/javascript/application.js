@@ -88,3 +88,20 @@ function initializeThemePreview() {
     radio.addEventListener("change", updatePreview);
   });
 }
+
+document.addEventListener("turbo:load", initializeAppearanceAutoSave);
+
+function initializeAppearanceAutoSave() {
+  const form = document.querySelector("[data-auto-save-appearance-form]");
+  if (!form) return;
+
+  const themeInputs = form.querySelectorAll(
+    "[data-theme-mode-radio], [data-theme-color-radio]"
+  );
+
+  themeInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      form.requestSubmit();
+    });
+  });
+}

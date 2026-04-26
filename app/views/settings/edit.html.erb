@@ -1,23 +1,16 @@
 <h1>Settings</h1>
 
 <div class="form-card">
-  <%= form_with url: settings_path, method: :patch, class: "stacked-form" do |form| %>
-    <% if @user.errors.any? || @profile.errors.any? %>
-      <div class="form-errors">
-        <h2>Please fix the following errors:</h2>
-        <ul>
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
+<h2>Appearance</h2>
 
-          <% @profile.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+<%= form_with url: settings_path,
+    method: :patch,
+    class: "stacked-form appearance-form",
+    data: { auto_submit_theme_form: true } do %>
 
-    <h2>Appearance</h2>
+  <%= hidden_field_tag "profile[display_name]", @profile.display_name %>
+  <%= hidden_field_tag "profile[unit_system]", @profile.unit_system %>
+  <%= hidden_field_tag "profile[public_profile]", @profile.public_profile ? "1" : "0" %>
 
     <div class="form-field">
       <label>Theme Mode</label>
@@ -74,6 +67,24 @@
     </div>
 
     <hr class="section-divider">
+
+<% end %>
+
+  <%= form_with url: settings_path, method: :patch, class: "stacked-form" do |form| %>
+    <% if @user.errors.any? || @profile.errors.any? %>
+      <div class="form-errors">
+        <h2>Please fix the following errors:</h2>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+
+          <% @profile.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
     <h2>Account Settings</h2>
 
