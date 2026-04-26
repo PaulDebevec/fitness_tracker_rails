@@ -3,14 +3,10 @@
 <div class="form-card">
 <h2>Appearance</h2>
 
-<%= form_with url: settings_path,
+<%= form_with url: settings_appearance_path,
     method: :patch,
     class: "stacked-form appearance-form",
-    data: { auto_submit_theme_form: true } do %>
-
-  <%= hidden_field_tag "profile[display_name]", @profile.display_name %>
-  <%= hidden_field_tag "profile[unit_system]", @profile.unit_system %>
-  <%= hidden_field_tag "profile[public_profile]", @profile.public_profile ? "1" : "0" %>
+    data: { auto_save_appearance_form: true } do %>
 
     <div class="form-field">
       <label>Theme Mode</label>
