@@ -76,6 +76,10 @@ RSpec.configure do |config|
     config.include FactoryBot::Syntax::Methods
   end
 
+  config.after(:each) do
+    FileUtils.rm_rf(Rails.root.join("tmp/storage"))
+  end
+
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
       with.test_framework :rspec

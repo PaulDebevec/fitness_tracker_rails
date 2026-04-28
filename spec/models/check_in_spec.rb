@@ -154,8 +154,12 @@ RSpec.describe CheckIn, type: :model do
         checked_in_on: Date.current,
         notes: "With photo"
       )
-  
-      check_in.front_photo.attach(test_image_upload("front_photo.png"))
+
+      check_in.front_photo.attach(
+        io: File.open(Rails.root.join("spec/fixtures/files/front_photo.png")),
+        filename: "front_photo.png",
+        content_type: "image/png"
+      )
   
       expect(check_in.has_photos?).to be(true)
     end
@@ -166,7 +170,11 @@ RSpec.describe CheckIn, type: :model do
         notes: "With photo"
       )
   
-      check_in.back_photo.attach(test_image_upload("back_photo.png"))
+      check_in.back_photo.attach(
+        io: File.open(Rails.root.join("spec/fixtures/files/back_photo.png")),
+        filename: "back_photo.png",
+        content_type: "image/png"
+      )
   
       expect(check_in.has_photos?).to be(true)
     end
@@ -177,7 +185,11 @@ RSpec.describe CheckIn, type: :model do
         notes: "With photo"
       )
   
-      check_in.side_photo.attach(test_image_upload("side_photo.png"))
+      check_in.side_photo.attach(
+        io: File.open(Rails.root.join("spec/fixtures/files/side_photo.png")),
+        filename: "side_photo.png",
+        content_type: "image/png"
+      )
   
       expect(check_in.has_photos?).to be(true)
     end
