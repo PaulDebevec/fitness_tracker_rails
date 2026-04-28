@@ -123,4 +123,63 @@ RSpec.describe CheckIn, type: :model do
       expect(check_in_duplicate_date).to be_valid
     end
   end
+
+  describe "#has_photos?" do
+    before(:each) do
+      @user = User.create!(
+        email: "paul@example.com",
+        password: "supersecure123",
+        password_confirmation: "supersecure123",
+        role: "user"
+      )
+    
+      @profile = Profile.create!(
+        user: @user,
+        display_name: "Paul",
+        unit_system: "imperial"
+      )
+    end
+
+    it "returns false when no photos are attached" do
+      check_in = @profile.check_ins.create!(
+        checked_in_on: Date.current,
+        notes: "No photos"
+      )
+  
+      expect(check_in.has_photos?).to be(false)
+    end
+  
+    it "returns true when a front photo is attached" do
+      check_in = @profile.check_ins.create!(
+        checked_in_on: Date.current,
+        notes: "With photo"
+      )
+  
+      check_in.front_photo.attach(test_image_upload("front_photo.png"))
+  
+      expect(check_in.has_photos?).to be(true)
+    end
+  
+    it "returns true when a back photo is attached" do
+      check_in = @profile.check_ins.create!(
+        checked_in_on: Date.current,
+        notes: "With photo"
+      )
+  
+      check_in.back_photo.attach(test_image_upload("back_photo.png"))
+  
+      expect(check_in.has_photos?).to be(true)
+    end
+  
+    it "returns true when a side photo is attached" do
+      check_in = @profile.check_ins.create!(
+        checked_in_on: Date.current,
+        notes: "With photo"
+      )
+  
+      check_in.side_photo.attach(test_image_upload("side_photo.png"))
+  
+      expect(check_in.has_photos?).to be(true)
+    end
+  end
 end
