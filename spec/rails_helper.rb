@@ -77,7 +77,15 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    FileUtils.rm_rf(Rails.root.join("tmp/storage"))
+    storage_path = Rails.root.join("tmp/storage")
+  
+    next unless Dir.exist?(storage_path)
+  
+    Dir.children(storage_path).each do |child|
+      next if child == ".keep"
+  
+      FileUtils.rm_rf(storage_path.join(child))
+    end
   end
 
   Shoulda::Matchers.configure do |config|
