@@ -45,4 +45,8 @@ class Profile < ApplicationRecord
     self.theme_mode ||= "dark"
     self.theme_color ||= "default"
   end
+
+  def has_any_check_in_photos?
+    check_ins.any?(&:has_photos?)
+  end
 end

@@ -76,6 +76,20 @@ RSpec.configure do |config|
     config.include FactoryBot::Syntax::Methods
   end
 
+  config.after(:each) do
+    storage_path = Rails.root.join("tmp/storage")
+  
+    next unless Dir.exist?(storage_path)
+  
+    Dir.each_child(storage_path) do |child|
+      path = storage_path.join(child)
+  
+      next if File.basename(path) == ".keep"
+  
+      FileUtils.rm_rf(path)
+    end
+  end
+
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
       with.test_framework :rspec

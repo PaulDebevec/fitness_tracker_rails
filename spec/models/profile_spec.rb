@@ -30,4 +30,47 @@ RSpec.describe Profile, type: :model do
             expect(profile).not_to be_valid
         end
     end
+
+    describe "#has_any_check_in_photos?" do
+      before(:each) do
+        @user = User.create!(
+          email: "test@example.com",
+          password: "supersecure123",
+          password_confirmation: "supersecure123",
+          role: "user"
+        )
+      
+        @profile = Profile.create!(
+          user: @user,
+          display_name: "Paul",
+          unit_system: "imperial"
+        )
+      end
+        it "returns false when the profile has no check-ins" do
+          expect(@profile.has_any_check_in_photos?).to be(false)
+        end
+      
+        it "returns false when check-ins exist but none have photos" do
+          @profile.check_ins.create!(
+            checked_in_on: Date.current,
+            notes: "No photos"
+          )
+      
+          expect(@profile.has_any_check_in_photos?).to be(false)
+        end
+      
+        it "returns true when at least one check-in has a photo" do
+          check_in_1 = @profile.check_ins.create!(
+            checked_in_on: Date.current,
+            notes: "With photo"
+          )
+          check_in_1.front_photo.attach(
+            io: File.open(Rails.root.join("spec/fixtures/files/front_photo.png")),
+            filename: "front_photo.png",
+            content_type: "image/png"
+          )
+      
+          expect(@profile.has_any_check_in_photos?).to be(true)
+        end
+      end
 end
