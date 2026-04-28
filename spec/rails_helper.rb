@@ -81,10 +81,12 @@ RSpec.configure do |config|
   
     next unless Dir.exist?(storage_path)
   
-    Dir.children(storage_path).each do |child|
-      next if child == ".keep"
+    Dir.each_child(storage_path) do |child|
+      path = storage_path.join(child)
   
-      FileUtils.rm_rf(storage_path.join(child))
+      next if File.basename(path) == ".keep"
+  
+      FileUtils.rm_rf(path)
     end
   end
 
