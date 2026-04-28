@@ -17,6 +17,10 @@ class CheckIn < ApplicationRecord
         checked_in_on&.strftime("%B %d, %Y")
     end
 
+    def has_photos?
+        front_photo.attached? || back_photo.attached? || side_photo.attached?
+    end
+
     private
 
     def checked_in_on_cannot_be_in_the_future
