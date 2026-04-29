@@ -21,6 +21,36 @@ class CheckIn < ApplicationRecord
         front_photo.attached? || back_photo.attached? || side_photo.attached?
     end
 
+    def deletion_confirmation_message
+        message = "Are you sure? Deleting this check-in will delete the following:"
+      
+        if measurements.any?
+          message += "\n\nMeasurements:"
+          measurements.each do |measurement|
+            message += "\n- #{measurement.body_part.humanize}: #{measurement.value}"
+          end
+        end
+      
+        attached_photos = deletion_photo_names
+      
+        if attached_photos.any?
+          message += "\n\nPhotos:"
+          attached_photos.each do |photo_name|
+            message += "\n- #{photo_name}"
+          end
+        end
+      
+        message
+      end
+      
+      def deletion_photo_names
+        photos = []
+        photos << "front photo" if front_photo.attached?
+        photos << "back photo" if back_photo.attached?
+        photos << "side photo" if side_photo.attached?
+        photos
+      end
+
     private
 
     def checked_in_on_cannot_be_in_the_future
