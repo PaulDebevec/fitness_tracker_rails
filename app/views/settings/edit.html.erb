@@ -90,6 +90,22 @@
     </div>
 
     <div class="form-field">
+      <%= form.label :email %>
+      <%= form.email_field :email %>
+
+      <% unless current_user.email_verified? %>
+        <p><strong>Email status:</strong> Unverified</p>
+
+        <%= link_to "Send Verification Email",
+            email_verification_path,
+            data: { turbo_method: :post },
+            class: "button-primary" %>
+      <% else %>
+        <p><strong>Email status:</strong> Verified</p>
+      <% end %>
+    </div>
+
+    <div class="form-field">
         <%= label_tag "user[current_password]", "Current Password" %>
         <%= password_field_tag "user[current_password]" %>
         <small>Required to change your password or email.</small>

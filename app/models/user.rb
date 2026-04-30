@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   normalizes :email, with: ->(email) { email.strip.downcase }
 
+  before_save :reset_email_verification, if: :will_save_change_to_email?
+
   validates :email,
     presence: true,
     uniqueness: { case_sensitive: false },
@@ -32,5 +34,11 @@ class User < ApplicationRecord
 
   def password_reset_token
     signed_id(expires_in: 30.minutes, purpose: :password_reset)
+  end
+
+  private
+
+  def reset_email_verification
+    self.email_verified_at = nil
   end
 end

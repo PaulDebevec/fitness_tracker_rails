@@ -101,5 +101,14 @@ RSpec.describe User, type: :model do
   
       expect(user.password_reset_token).to be_present
     end
+
+    it "resets email verification when the email changes" do
+      user.save!
+      user.mark_email_as_verified!
+    
+      user.update!(email: "updated-#{SecureRandom.hex(4)}@example.com")
+    
+      expect(user.email_verified?).to be(false)
+    end
   end
 end
