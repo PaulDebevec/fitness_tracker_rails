@@ -1,7 +1,7 @@
 class UserMailer < ApplicationMailer
   def email_verification
     @user = params[:user]
-    @verification_url = email_verification_url(@user.email_verification_token)
+    @verification_url = verify_email_url(@user.email_verification_token)
 
     mail(to: @user.email, subject: "Verify your BodiMetrix email")
   end

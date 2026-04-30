@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   patch "/settings/appearance", to: "settings#update_appearance", as: :settings_appearance
   get "/sitemap.xml", to: "sitemap#index", defaults: { format: "xml" }
 
-  resource :email_verification, only: [:create, :show], param: :token
+  resource :email_verification, only: [:create]
+  get "email_verification/:token", to: "email_verifications#show", as: :verify_email
 
   resources :password_resets, only: [:new, :create, :edit, :update], param: :token
   resource :settings, only: [:edit, :update]
