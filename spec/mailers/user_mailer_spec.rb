@@ -17,7 +17,7 @@ RSpec.describe UserMailer, type: :mailer do
     it "renders the headers" do
       expect(mail.subject).to eq("Verify your BodiMetrix email")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["from@example.com"])
+      expect(mail.from).to eq(["no-reply@bodimetrix.com"])
     end
 
     it "renders the body" do
@@ -32,7 +32,7 @@ RSpec.describe UserMailer, type: :mailer do
     it "renders the headers" do
       expect(mail.subject).to eq("Reset your BodiMetrix password")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["from@example.com"])
+      expect(mail.from).to eq(["no-reply@bodimetrix.com"])
     end
 
     it "renders the body" do
