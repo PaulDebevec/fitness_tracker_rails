@@ -90,9 +90,6 @@
     </div>
 
     <div class="form-field">
-      <%= form.label :email %>
-      <%= form.email_field :email %>
-
       <% unless current_user.email_verified? %>
         <p><strong>Email status:</strong> Unverified</p>
 
