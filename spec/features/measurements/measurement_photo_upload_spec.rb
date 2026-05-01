@@ -28,6 +28,7 @@ RSpec.describe "Measurement photo upload", type: :feature do
 
   before do
     profile
+    user.mark_email_as_verified!
     check_in
     log_in_with(email: user.email)
   end

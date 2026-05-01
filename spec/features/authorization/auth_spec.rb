@@ -130,4 +130,32 @@ RSpec.describe "Profile authorization", type: :feature do
     expect(page).not_to have_link("New Check-in")
     expect(page).to have_link("View Progress Report")
   end
+
+  it "redirects unverified users away from protected pages" do
+    check_in = @public_prof.check_ins.create!(
+      checked_in_on: Date.current,
+      notes: "Weekly progress update"
+    )
+    log_in_with(email: @public_owner.email)
+  
+    visit profile_check_in_path(@public_prof, check_in)
+  
+    expect(current_path).to eq(edit_settings_path)
+    expect(page).to have_content("Please verify your email before continuing.")
+  end
+
+  it "allows verified users to access protected pages" do
+    check_in = @private_profile.check_ins.create!(
+      checked_in_on: Date.current,
+      notes: "Weekly progress update"
+    )
+  
+    @private_owner.mark_email_as_verified!
+    log_in_with(email: @private_owner.email)
+  
+    visit profile_check_in_path(@private_profile, check_in)
+  
+    expect(current_path).to eq(profile_check_in_path(@private_profile, check_in))
+    expect(page).to have_content("Weekly progress update")
+  end
 end

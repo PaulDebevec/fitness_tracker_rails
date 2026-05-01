@@ -158,6 +158,15 @@ GEM
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
     jmespath (1.6.2)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.10.0)
+      launchy (>= 2.2, < 4)
+    letter_opener_web (3.0.0)
+      actionmailer (>= 6.1)
+      letter_opener (~> 1.9)
+      railties (>= 6.1)
+      rexml
     logger (1.7.0)
     loofah (2.25.1)
       crass (~> 1.0.2)
@@ -193,8 +202,11 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.2-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.19.2-x86_64-linux-gnu)
+      racc (~> 1.4)
     pg (1.6.3)
     pg (1.6.3-x86_64-darwin)
+    pg (1.6.3-x86_64-linux)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -335,6 +347,7 @@ DEPENDENCIES
   faker
   importmap-rails
   jbuilder
+  letter_opener_web
   pg (~> 1.1)
   pry
   puma (>= 5.0)
