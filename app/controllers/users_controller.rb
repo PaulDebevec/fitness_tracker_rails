@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     redirect_to profile_path(@user.profile),
       notice: "Account created successfully.",
-      flash: { track_signup: true }
+      flash: { analytics: { track_signup: true } }
       
   rescue ActiveRecord::RecordInvalid
     render :new, status: :unprocessable_content

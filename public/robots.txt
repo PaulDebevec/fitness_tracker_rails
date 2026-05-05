@@ -4,4 +4,4 @@ Disallow: /settings
 Disallow: /login
 Disallow: /signup
 
-Sitemap: https://bodmetriks.sitemap.xml
+Sitemap: https://bodimetrix.sitemap.xml
