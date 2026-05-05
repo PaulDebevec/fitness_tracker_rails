@@ -48,6 +48,11 @@ Rails.application.configure do
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
   # config.assume_ssl = true
 
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch("APP_HOST", "www.bodimetrix.com"),
+    protocol: "https"
+  }
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
@@ -87,11 +92,17 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch("MAILERTOGO_SMTP_HOST"),
+    port: ENV.fetch("MAILERTOGO_SMTP_PORT", 587),
+    user_name: ENV.fetch("MAILERTOGO_SMTP_USER"),
+    password: ENV.fetch("MAILERTOGO_SMTP_PASSWORD"),
+    domain: ENV.fetch("MAILERTOGO_DOMAIN", "bodimetrix.com"),
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 end

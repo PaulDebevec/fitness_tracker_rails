@@ -70,10 +70,23 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  RSpec.configure do |config|
-    config.use_transactional_fixtures = true
-    config.include FileUploadHelpers
-    config.include FactoryBot::Syntax::Methods
+
+  config.include FileUploadHelpers
+  config.include FactoryBot::Syntax::Methods
+
+
+  config.after(:each) do
+    storage_path = Rails.root.join("tmp/storage")
+  
+    next unless Dir.exist?(storage_path)
+  
+    Dir.each_child(storage_path) do |child|
+      path = storage_path.join(child)
+  
+      next if File.basename(path) == ".keep"
+  
+      FileUtils.rm_rf(path)
+    end
   end
 
   Shoulda::Matchers.configure do |config|

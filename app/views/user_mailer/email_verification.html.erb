@@ -1,0 +1,17 @@
+<h1>Verify your email</h1>
+
+<p>
+  Welcome to BodiMetrix, <%= @user.email %>.
+</p>
+
+<p>
+  Please verify your email address so you can finish setting up your account.
+</p>
+
+<p>
+  <%= link_to "Verify Email", @verification_url %>
+</p>
+
+<p>
+  This link will expire in 24 hours.
+</p>

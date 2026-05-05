@@ -30,15 +30,24 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    unless delete_confirmation_valid?
+      redirect_to edit_settings_path, alert: "Please type DELETE to confirm account deletion."
+      return
+    end
+  
     deleting_current_user = (@user == current_user)
-
+  
     @user.destroy
     reset_session if deleting_current_user
-
+  
     redirect_to root_path, notice: "Account deleted successfully."
   end
 
   private
+
+  def delete_confirmation_valid?
+    params[:delete_confirmation].to_s.casecmp("delete").zero?
+  end
 
   def set_user
     @user = User.find(params[:id])

@@ -1,49 +1,40 @@
 require "rails_helper"
+require "securerandom"
 
 RSpec.describe User, type: :model do
-  describe "validations" do
-    subject(:user) do
-      described_class.new(
-        email: "paul@example.com",
-        password: "supersecure123",
-        password_confirmation: "supersecure123",
-        role: "user"
-      )
-    end
+  let(:email) { "paul-#{SecureRandom.hex(4)}@example.com" }
 
+  subject(:user) do
+    described_class.new(
+      email: email,
+      password: "supersecure123",
+      password_confirmation: "supersecure123",
+      role: "user"
+    )
+  end
+
+  describe "validations" do
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }
-    it { should have_one(:profile).dependent(:destroy) }
-  
-    it "is valid with a valid email, password, and role" do
-      user = described_class.new(
-        email: "paul@example.com",
-        password: "supersecure123",
-        password_confirmation: "supersecure123",
-        role: "user"
-      )
 
+    it "is valid with a valid email, password, and role" do
       expect(user).to be_valid
     end
 
     it "normalizes email before validation" do
       user = described_class.create!(
-        email: "  PAUL@EXAMPLE.COM ",
+        email: "  PAUL_1@EXAMPLE.COM ",
         password: "supersecure123",
         password_confirmation: "supersecure123",
         role: "user"
       )
 
-      expect(user.email).to eq("paul@example.com")
+      expect(user.email).to eq("paul_1@example.com")
     end
 
     it "requires a sufficiently long password" do
-      user = described_class.new(
-        email: "paul@example.com",
-        password: "short",
-        password_confirmation: "short",
-        role: "user"
-      )
+      user.password = "short"
+      user.password_confirmation = "short"
 
       expect(user).not_to be_valid
       expect(user.errors[:password]).to include("is too short (minimum is 10 characters)")
@@ -51,7 +42,7 @@ RSpec.describe User, type: :model do
 
     it "defaults role to user" do
       user = described_class.create!(
-        email: "paul@example.com",
+        email: "default-#{SecureRandom.hex(4)}@example.com",
         password: "supersecure123",
         password_confirmation: "supersecure123"
       )
@@ -60,17 +51,64 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "associations" do
+    it { should have_one(:profile).dependent(:destroy) }
+  end
+
   describe "#authenticate" do
-    it "authenticates with the correct password" do
-      user = described_class.create!(
-        email: "paul@example.com",
+    let!(:user) do
+      described_class.create!(
+        email: email,
         password: "supersecure123",
         password_confirmation: "supersecure123",
         role: "user"
       )
+    end
 
+    it "authenticates with the correct password" do
       expect(user.authenticate("supersecure123")).to eq(user)
       expect(user.authenticate("wrongpassword")).to be(false)
+    end
+  end
+
+  describe "email verification" do
+    it "returns false when the user has not verified their email" do
+      expect(user.email_verified?).to be(false)
+    end
+  
+    it "returns true when the user has verified their email" do
+      user.email_verified_at = Time.current
+  
+      expect(user.email_verified?).to be(true)
+    end
+  
+    it "marks the user email as verified" do
+      user.save!
+  
+      user.mark_email_as_verified!
+  
+      expect(user.email_verified?).to be(true)
+    end
+  
+    it "generates an email verification token" do
+      user.save!
+  
+      expect(user.email_verification_token).to be_present
+    end
+  
+    it "generates a password reset token" do
+      user.save!
+  
+      expect(user.password_reset_token).to be_present
+    end
+
+    it "resets email verification when the email changes" do
+      user.save!
+      user.mark_email_as_verified!
+    
+      user.update!(email: "updated-#{SecureRandom.hex(4)}@example.com")
+    
+      expect(user.email_verified?).to be(false)
     end
   end
 end
