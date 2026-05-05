@@ -123,10 +123,13 @@
 
     <main class="page-shell">
       <% flash.each do |type, message| %>
+        <% next if type.to_s.in?(["analytics", "track_signup"]) %>
+
         <div class="flash <%= type %>">
           <%= message %>
         </div>
       <% end %>
+      
 
       <div class="page-card">
         <%= yield %>
