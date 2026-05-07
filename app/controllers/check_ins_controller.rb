@@ -1,4 +1,3 @@
-
 class CheckInsController < ApplicationController
   before_action :set_profile
   before_action :set_check_in, only: %i[show edit update destroy remove_photo]

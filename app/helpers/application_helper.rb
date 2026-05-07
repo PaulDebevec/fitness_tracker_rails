@@ -1,4 +1,3 @@
-
 module ApplicationHelper
   def app_name
     'BodiMetrix'

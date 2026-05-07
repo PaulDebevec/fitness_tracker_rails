@@ -1,4 +1,3 @@
-
 class ReportsController < ApplicationController
   before_action :set_profile
   before_action -> { require_profile_view_access(@profile) }, only: [:show]

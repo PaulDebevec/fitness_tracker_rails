@@ -1,4 +1,3 @@
-
 class MeasurementReport
   attr_reader :profile, :body_part, :timeframe, :change_mode
 

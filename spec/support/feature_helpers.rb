@@ -1,4 +1,3 @@
-
 module FeatureHelpers
   def log_in_with(email:, password: 'supersecure123')
     visit login_path

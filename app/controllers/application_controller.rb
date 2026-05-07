@@ -1,4 +1,3 @@
-
 class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?, :can_manage_profile?, :can_view_profile?, :show_private_profile_label?
   helper_method :can_view_check_in_details?
@@ -61,14 +60,6 @@ class ApplicationController < ActionController::Base
     return if can_view_profile?(profile)
 
     redirect_to root_path, alert: 'You are not authorized to view that profile.'
-  end
-
-  def can_view_profile?(profile)
-    return true if profile.public?
-    return true if current_user&.admin?
-    return true if current_user == profile.user
-
-    false
   end
 
   def can_manage_profile?(profile)

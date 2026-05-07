@@ -1,4 +1,3 @@
-
 class MeasurementReportChart
   BODY_PART_COLORS = {
     'weight' => '#0072B2',

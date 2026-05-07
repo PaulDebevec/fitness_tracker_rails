@@ -1,4 +1,3 @@
-
 class Profile < ApplicationRecord
   belongs_to :user
   has_many :check_ins, dependent: :destroy

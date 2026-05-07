@@ -1,4 +1,3 @@
-
 class PasswordResetsController < ApplicationController
   before_action :redirect_if_logged_in, only: %i[new create]
   before_action :set_user_from_token, only: %i[edit update]

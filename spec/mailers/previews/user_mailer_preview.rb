@@ -1,4 +1,3 @@
-
 class UserMailerPreview < ActionMailer::Preview
   def email_verification
     UserMailer.with(user: preview_user).email_verification

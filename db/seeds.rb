@@ -1,4 +1,3 @@
-
 puts 'Clearing existing data...'
 
 Measurement.destroy_all

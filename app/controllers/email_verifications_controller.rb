@@ -1,4 +1,3 @@
-
 class EmailVerificationsController < ApplicationController
   before_action :require_login, only: [:create]
 

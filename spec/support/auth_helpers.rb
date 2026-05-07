@@ -1,4 +1,3 @@
-
 module AuthHelpers
   def log_in_as(user, password: 'supersecure123')
     post login_path, params: {

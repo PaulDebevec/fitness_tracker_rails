@@ -1,4 +1,3 @@
-
 class Measurement < ApplicationRecord
   BODY_PARTS = %w[
     weight

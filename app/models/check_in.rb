@@ -1,4 +1,3 @@
-
 class CheckIn < ApplicationRecord
   belongs_to :profile
   has_many :measurements, dependent: :destroy

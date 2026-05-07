@@ -1,4 +1,3 @@
-
 class UserMailer < ApplicationMailer
   def email_verification
     @user = params[:user]

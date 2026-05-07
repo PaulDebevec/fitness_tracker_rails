@@ -1,4 +1,3 @@
-
 module ReportsHelper
   def chart_theme_options
     {
