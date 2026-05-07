@@ -15,17 +15,17 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
 
       redirect_to(return_to || profile_path(user.profile),
-                  notice: "Logged in successfully.")
+                  notice: 'Logged in successfully.')
     else
       session[:return_to] = safe_return_to(params[:return_to]) if params[:return_to].present?
-      flash.now[:alert] = "Invalid email or password."
+      flash.now[:alert] = 'Invalid email or password.'
       render :new, status: :unprocessable_content
     end
   end
 
   def destroy
     reset_session
-    redirect_to root_path, notice: "Logged out successfully."
+    redirect_to root_path, notice: 'Logged out successfully.'
   end
 
   private
@@ -33,7 +33,11 @@ class SessionsController < ApplicationController
   def safe_return_to(return_to)
     return nil if return_to.blank?
 
-    uri = URI.parse(return_to) rescue nil
+    uri = begin
+      URI.parse(return_to)
+    rescue StandardError
+      nil
+    end
     return nil if uri&.host.present?
 
     return_to

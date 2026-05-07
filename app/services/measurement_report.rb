@@ -2,14 +2,14 @@ class MeasurementReport
   attr_reader :profile, :body_part, :timeframe, :change_mode
 
   TIMEFRAME_OPTIONS = {
-    "30_days" => 30,
-    "90_days" => 90,
-    "6_months" => 180,
-    "1_year" => 365,
-    "all_time" => nil
+    '30_days' => 30,
+    '90_days' => 90,
+    '6_months' => 180,
+    '1_year' => 365,
+    'all_time' => nil
   }.freeze
 
-  def initialize(profile:, body_part: nil, timeframe: "all_time", change_mode: "previous")
+  def initialize(profile:, body_part: nil, timeframe: 'all_time', change_mode: 'previous')
     @profile = profile
     @body_part = normalize_body_part(body_part)
     @timeframe = normalize_timeframe(timeframe)
@@ -17,7 +17,7 @@ class MeasurementReport
   end
 
   def measurements
-    @measurements ||= filtered_measurements.order("check_ins.checked_in_on ASC, measurements.body_part ASC")
+    @measurements ||= filtered_measurements.order('check_ins.checked_in_on ASC, measurements.body_part ASC')
   end
 
   def measurements_grouped_by_body_part
@@ -26,6 +26,7 @@ class MeasurementReport
 
   def summary
     return grouped_summary if body_part.blank?
+
     single_body_part_summary
   end
 
@@ -36,24 +37,22 @@ class MeasurementReport
   def normalize_change_mode(value)
     return value if %w[previous starting].include?(value)
 
-    "previous"
+    'previous'
   end
 
   private
 
   def filtered_measurements
     scope = Measurement
-      .includes(:check_in)
-      .joins(:check_in)
-      .where(check_ins: { profile_id: profile.id })
+            .includes(:check_in)
+            .joins(:check_in)
+            .where(check_ins: { profile_id: profile.id })
 
     scope = scope.for_body_part(body_part) if body_part.present?
 
     days = TIMEFRAME_OPTIONS[timeframe]
 
-    if days.present?
-      scope = scope.where("check_ins.checked_in_on >= ?", Date.current - days.days)
-    end
+    scope = scope.where('check_ins.checked_in_on >= ?', Date.current - days.days) if days.present?
 
     scope
   end
@@ -126,6 +125,6 @@ class MeasurementReport
   def normalize_timeframe(value)
     return value if TIMEFRAME_OPTIONS.key?(value)
 
-    "all_time"
+    'all_time'
   end
 end

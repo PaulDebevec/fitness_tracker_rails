@@ -1,9 +1,11 @@
 class CheckInsController < ApplicationController
   before_action :set_profile
-  before_action :set_check_in, only: [:show, :edit, :update, :destroy, :remove_photo]
-  before_action -> { require_profile_view_access(@profile) }, only: [:index, :show]
-  before_action :require_login, only: [:new, :create, :edit, :update, :destroy, :remove_photo]
-  before_action -> { require_profile_owner_or_admin(@profile) }, only: [:new, :create, :edit, :update, :destroy, :remove_photo]
+  before_action :set_check_in, only: %i[show edit update destroy remove_photo]
+  before_action -> { require_profile_view_access(@profile) }, only: %i[index show]
+  before_action :require_login, only: %i[new create edit update destroy remove_photo]
+  before_action lambda {
+    require_profile_owner_or_admin(@profile)
+  }, only: %i[new create edit update destroy remove_photo]
   before_action :require_verified_email
 
   def index
@@ -23,54 +25,53 @@ class CheckInsController < ApplicationController
 
     if @check_in.save
       redirect_to profile_check_in_path(@profile, @check_in),
-        notice: "Check-in created successfully.",
-        flash: { track_checkin: true }
+                  notice: 'Check-in created successfully.',
+                  flash: { track_checkin: true }
     else
       render :new, status: :unprocessable_content
     end
   rescue ActiveRecord::RecordNotUnique
     @check_in = @profile.check_ins.new(check_in_form_params)
-    @check_in.errors.add(:checked_in_on, "has already been taken for this profile")
-    flash.now[:alert] = "Please re-select any photos before submitting again."
+    @check_in.errors.add(:checked_in_on, 'has already been taken for this profile')
+    flash.now[:alert] = 'Please re-select any photos before submitting again.'
     render :new, status: :unprocessable_content
   end
 
   def update
     if @check_in.update(check_in_params)
-      redirect_to profile_check_in_path(@profile, @check_in), notice: "Check-in updated successfully."
+      redirect_to profile_check_in_path(@profile, @check_in), notice: 'Check-in updated successfully.'
     else
       render :edit, status: :unprocessable_content
     end
   rescue ActiveRecord::RecordNotUnique
     @check_in.assign_attributes(check_in_form_params)
-    @check_in.errors.add(:checked_in_on, "has already been taken for this profile")
-    flash.now[:alert] = "Please re-select any replacement photos before submitting again."
+    @check_in.errors.add(:checked_in_on, 'has already been taken for this profile')
+    flash.now[:alert] = 'Please re-select any replacement photos before submitting again.'
     render :edit, status: :unprocessable_content
   end
 
-  def edit
-  end
+  def edit; end
 
   def destroy
     @check_in.destroy
-    redirect_to profile_path(@profile), notice: "Check-in deleted successfully."
+    redirect_to profile_path(@profile), notice: 'Check-in deleted successfully.'
   end
 
   def remove_photo
     photo_name = params[:photo_name]
-  
+
     unless removable_photo_names.include?(photo_name)
-      redirect_to profile_check_in_path(@profile, @check_in), alert: "Invalid photo selection."
+      redirect_to profile_check_in_path(@profile, @check_in), alert: 'Invalid photo selection.'
       return
     end
-  
+
     attachment = @check_in.public_send(photo_name)
-  
+
     if attachment.attached?
       attachment.purge
       redirect_to profile_check_in_path(@profile, @check_in), notice: "#{photo_name.humanize} removed successfully."
     else
-      redirect_to profile_check_in_path(@profile, @check_in), alert: "Photo not found."
+      redirect_to profile_check_in_path(@profile, @check_in), alert: 'Photo not found.'
     end
   end
 
@@ -79,13 +80,13 @@ class CheckInsController < ApplicationController
   def set_profile
     @profile = Profile.find(params[:profile_id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to profiles_path, alert: "Profile not found."
+    redirect_to profiles_path, alert: 'Profile not found.'
   end
 
   def set_check_in
     @check_in = @profile.check_ins.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to profile_check_ins_path(@profile), alert: "Check-in not found."
+    redirect_to profile_check_ins_path(@profile), alert: 'Check-in not found.'
   end
 
   def removable_photo_names
@@ -105,7 +106,7 @@ class CheckInsController < ApplicationController
       :side_photo
     )
   end
-  
+
   def check_in_form_params
     params.require(:check_in).permit(
       :checked_in_on,

@@ -7,76 +7,76 @@ class SettingsController < ApplicationController
   end
 
   def update
-      @user = current_user
-      @profile = current_user.profile
-    
-      user_attrs = user_params.dup
-      current_password = user_attrs.delete(:current_password)
-    
-      requires_password =
-        user_attrs[:email].present? && user_attrs[:email] != @user.email ||
-        user_attrs[:password].present?
-    
-      if requires_password && !@user.authenticate(current_password)
-        @user.errors.add(:current_password, "is incorrect")
-        render :edit, status: :unprocessable_content
-        return
-      end
-    
-      if user_attrs[:password].blank?
-        user_attrs.delete(:password)
-        user_attrs.delete(:password_confirmation)
-      end
-    
-      ActiveRecord::Base.transaction do
-        @user.update!(user_attrs)
-        @profile.update!(profile_params)
-      end
-    
-      redirect_to profile_path(@profile), notice: "Settings updated successfully."
-    rescue ActiveRecord::RecordInvalid
+    @user = current_user
+    @profile = current_user.profile
+
+    user_attrs = user_params.dup
+    current_password = user_attrs.delete(:current_password)
+
+    requires_password =
+      (user_attrs[:email].present? && user_attrs[:email] != @user.email) ||
+      user_attrs[:password].present?
+
+    if requires_password && !@user.authenticate(current_password)
+      @user.errors.add(:current_password, 'is incorrect')
       render :edit, status: :unprocessable_content
+      return
     end
 
-    def update_appearance
-      @profile = current_user.profile
-    
-      if @profile.update(appearance_params)
-        head :ok
-      else
-        render json: { errors: @profile.errors.full_messages }, status: :unprocessable_content
-      end
+    if user_attrs[:password].blank?
+      user_attrs.delete(:password)
+      user_attrs.delete(:password_confirmation)
     end
-    
-    private
-    
-    def appearance_params
-      params.require(:profile).permit(:theme_mode, :theme_color)
+
+    ActiveRecord::Base.transaction do
+      @user.update!(user_attrs)
+      @profile.update!(profile_params)
     end
-  
-    def user_params
-      permitted = params.require(:user).permit(
-        :email,
-        :password,
-        :password_confirmation,
-        :current_password
-      )
-  
-      if permitted[:password].blank?
-        permitted.delete(:password)
-        permitted.delete(:password_confirmation)
-      end
-  
-      permitted
+
+    redirect_to profile_path(@profile), notice: 'Settings updated successfully.'
+  rescue ActiveRecord::RecordInvalid
+    render :edit, status: :unprocessable_content
+  end
+
+  def update_appearance
+    @profile = current_user.profile
+
+    if @profile.update(appearance_params)
+      head :ok
+    else
+      render json: { errors: @profile.errors.full_messages }, status: :unprocessable_content
     end
-  
-    def profile_params
-      params.require(:profile).permit(
-        :display_name,
-        :unit_system,
-        :public_profile,
-        :theme_mode,
-        :theme_color
-      )
+  end
+
+  private
+
+  def appearance_params
+    params.require(:profile).permit(:theme_mode, :theme_color)
+  end
+
+  def user_params
+    permitted = params.require(:user).permit(
+      :email,
+      :password,
+      :password_confirmation,
+      :current_password
+    )
+
+    if permitted[:password].blank?
+      permitted.delete(:password)
+      permitted.delete(:password_confirmation)
     end
+
+    permitted
+  end
+
+  def profile_params
+    params.require(:profile).permit(
+      :display_name,
+      :unit_system,
+      :public_profile,
+      :theme_mode,
+      :theme_color
+    )
+  end
 end

@@ -4,19 +4,19 @@ class ApplicationController < ActionController::Base
   helper_method :theme_classes
 
   def theme_classes
-    return "theme-mode-system theme-color-default" unless current_user&.profile
-  
+    return 'theme-mode-system theme-color-default' unless current_user&.profile
+
     [
       "theme-mode-#{current_user.profile.theme_mode || 'dark'}",
       "theme-color-#{current_user.profile.theme_color || 'default'}"
-    ].join(" ")
+    ].join(' ')
   end
 
   def require_verified_email
     return unless logged_in?
     return if current_user.email_verified?
-  
-    redirect_to edit_settings_path, alert: "Please verify your email before continuing."
+
+    redirect_to edit_settings_path, alert: 'Please verify your email before continuing.'
   end
 
   private
@@ -32,42 +32,34 @@ class ApplicationController < ActionController::Base
   def require_login
     return if logged_in?
 
-    redirect_to login_path, alert: "You must be logged in to access that page."
+    redirect_to login_path, alert: 'You must be logged in to access that page.'
   end
 
   def require_admin
     return if current_user&.admin?
 
-    redirect_to root_path, alert: "You are not authorized to access that page."
+    redirect_to root_path, alert: 'You are not authorized to access that page.'
   end
 
   def require_profile_owner_or_admin(profile)
     return if current_user&.admin?
     return if current_user == profile.user
 
-    redirect_to root_path, alert: "You are not authorized to access that page."
+    redirect_to root_path, alert: 'You are not authorized to access that page.'
   end
 
   def can_view_profile?(profile)
     return true if profile.public?
     return true if current_user&.admin?
     return true if current_user == profile.user
-  
+
     false
   end
-  
+
   def require_profile_view_access(profile)
     return if can_view_profile?(profile)
-  
-    redirect_to root_path, alert: "You are not authorized to view that profile."
-  end
 
-  def can_view_profile?(profile)
-    return true if profile.public?
-    return true if current_user&.admin?
-    return true if current_user == profile.user
-
-    false
+    redirect_to root_path, alert: 'You are not authorized to view that profile.'
   end
 
   def can_manage_profile?(profile)
@@ -76,7 +68,6 @@ class ApplicationController < ActionController::Base
 
     false
   end
-
 
   def show_private_profile_label?(profile)
     return false if profile.public?
@@ -95,8 +86,8 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_if_logged_in
-    if logged_in?
-      redirect_to profile_path(current_user.profile), notice: "You are already logged in."
-    end
+    return unless logged_in?
+
+    redirect_to profile_path(current_user.profile), notice: 'You are already logged in.'
   end
 end

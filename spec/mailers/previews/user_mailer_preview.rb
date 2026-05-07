@@ -11,10 +11,10 @@ class UserMailerPreview < ActionMailer::Preview
 
   def preview_user
     User.first || User.new(
-      email: "preview@example.com",
-      password: "supersecure123",
-      password_confirmation: "supersecure123",
-      role: "user"
+      email: 'preview@example.com',
+      password: 'supersecure123',
+      password_confirmation: 'supersecure123',
+      role: 'user'
     )
   end
 end

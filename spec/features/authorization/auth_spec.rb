@@ -1,161 +1,161 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe "Profile authorization", type: :feature do
+RSpec.describe 'Profile authorization', type: :feature do
   before(:each) do
     @public_owner = User.create!(
-      email: "public_owner@example.com",
-      password: "supersecure123",
-      password_confirmation: "supersecure123",
-      role: "user"
+      email: 'public_owner@example.com',
+      password: 'supersecure123',
+      password_confirmation: 'supersecure123',
+      role: 'user'
     )
 
     @public_prof = Profile.create!(
       user: @public_owner,
-      display_name: "PublicOwn",
-      unit_system: "imperial",
+      display_name: 'PublicOwn',
+      unit_system: 'imperial',
       public_profile: true
     )
 
     @private_owner = User.create!(
-      email: "private_owner@example.com",
-      password: "supersecure123",
-      password_confirmation: "supersecure123",
-      role: "user"
+      email: 'private_owner@example.com',
+      password: 'supersecure123',
+      password_confirmation: 'supersecure123',
+      role: 'user'
     )
 
     @private_profile = Profile.create!(
       user: @private_owner,
-      display_name: "PrivateOwn",
-      unit_system: "imperial",
+      display_name: 'PrivateOwn',
+      unit_system: 'imperial',
       public_profile: false
     )
 
     @viewer = User.create!(
-      email: "viewer@example.com",
-      password: "supersecure123",
-      password_confirmation: "supersecure123",
-      role: "user"
+      email: 'viewer@example.com',
+      password: 'supersecure123',
+      password_confirmation: 'supersecure123',
+      role: 'user'
     )
 
     @viewer_profile = Profile.create!(
       user: @viewer,
-      display_name: "Viewer",
-      unit_system: "imperial",
+      display_name: 'Viewer',
+      unit_system: 'imperial',
       public_profile: true
     )
 
     @admin = User.create!(
-      email: "admin@example.com",
-      password: "supersecure123",
-      password_confirmation: "supersecure123",
-      role: "admin"
+      email: 'admin@example.com',
+      password: 'supersecure123',
+      password_confirmation: 'supersecure123',
+      role: 'admin'
     )
 
     @admin_profile = Profile.create!(
       user: @admin,
-      display_name: "Admin",
-      unit_system: "imperial",
+      display_name: 'Admin',
+      unit_system: 'imperial',
       public_profile: true
     )
   end
 
-  it "allows a guest to view a public profile" do
+  it 'allows a guest to view a public profile' do
     visit profile_path(@public_prof)
 
-    expect(page).to have_content("PublicOwn")
-    expect(page).to have_link("View Progress Report")
+    expect(page).to have_content('PublicOwn')
+    expect(page).to have_link('View Progress Report')
   end
 
-  it "prevents a guest from viewing a private profile" do
+  it 'prevents a guest from viewing a private profile' do
     visit profile_path(@private_profile)
 
     expect(page).to have_current_path(root_path)
-    expect(page).to have_content("You are not authorized to view that profile.")
+    expect(page).to have_content('You are not authorized to view that profile.')
   end
 
   it "allows a logged-in user to view another user's public profile" do
-    log_in_with(email: "viewer@example.com")
+    log_in_with(email: 'viewer@example.com')
 
     visit profile_path(@public_prof)
 
-    expect(page).to have_content("PublicOwn")
-    expect(page).to have_link("View Progress Report")
+    expect(page).to have_content('PublicOwn')
+    expect(page).to have_link('View Progress Report')
   end
 
   it "prevents a logged-in user from viewing another user's private profile" do
-    log_in_with(email: "viewer@example.com")
+    log_in_with(email: 'viewer@example.com')
 
     visit profile_path(@private_profile)
 
     expect(page).to have_current_path(root_path)
-    expect(page).to have_content("You are not authorized to view that profile.")
+    expect(page).to have_content('You are not authorized to view that profile.')
   end
 
-  it "allows the owner to view their own private profile" do
-    log_in_with(email: "private_owner@example.com")
+  it 'allows the owner to view their own private profile' do
+    log_in_with(email: 'private_owner@example.com')
 
     visit profile_path(@private_profile)
 
-    expect(page).to have_content("PrivateOwn")
+    expect(page).to have_content('PrivateOwn')
   end
 
   it "allows an admin to view another user's private profile" do
-    log_in_with(email: "admin@example.com")
+    log_in_with(email: 'admin@example.com')
 
     visit profile_path(@private_profile)
 
-    expect(page).to have_content("PrivateOwn")
+    expect(page).to have_content('PrivateOwn')
   end
 
-  it "shows owner-only management actions only to the owner" do
-    log_in_with(email: "private_owner@example.com")
+  it 'shows owner-only management actions only to the owner' do
+    log_in_with(email: 'private_owner@example.com')
 
     visit profile_path(@private_profile)
 
-    expect(page).to have_link("New Check-in")
+    expect(page).to have_link('New Check-in')
   end
 
-  it "does not show owner-only management actions to another logged-in user" do
-    log_in_with(email: "viewer@example.com")
+  it 'does not show owner-only management actions to another logged-in user' do
+    log_in_with(email: 'viewer@example.com')
 
     visit profile_path(@public_prof)
 
-    expect(page).not_to have_link("New Check-in")
-    expect(page).to have_link("View Progress Report")
+    expect(page).not_to have_link('New Check-in')
+    expect(page).to have_link('View Progress Report')
   end
 
-  it "does not show owner-only management actions to a guest viewing a public profile" do
+  it 'does not show owner-only management actions to a guest viewing a public profile' do
     visit profile_path(@public_prof)
 
-    expect(page).not_to have_link("New Check-in")
-    expect(page).to have_link("View Progress Report")
+    expect(page).not_to have_link('New Check-in')
+    expect(page).to have_link('View Progress Report')
   end
 
-  it "redirects unverified users away from protected pages" do
+  it 'redirects unverified users away from protected pages' do
     check_in = @public_prof.check_ins.create!(
       checked_in_on: Date.current,
-      notes: "Weekly progress update"
+      notes: 'Weekly progress update'
     )
     log_in_with(email: @public_owner.email)
-  
+
     visit profile_check_in_path(@public_prof, check_in)
-  
+
     expect(current_path).to eq(edit_settings_path)
-    expect(page).to have_content("Please verify your email before continuing.")
+    expect(page).to have_content('Please verify your email before continuing.')
   end
 
-  it "allows verified users to access protected pages" do
+  it 'allows verified users to access protected pages' do
     check_in = @private_profile.check_ins.create!(
       checked_in_on: Date.current,
-      notes: "Weekly progress update"
+      notes: 'Weekly progress update'
     )
-  
+
     @private_owner.mark_email_as_verified!
     log_in_with(email: @private_owner.email)
-  
+
     visit profile_check_in_path(@private_profile, check_in)
-  
+
     expect(current_path).to eq(profile_check_in_path(@private_profile, check_in))
-    expect(page).to have_content("Weekly progress update")
+    expect(page).to have_content('Weekly progress update')
   end
 end

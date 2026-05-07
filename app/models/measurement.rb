@@ -26,4 +26,3 @@ class Measurement < ApplicationRecord
     body_part&.humanize
   end
 end
-

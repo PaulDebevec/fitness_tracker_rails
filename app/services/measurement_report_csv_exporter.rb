@@ -1,4 +1,4 @@
-require "csv"
+require 'csv'
 
 class MeasurementReportCsvExporter
   attr_reader :report
@@ -9,7 +9,7 @@ class MeasurementReportCsvExporter
 
   def to_csv
     CSV.generate(headers: true) do |csv|
-      csv << ["profile", "body_part", "check_in_date", "value", "timeframe"]
+      csv << %w[profile body_part check_in_date value timeframe]
 
       report.measurements.each do |measurement|
         csv << [
