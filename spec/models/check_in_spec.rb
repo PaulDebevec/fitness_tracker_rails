@@ -1,21 +1,23 @@
-require "rails_helper"
+# frozen_string_literal: true
+
+require 'rails_helper'
 
 RSpec.describe CheckIn, type: :model do
   # Create user with a unique email address to avoid duplication among tests
   let(:user) do
     User.create!(
       email: "user_#{SecureRandom.hex(4)}@example.com",
-      password: "supersecure123",
-      password_confirmation: "supersecure123",
-      role: "user"
+      password: 'supersecure123',
+      password_confirmation: 'supersecure123',
+      role: 'user'
     )
   end
 
   let(:profile) do
     Profile.create!(
       user: user,
-      display_name: "Paul",
-      unit_system: "imperial"
+      display_name: 'Paul',
+      unit_system: 'imperial'
     )
   end
 
@@ -24,39 +26,39 @@ RSpec.describe CheckIn, type: :model do
     check_in.public_send(attachment_name).attach(
       io: File.open(Rails.root.join("spec/fixtures/files/#{filename}")),
       filename: filename,
-      content_type: "image/png"
+      content_type: 'image/png'
     )
   end
 
-  describe "validations" do
+  describe 'validations' do
     let(:check_in) do
       profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "Weekly update"
+        notes: 'Weekly update'
       )
     end
 
     it { should validate_presence_of(:checked_in_on) }
     it { should belong_to(:profile) }
 
-    it "is valid with valid attributes" do
+    it 'is valid with valid attributes' do
       expect(check_in).to be_valid
     end
 
-    it "is invalid without a profile" do
+    it 'is invalid without a profile' do
       check_in.profile = nil
 
       expect(check_in).not_to be_valid
     end
 
-    it "is invalid without a checked_in_on date" do
+    it 'is invalid without a checked_in_on date' do
       check_in.checked_in_on = nil
 
       expect(check_in).not_to be_valid
       expect(check_in.errors[:checked_in_on]).to include("can't be blank")
     end
 
-    it "is invalid with a future checked_in_on date" do
+    it 'is invalid with a future checked_in_on date' do
       check_in.checked_in_on = Date.current + 1.day
 
       expect(check_in).not_to be_valid
@@ -69,165 +71,165 @@ RSpec.describe CheckIn, type: :model do
       expect(check_in).to be_valid
     end
 
-    it "is valid with a past date" do
+    it 'is valid with a past date' do
       check_in.checked_in_on = Date.yesterday
 
       expect(check_in).to be_valid
     end
 
-    it "does not allow duplicate check-in dates for the same profile" do
+    it 'does not allow duplicate check-in dates for the same profile' do
       duplicate = profile.check_ins.create(
         checked_in_on: check_in.checked_in_on,
-        notes: "Duplicate date"
+        notes: 'Duplicate date'
       )
 
       expect(duplicate).not_to be_valid
-      expect(duplicate.errors[:checked_in_on]).to include("has already been taken")
+      expect(duplicate.errors[:checked_in_on]).to include('has already been taken')
     end
   end
 
-  describe "scopes" do
+  describe 'scopes' do
     let!(:newer_check_in) do
       profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "Newer"
+        notes: 'Newer'
       )
     end
 
     let!(:older_check_in) do
       profile.check_ins.create!(
         checked_in_on: Date.current - 7.days,
-        notes: "Older"
+        notes: 'Older'
       )
     end
 
-    it "orders check-ins chronologically" do
+    it 'orders check-ins chronologically' do
       expect(profile.check_ins.chronological).to eq([older_check_in, newer_check_in])
     end
 
-    it "orders check-ins in reverse chronological order" do
+    it 'orders check-ins in reverse chronological order' do
       expect(profile.check_ins.reverse_chronological).to eq([newer_check_in, older_check_in])
     end
 
-    it "allows the same check-in date for different profiles" do
+    it 'allows the same check-in date for different profiles' do
       other_user = User.create!(
         email: "other_#{SecureRandom.hex(4)}@example.com",
-        password: "supersecure123",
-        password_confirmation: "supersecure123",
-        role: "user"
+        password: 'supersecure123',
+        password_confirmation: 'supersecure123',
+        role: 'user'
       )
 
       other_profile = Profile.create!(
         user: other_user,
-        display_name: "Other Profile",
-        unit_system: "imperial"
+        display_name: 'Other Profile',
+        unit_system: 'imperial'
       )
 
       duplicate_date_check_in = other_profile.check_ins.create!(
         checked_in_on: newer_check_in.checked_in_on,
-        notes: "Same date, different profile"
+        notes: 'Same date, different profile'
       )
 
       expect(duplicate_date_check_in).to be_valid
     end
   end
 
-  describe "#has_photos?" do
-    it "returns false when no photos are attached" do
+  describe '#has_photos?' do
+    it 'returns false when no photos are attached' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "No photos"
+        notes: 'No photos'
       )
 
       expect(check_in.has_photos?).to be(false)
     end
 
-    it "returns true when a front photo is attached" do
+    it 'returns true when a front photo is attached' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "With front photo"
+        notes: 'With front photo'
       )
 
-      attach_test_photo(check_in, :front_photo, "front_photo.png")
+      attach_test_photo(check_in, :front_photo, 'front_photo.png')
 
       expect(check_in.has_photos?).to be(true)
     end
 
-    it "returns true when a back photo is attached" do
+    it 'returns true when a back photo is attached' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "With back photo"
+        notes: 'With back photo'
       )
 
-      attach_test_photo(check_in, :back_photo, "back_photo.png")
+      attach_test_photo(check_in, :back_photo, 'back_photo.png')
 
       expect(check_in.has_photos?).to be(true)
     end
 
-    it "returns true when a side photo is attached" do
+    it 'returns true when a side photo is attached' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "With side photo"
+        notes: 'With side photo'
       )
 
-      attach_test_photo(check_in, :side_photo, "side_photo.png")
+      attach_test_photo(check_in, :side_photo, 'side_photo.png')
 
       expect(check_in.has_photos?).to be(true)
     end
   end
 
-  describe "#deletion_photo_names" do
-    it "returns an empty array when no photos are attached" do
+  describe '#deletion_photo_names' do
+    it 'returns an empty array when no photos are attached' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "No photos"
+        notes: 'No photos'
       )
 
       expect(check_in.deletion_photo_names).to eq([])
     end
 
-    it "returns attached photo names" do
+    it 'returns attached photo names' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "With photos"
+        notes: 'With photos'
       )
 
-      attach_test_photo(check_in, :front_photo, "front_photo.png")
+      attach_test_photo(check_in, :front_photo, 'front_photo.png')
 
-      expect(check_in.deletion_photo_names).to eq(["front photo"])
+      expect(check_in.deletion_photo_names).to eq(['front photo'])
     end
   end
 
-  describe "#deletion_confirmation_message" do
-    it "includes attached measurements" do
+  describe '#deletion_confirmation_message' do
+    it 'includes attached measurements' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "With measurements"
+        notes: 'With measurements'
       )
 
-      check_in.measurements.create!(body_part: "chest", value: 32.2)
-      check_in.measurements.create!(body_part: "weight", value: 140)
+      check_in.measurements.create!(body_part: 'chest', value: 32.2)
+      check_in.measurements.create!(body_part: 'weight', value: 140)
 
       message = check_in.deletion_confirmation_message
 
-      expect(message).to include("Are you sure?")
-      expect(message).to include("Measurements:")
-      expect(message).to include("- Chest: 32.2")
-      expect(message).to include("- Weight: 140.0")
+      expect(message).to include('Are you sure?')
+      expect(message).to include('Measurements:')
+      expect(message).to include('- Chest: 32.2')
+      expect(message).to include('- Weight: 140.0')
     end
 
-    it "includes attached photos" do
+    it 'includes attached photos' do
       check_in = profile.check_ins.create!(
         checked_in_on: Date.current,
-        notes: "With photos"
+        notes: 'With photos'
       )
 
-      attach_test_photo(check_in, :front_photo, "front_photo.png")
+      attach_test_photo(check_in, :front_photo, 'front_photo.png')
 
       message = check_in.deletion_confirmation_message
 
-      expect(message).to include("Photos:")
-      expect(message).to include("- front photo")
+      expect(message).to include('Photos:')
+      expect(message).to include('- front photo')
     end
   end
 end

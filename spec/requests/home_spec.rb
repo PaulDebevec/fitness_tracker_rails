@@ -1,8 +1,10 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe "Home", type: :request do
-    it "loads the home page" do
-        get"/"
-        expect(response).to have_http_status(:ok)
-    end
+require 'rails_helper'
+
+RSpec.describe 'Home', type: :request do
+  it 'loads the home page' do
+    get '/'
+    expect(response).to have_http_status(:ok)
+  end
 end

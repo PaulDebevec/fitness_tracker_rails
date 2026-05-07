@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Profile < ApplicationRecord
   belongs_to :user
   has_many :check_ins, dependent: :destroy
@@ -6,13 +8,12 @@ class Profile < ApplicationRecord
   validates :unit_system, presence: true, inclusion: { in: %w[imperial metric] }
   after_initialize :set_defaults, if: :new_record?
 
-
   def formatted_unit_system
     case unit_system
-    when "imperial"
-      "Imperial"
-    when "metric"
-      "Metric"
+    when 'imperial'
+      'Imperial'
+    when 'metric'
+      'Metric'
     else
       unit_system
     end
@@ -20,12 +21,12 @@ class Profile < ApplicationRecord
 
   def unit_for(body_part)
     case unit_system
-    when "imperial"
-      body_part == "weight" ? "lb" : "in"
-    when "metric"
-      body_part == "weight" ? "kg" : "cm"
+    when 'imperial'
+      body_part == 'weight' ? 'lb' : 'in'
+    when 'metric'
+      body_part == 'weight' ? 'kg' : 'cm'
     else
-      ""
+      ''
     end
   end
 
@@ -36,14 +37,14 @@ class Profile < ApplicationRecord
   def public?
     public_profile
   end
-  
+
   def private?
     !public_profile
   end
 
   def set_defaults
-    self.theme_mode ||= "dark"
-    self.theme_color ||= "default"
+    self.theme_mode ||= 'dark'
+    self.theme_color ||= 'default'
   end
 
   def has_any_check_in_photos?

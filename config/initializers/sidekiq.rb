@@ -1,11 +1,13 @@
-require "sidekiq"
-require "openssl"
+# frozen_string_literal: true
+
+require 'sidekiq'
+require 'openssl'
 
 redis_config = {
-  url: ENV.fetch("REDIS_URL", nil)
+  url: ENV.fetch('REDIS_URL', nil)
 }
 
-if Rails.env.production? && redis_config[:url]&.start_with?("rediss://")
+if Rails.env.production? && redis_config[:url]&.start_with?('rediss://')
   redis_config[:ssl_params] = {
     verify_mode: OpenSSL::SSL::VERIFY_NONE
   }

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require "capybara/rspec"
+require 'capybara/rspec'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 # Uncomment the line below in case you have `--require rails_helper` in the `.rspec` file
 # that will avoid rails generators crashing because migrations haven't been run yet
 # return unless Rails.env.test?
@@ -74,17 +76,16 @@ RSpec.configure do |config|
   config.include FileUploadHelpers
   config.include FactoryBot::Syntax::Methods
 
-
   config.after(:each) do
-    storage_path = Rails.root.join("tmp/storage")
-  
+    storage_path = Rails.root.join('tmp/storage')
+
     next unless Dir.exist?(storage_path)
-  
+
     Dir.each_child(storage_path) do |child|
       path = storage_path.join(child)
-  
-      next if File.basename(path) == ".keep"
-  
+
+      next if File.basename(path) == '.keep'
+
       FileUtils.rm_rf(path)
     end
   end

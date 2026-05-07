@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Measurement < ApplicationRecord
   BODY_PARTS = %w[
     weight
@@ -26,4 +28,3 @@ class Measurement < ApplicationRecord
     body_part&.humanize
   end
 end
-

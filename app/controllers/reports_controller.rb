@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReportsController < ApplicationController
   before_action :set_profile
   before_action -> { require_profile_view_access(@profile) }, only: [:show]
@@ -9,7 +11,7 @@ class ReportsController < ApplicationController
       timeframe: params[:timeframe],
       change_mode: params[:change_mode]
     )
-    
+
     @body_part = @report.body_part
     @timeframe = @report.timeframe
     @change_mode = @report.change_mode
@@ -22,7 +24,7 @@ class ReportsController < ApplicationController
         send_data(
           exporter.to_csv,
           filename: csv_filename,
-          type: "text/csv"
+          type: 'text/csv'
         )
       end
     end
@@ -33,11 +35,11 @@ class ReportsController < ApplicationController
   def set_profile
     @profile = Profile.find(params[:profile_id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to profiles_path, alert: "Profile not found."
+    redirect_to profiles_path, alert: 'Profile not found.'
   end
 
   def csv_filename
-    body_part_segment = @body_part.presence || "all_body_parts"
+    body_part_segment = @body_part.presence || 'all_body_parts'
     "#{@profile.display_name.parameterize}-#{body_part_segment}-#{@timeframe}-report.csv"
   end
 end
