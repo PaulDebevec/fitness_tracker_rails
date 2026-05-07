@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 class UserMailerPreview < ActionMailer::Preview
   def email_verification

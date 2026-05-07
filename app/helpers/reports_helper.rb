@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 module ReportsHelper
   def chart_theme_options

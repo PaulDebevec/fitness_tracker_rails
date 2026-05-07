@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 module AuthHelpers
   def log_in_as(user, password: 'supersecure123')

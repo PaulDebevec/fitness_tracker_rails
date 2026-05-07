@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 module FeatureHelpers
   def log_in_with(email:, password: 'supersecure123')

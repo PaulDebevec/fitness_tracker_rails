@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 class ProfilePhotoTimeline
   PHOTO_TYPES = %w[front_photo side_photo back_photo].freeze

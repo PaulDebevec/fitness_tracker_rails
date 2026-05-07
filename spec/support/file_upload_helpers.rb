@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 module FileUploadHelpers
   def test_image_upload(filename)

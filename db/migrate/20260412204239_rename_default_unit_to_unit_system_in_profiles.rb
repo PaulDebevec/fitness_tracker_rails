@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 class RenameDefaultUnitToUnitSystemInProfiles < ActiveRecord::Migration[7.1]
   def change

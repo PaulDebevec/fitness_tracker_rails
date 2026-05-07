@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?, :can_manage_profile?, :can_view_profile?, :show_private_profile_label?

@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 class PasswordResetsController < ApplicationController
   before_action :redirect_if_logged_in, only: %i[new create]

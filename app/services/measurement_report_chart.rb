@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 class MeasurementReportChart
   BODY_PART_COLORS = {
