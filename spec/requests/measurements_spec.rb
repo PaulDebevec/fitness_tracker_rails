@@ -12,6 +12,7 @@ RSpec.describe "Measurements", type: :request do
 
   before(:each) do
     log_in_as(user)
+    user.mark_email_as_verified!
   end
 
   describe "GET /profiles/:profile_id/check_ins/:check_in_id/measurements" do

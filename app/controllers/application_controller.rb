@@ -12,6 +12,13 @@ class ApplicationController < ActionController::Base
     ].join(" ")
   end
 
+  def require_verified_email
+    return unless logged_in?
+    return if current_user.email_verified?
+  
+    redirect_to edit_settings_path, alert: "Please verify your email before continuing."
+  end
+
   private
 
   def current_user

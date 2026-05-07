@@ -61,6 +61,7 @@ RSpec.describe "CheckIns", type: :request do
 
   describe "GET /profiles/:profile_id/check_ins" do
     before(:each) do
+      @public_owner.mark_email_as_verified!
       @public_profile.check_ins.create!(
         checked_in_on: Date.current,
         notes: "Public check-in"
@@ -79,6 +80,7 @@ RSpec.describe "CheckIns", type: :request do
 
     it "returns http success for the owner viewing their private profile" do
       log_in_as(@private_owner)
+      @private_owner.mark_email_as_verified!
 
       get profile_check_ins_path(@private_profile)
       expect(response).to have_http_status(:ok)
@@ -93,6 +95,7 @@ RSpec.describe "CheckIns", type: :request do
 
     it "returns http success for the owner" do
       log_in_as(@private_owner)
+      @private_owner.mark_email_as_verified!
 
       get new_profile_check_in_path(@private_profile)
       expect(response).to have_http_status(:ok)
@@ -110,6 +113,7 @@ RSpec.describe "CheckIns", type: :request do
     context "as the owner" do
       before(:each) do
         log_in_as(@private_owner)
+        @private_owner.mark_email_as_verified!
       end
 
       context "with valid params" do
@@ -171,6 +175,7 @@ RSpec.describe "CheckIns", type: :request do
 
   describe "GET /profiles/:profile_id/check_ins/:id" do
     before(:each) do
+      @public_owner.mark_email_as_verified!
       @public_check_in = @public_profile.check_ins.create!(
         checked_in_on: Date.current,
         notes: "Show page"
@@ -194,6 +199,7 @@ RSpec.describe "CheckIns", type: :request do
 
     it "returns http success for the owner viewing their private profile check-in" do
       log_in_as(@private_owner)
+      @private_owner.mark_email_as_verified!
 
       get profile_check_in_path(@private_profile, @private_check_in)
       expect(response).to have_http_status(:ok)
@@ -209,6 +215,7 @@ RSpec.describe "CheckIns", type: :request do
 
   describe "GET /profiles/:profile_id/check_ins/:id/edit" do
     before(:each) do
+      @private_owner.mark_email_as_verified!
       @check_in = @private_profile.check_ins.create!(
         checked_in_on: Date.current,
         notes: "Edit page"
@@ -244,6 +251,7 @@ RSpec.describe "CheckIns", type: :request do
 
   describe "PATCH /profiles/:profile_id/check_ins/:id" do
     before(:each) do
+      @private_owner.mark_email_as_verified!
       @check_in = @private_profile.check_ins.create!(
         checked_in_on: Date.current,
         notes: "Original note"
@@ -296,11 +304,12 @@ RSpec.describe "CheckIns", type: :request do
 
   describe "DELETE /profiles/:profile_id/check_ins/:id" do
     before(:each) do
+      @private_owner.mark_email_as_verified!
       @check_in = @private_profile.check_ins.create!(
         checked_in_on: Date.current,
         notes: "Delete me"
       )
-
+      @public_owner.mark_email_as_verified!
       @check_in_pub = @public_profile.check_ins.create!(
         checked_in_on: Date.current,
         notes: "Delete me"
@@ -328,6 +337,7 @@ RSpec.describe "CheckIns", type: :request do
   describe "check-in photo upload" do
     it "creates a check-in with a front photo for the owner" do
       log_in_as(@public_owner)
+      @public_owner.mark_email_as_verified!
       image = test_image_upload("front_photo.png")
 
       post profile_check_ins_path(@public_profile), params: {

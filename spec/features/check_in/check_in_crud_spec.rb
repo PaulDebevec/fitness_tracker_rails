@@ -21,6 +21,7 @@ RSpec.describe "CheckIn", type: :feature do
 
   before do
     profile
+    user.mark_email_as_verified!
     log_in_with(email: user.email)
   end
 

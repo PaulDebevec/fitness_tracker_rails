@@ -70,4 +70,45 @@ RSpec.describe User, type: :model do
       expect(user.authenticate("wrongpassword")).to be(false)
     end
   end
+
+  describe "email verification" do
+    it "returns false when the user has not verified their email" do
+      expect(user.email_verified?).to be(false)
+    end
+  
+    it "returns true when the user has verified their email" do
+      user.email_verified_at = Time.current
+  
+      expect(user.email_verified?).to be(true)
+    end
+  
+    it "marks the user email as verified" do
+      user.save!
+  
+      user.mark_email_as_verified!
+  
+      expect(user.email_verified?).to be(true)
+    end
+  
+    it "generates an email verification token" do
+      user.save!
+  
+      expect(user.email_verification_token).to be_present
+    end
+  
+    it "generates a password reset token" do
+      user.save!
+  
+      expect(user.password_reset_token).to be_present
+    end
+
+    it "resets email verification when the email changes" do
+      user.save!
+      user.mark_email_as_verified!
+    
+      user.update!(email: "updated-#{SecureRandom.hex(4)}@example.com")
+    
+      expect(user.email_verified?).to be(false)
+    end
+  end
 end

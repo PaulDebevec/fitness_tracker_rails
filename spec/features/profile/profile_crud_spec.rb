@@ -176,6 +176,7 @@ RSpec.describe "Profile", type: :feature do
 
   describe "check-in cards on profile show" do
     before(:each) do
+      @public_owner.mark_email_as_verified!
       @check_in = @public_profile.check_ins.create!(
         checked_in_on: Date.current,
         notes: "Weekly progress update"
@@ -191,8 +192,9 @@ RSpec.describe "Profile", type: :feature do
       expect(page).not_to have_content("Tap to view details")
     end
 
-    it "links check-in cards to check-in show pages for logged-in users" do
+    it "links check-in cards to check-in show pages for logged-in, verified users" do
       log_in_with(email: "viewer@example.com")
+      @viewer.mark_email_as_verified!
 
       visit profile_path(@public_profile)
 

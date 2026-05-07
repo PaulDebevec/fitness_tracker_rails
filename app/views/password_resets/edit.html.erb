@@ -1,0 +1,31 @@
+<h1>Reset Password</h1>
+
+<div class="form-card">
+  <%= form_with model: @user, url: password_reset_path(params[:token]), method: :patch, class: "stacked-form" do |form| %>
+    <% if @user.errors.any? %>
+      <div class="error-messages">
+        <h2><%= pluralize(@user.errors.count, "error") %> prevented your password from being reset:</h2>
+
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-field">
+      <%= form.label :password, "New Password" %>
+      <%= form.password_field :password %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :password_confirmation, "Confirm New Password" %>
+      <%= form.password_field :password_confirmation %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Reset Password" %>
+    </div>
+  <% end %>
+</div>
